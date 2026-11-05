@@ -18,12 +18,11 @@
    cd infra/worker
    npx wrangler deploy
 
-5. 设置敏感信息：
+5. 在 Cloudflare Dashboard 中打开这个 Worker，进入 Settings → Variables and Secrets，新增两个 Secret：
+   - GITHUB_CLIENT_SECRET：GitHub OAuth App 的 Client Secret
+   - SESSION_SECRET：一串随机长字符串
 
-   npx wrangler secret put GITHUB_CLIENT_SECRET
-   npx wrangler secret put SESSION_SECRET
-
-SESSION_SECRET 请使用一串随机长字符串，不要提交到 GitHub。
+不要把这两个值提交到 GitHub。
 6. 把部署后得到的 Worker 地址写入 static/admin/config.js 的 apiBase，再提交一次。
 
 GitHub OAuth 的 client secret 和会话密钥只放在 Worker Secret 中，不能放进静态网页。部署时请使用 HTTPS。

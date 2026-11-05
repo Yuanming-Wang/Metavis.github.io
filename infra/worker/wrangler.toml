@@ -12,5 +12,3 @@ REPO_NAME = "Metavis.github.io"
 REPO_BRANCH = "main"
 ADMIN_LOGIN = "Yuanming-Wang"
 
-[secrets]
-required = ["GITHUB_CLIENT_SECRET", "SESSION_SECRET"]

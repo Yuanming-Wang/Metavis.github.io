@@ -1,0 +1,52 @@
+
+media:
+  input: static/images
+  output: /Metavis.github.io/images
+  rename: true
+
+content:
+  - name: posts
+    label: 博客文章
+    type: collection
+    path: content/posts
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, date, draft]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: 文章标题
+        type: string
+        required: true
+
+      - name: date
+        label: 发布日期
+        type: date
+        options:
+          time: true
+
+      - name: draft
+        label: 保存为草稿
+        type: boolean
+        default: false
+
+      - name: description
+        label: 文章摘要
+        type: text
+
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+
+      - name: body
+        label: 正文内容
+        type: rich-text
+        options:
+          format: markdown
+          switcher: true

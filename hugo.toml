@@ -1,12 +1,76 @@
-
 baseURL = 'https://yuanming-wang.github.io/Metavis.github.io/'
 languageCode = 'zh-cn'
+defaultContentLanguage = 'zh-cn'
 title = 'Metavis'
 theme = 'PaperMod'
+enableRobotsTXT = true
+enableEmoji = true
+buildDrafts = false
+buildFuture = true
+
+[pagination]
+  pagerSize = 10
+
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+
+[outputs]
+  home = ['HTML', 'RSS', 'JSON']
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[markup.highlight]
+  noClasses = false
 
 [params]
+  env = 'production'
   author = 'Metavis'
-  description = 'Research Notes on AI, Mathematics and Computing'
+  description = 'Research notes on AI, mathematics, memory and efficient inference.'
+  keywords = ['AI', 'Mathematics', 'Inference', 'KV Cache', 'Research']
   defaultTheme = 'auto'
   ShowReadingTime = true
+  ShowShareButtons = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
   ShowCodeCopyButtons = true
+  ShowRssButtonInSectionTermList = true
+  ShowToc = true
+  TocOpen = false
+  math = true
+
+[params.homeInfoParams]
+  Title = 'Metavis · 研究笔记'
+  Content = '''数学背景，关注高效智能与推理系统。
+
+这里记录公式推导、实验复盘，以及还没有答案的问题。'''
+
+[[params.socialIcons]]
+  name = 'github'
+  url = 'https://github.com/Yuanming-Wang'
+
+[[menu.main]]
+  name = '首页'
+  url = '/'
+  weight = 10
+
+[[menu.main]]
+  name = '研究方向'
+  url = '/research/'
+  weight = 20
+
+[[menu.main]]
+  name = '文章'
+  url = '/posts/'
+  weight = 30
+
+[[menu.main]]
+  name = '归档'
+  url = '/archives/'
+  weight = 40
+
+[[menu.main]]
+  name = '关于'
+  url = '/about/'
+  weight = 50

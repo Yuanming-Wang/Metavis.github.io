@@ -6,7 +6,6 @@ workers_dev = true
 [vars]
 SITE_ORIGIN = "https://yuanming-wang.github.io"
 SITE_ADMIN_URL = "https://yuanming-wang.github.io/Metavis.github.io/admin/"
-WORKER_URL = "https://YOUR-METAVIS-WORKER.workers.dev"
 GITHUB_CLIENT_ID = "YOUR_GITHUB_OAUTH_CLIENT_ID"
 REPO_OWNER = "Yuanming-Wang"
 REPO_NAME = "Metavis.github.io"

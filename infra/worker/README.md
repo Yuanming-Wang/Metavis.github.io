@@ -10,9 +10,9 @@
 
 1. 在 GitHub 创建 OAuth App。
    - Homepage URL: https://yuanming-wang.github.io/Metavis.github.io/admin/
-   - Authorization callback URL: https://YOUR-METAVIS-WORKER.workers.dev/auth/callback
+   - Authorization callback URL: 部署 Worker 后，将实际 Worker 地址加上 /auth/callback
 2. 安装 Wrangler 并登录 Cloudflare。
-3. 修改 wrangler.toml 中的 WORKER_URL 和 GITHUB_CLIENT_ID。
+3. 修改 wrangler.toml 中的 GITHUB_CLIENT_ID（可以先保留占位值，部署后再补上）。
 4. 部署 Worker：
 
    cd infra/worker
@@ -24,6 +24,6 @@
    npx wrangler secret put SESSION_SECRET
 
 SESSION_SECRET 请使用一串随机长字符串，不要提交到 GitHub。
-6. 把 Worker 地址写入 static/admin/config.js 的 apiBase，提交后重新部署博客。
+6. 把部署后得到的 Worker 地址写入 static/admin/config.js 的 apiBase，再提交一次。
 
 GitHub OAuth 的 client secret 和会话密钥只放在 Worker Secret 中，不能放进静态网页。部署时请使用 HTTPS。

@@ -157,7 +157,7 @@ async function authLogin(request, env) {
   );
   const params = new URLSearchParams({
     client_id: env.GITHUB_CLIENT_ID,
-    redirect_uri: env.WORKER_URL + "/auth/callback",
+    redirect_uri: new URL(request.url).origin + "/auth/callback",
     scope: "public_repo read:user",
     state,
     code_challenge: base64UrlEncode(new Uint8Array(challengeBytes)),
@@ -192,7 +192,7 @@ async function authCallback(request, env) {
       client_id: env.GITHUB_CLIENT_ID,
       client_secret: env.GITHUB_CLIENT_SECRET,
       code,
-      redirect_uri: env.WORKER_URL + "/auth/callback",
+      redirect_uri: new URL(request.url).origin + "/auth/callback",
       code_verifier: oauthState.verifier
     })
   });

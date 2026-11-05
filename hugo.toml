@@ -56,6 +56,11 @@ buildFuture = true
   weight = 10
 
 [[menu.main]]
+  name = '写作'
+  url = '/admin/'
+  weight = 15
+
+[[menu.main]]
   name = '研究方向'
   url = '/research/'
   weight = 20

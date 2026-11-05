@@ -1,0 +1,17 @@
+name = "metavis-blog-auth"
+main = "src/index.js"
+compatibility_date = "2026-11-06"
+workers_dev = true
+
+[vars]
+SITE_ORIGIN = "https://yuanming-wang.github.io"
+SITE_ADMIN_URL = "https://yuanming-wang.github.io/Metavis.github.io/admin/"
+WORKER_URL = "https://YOUR-METAVIS-WORKER.workers.dev"
+GITHUB_CLIENT_ID = "YOUR_GITHUB_OAUTH_CLIENT_ID"
+REPO_OWNER = "Yuanming-Wang"
+REPO_NAME = "Metavis.github.io"
+REPO_BRANCH = "main"
+ADMIN_LOGIN = "Yuanming-Wang"
+
+[secrets]
+required = ["GITHUB_CLIENT_SECRET", "SESSION_SECRET"]

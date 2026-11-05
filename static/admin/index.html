@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>写作台 · Metavis</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-header">
+      <a class="brand" href="../">Metavis</a>
+      <div class="header-actions">
+        <span id="session-label" class="session-label"></span>
+        <button id="login-button" class="button button-primary" type="button">GitHub 登录</button>
+        <button id="logout-button" class="button button-ghost" type="button" hidden>退出</button>
+      </div>
+    </header>
+
+    <section id="setup-panel" class="panel setup-panel" hidden>
+      <p class="eyebrow">一次性配置</p>
+      <h1>写作台还没有连接发布接口</h1>
+      <p>先部署 <code>infra/worker</code> 中的 Worker，再把它的地址写入 <code>static/admin/config.js</code>。</p>
+      <p class="muted">公开网站已经可以访问；这一步只负责让你在网站内登录、写作和发布。</p>
+    </section>
+
+    <section id="login-panel" class="panel intro-panel" hidden>
+      <p class="eyebrow">Metavis writing desk</p>
+      <h1>把想法直接写进你的博客</h1>
+      <p>登录 GitHub 后，你可以在这里写 Markdown、保存草稿，并发布到公开博客。</p>
+      <button id="login-button-secondary" class="button button-primary" type="button">使用 GitHub 登录</button>
+    </section>
+
+    <form id="editor-form" class="panel editor-panel" hidden>
+      <div class="editor-heading">
+        <div>
+          <p class="eyebrow">New note</p>
+          <h1>写一条新的想法</h1>
+        </div>
+        <span class="secure-badge">GitHub · 私有发布接口</span>
+      </div>
+
+      <label>
+        标题
+        <input id="title" name="title" type="text" placeholder="例如：为什么我开始研究可学习记忆" required>
+      </label>
+
+      <div class="two-columns">
+        <label>
+          文件名 slug
+          <input id="slug" name="slug" type="text" placeholder="例如：learnable-memory" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required>
+          <small>只用英文小写、数字和短横线。</small>
+        </label>
+        <label>
+          日期
+          <input id="date" name="date" type="date" required>
+        </label>
+      </div>
+
+      <label>
+        摘要
+        <input id="description" name="description" type="text" placeholder="一句话说明这条想法">
+      </label>
+
+      <label>
+        标签
+        <input id="tags" name="tags" type="text" placeholder="memory, inference, research">
+        <small>用英文逗号分隔。</small>
+      </label>
+
+      <label>
+        正文（Markdown）
+        <textarea id="body" name="body" rows="18" placeholder="从这里开始写……" required></textarea>
+      </label>
+
+      <div class="editor-footer">
+        <label class="check-label">
+          <input id="draft" name="draft" type="checkbox" checked>
+          保存为草稿
+        </label>
+        <button class="button button-primary" type="submit">保存到博客</button>
+      </div>
+      <p id="form-message" class="form-message" role="status"></p>
+    </form>
+
+    <footer class="admin-footer">
+      <a href="../">返回公开博客</a>
+      <span>Metavis · research notes</span>
+    </footer>
+  </main>
+  <script src="./config.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

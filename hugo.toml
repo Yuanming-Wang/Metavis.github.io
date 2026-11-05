@@ -1,0 +1,12 @@
+
+baseURL = 'https://yuanming-wang.github.io/Metavis.github.io/'
+languageCode = 'zh-cn'
+title = 'Metavis'
+theme = 'PaperMod'
+
+[params]
+  author = 'Metavis'
+  description = 'Research Notes on AI, Mathematics and Computing'
+  defaultTheme = 'auto'
+  ShowReadingTime = true
+  ShowCodeCopyButtons = true

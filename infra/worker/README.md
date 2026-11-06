@@ -4,7 +4,7 @@
 
 1. 使用 GitHub OAuth 登录；
 2. 只允许 ADMIN_LOGIN 对应的 GitHub 账号发布；
-3. 把 Markdown 文章写入 content/posts/，触发现有 GitHub Pages 部署。
+3. 把写作台提交的文章内容写入 content/posts/，触发现有 GitHub Pages 部署。写作台负责所见即所得编辑，并在提交时自动转换为 Markdown；作者不需要手动维护 Markdown 文件。
 
 ## 一次性配置
 

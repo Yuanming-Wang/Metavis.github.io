@@ -1,18 +1,49 @@
 {{- define "main" }}
 <main class="main metavis-home">
   <header class="home-hero">
-    <p class="home-kicker">RESEARCH NOTES · INFERENCE · INTERPRETABILITY · AGI</p>
+    <p class="home-kicker">AGI · INFERENCE · INTERPRETABILITY · CONTINUAL LEARNING · EMBODIMENT</p>
     <h1>Metavis</h1>
     <p class="home-lead">
-      终极目标是创造具身 AGI。
-      当前沿着高效推理、注意力机制、机制可解释性与数学理论逐步推进，同时研究持续学习、记忆机制与真实环境交互。
+      终极目标是创造 AGI。以高效推理与机制可解释性为技术跳板，沿着注意力、Scaling Law 与计算意识逐步深入；同时研究持续学习、记忆机制与具身智能。
     </p>
     <nav class="home-hero-links" aria-label="首页入口">
       <a href="{{ "research/" | relURL }}">研究方向&nbsp;→</a>
-      <a href="{{ "archives/" | relURL }}">浏览归档&nbsp;→</a>
+      <a href="{{ "posts/" | relURL }}">文章&nbsp;→</a>
+      <a href="{{ "admin/" | relURL }}">进入写作台&nbsp;→</a>
       <a href="https://github.com/Yuanming-Wang">GitHub&nbsp;↗</a>
     </nav>
   </header>
+
+  <section class="home-roadmap" aria-labelledby="roadmap-title">
+    <div class="roadmap-heading">
+      <p class="section-eyebrow">路线一 · 技术跳板</p>
+      <h2 id="roadmap-title">从高效推理走向 AGI 理论</h2>
+      <p>每一步都从可验证的模型与计算问题出发，逐渐进入对智能机制的研究。</p>
+    </div>
+    <div class="roadmap-steps">
+      <div class="roadmap-step"><span>01</span><strong>KV Cache 压缩</strong><p>研究有限记忆、信息选择与真实访存成本。</p></div>
+      <div class="roadmap-step"><span>02</span><strong>注意力机制</strong><p>理解模型如何选择信息并建立上下文依赖。</p></div>
+      <div class="roadmap-step"><span>03</span><strong>机制可解释性</strong><p>分析表示、回路、知识与能力的内部实现。</p></div>
+      <div class="roadmap-step"><span>04</span><strong>Scaling Law 数学理论</strong><p>寻找规模、数据、计算与能力之间的统一规律。</p></div>
+      <div class="roadmap-step"><span>05</span><strong>计算意识理论</strong><p>形式化研究内部状态、信息整合与自我模型。</p></div>
+      <div class="roadmap-step"><span>06</span><strong>AGI</strong><p>创造能够理解、学习、行动并自主适应的通用智能。</p></div>
+    </div>
+  </section>
+
+  <section class="home-branches" aria-label="并行研究方向">
+    <article class="branch-card">
+      <p class="section-eyebrow">研究块二</p>
+      <h2>持续学习与记忆</h2>
+      <p>研究模型如何在运行过程中形成、保留、巩固和更新内部状态，让记忆检索真正连接到新能力形成。</p>
+      <a href="{{ "research/" | relURL }}">查看研究问题&nbsp;→</a>
+    </article>
+    <article class="branch-card">
+      <p class="section-eyebrow">研究块三</p>
+      <h2>具身智能</h2>
+      <p>研究身体、感知、行动、能源、环境反馈与内部状态如何共同构成真实世界中的智能闭环。</p>
+      <a href="{{ "research/" | relURL }}">查看长期愿景&nbsp;→</a>
+    </article>
+  </section>
 
   <div class="home-layout">
     <section class="home-main" aria-labelledby="latest-notes">
@@ -40,22 +71,21 @@
         </div>
       {{ else }}
         <p class="home-empty">
-          这里还没有公开文章。第一篇文章可以从一个问题、一段推导，
-          或一次失败的实验开始。
+          这里还没有公开文章。你可以直接打开写作台，从一个问题、一段推导或一次失败的实验开始。
         </p>
       {{ end }}
     </section>
 
     <aside class="home-sidebar">
       <section class="home-sidebar-card">
-        <h2>关于 Metavis</h2>
-        <p>以高效推理和机制理解为跳板，长期目标是创造具身 AGI。</p>
-        <a href="{{ "about/" | relURL }}">了解更多&nbsp;→</a>
+        <h2>当前切入点</h2>
+        <p>高效推理、KV Cache、Attention、机制可解释性与硬件感知模型架构。</p>
+        <a href="{{ "research/" | relURL }}">查看完整定位&nbsp;→</a>
       </section>
       <section class="home-sidebar-card">
-        <h2>另一条主线</h2>
-        <p>持续学习、神经记忆、状态表示、记忆巩固与具身交互。</p>
-        <a href="{{ "research/" | relURL }}">查看方向&nbsp;→</a>
+        <h2>写作方式</h2>
+        <p>电脑或手机打开写作台，直接输入正文，插入公式、图片和代码，保存草稿后发布。</p>
+        <a href="{{ "admin/" | relURL }}">开始写作&nbsp;→</a>
       </section>
     </aside>
   </div>

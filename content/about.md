@@ -26,7 +26,7 @@ showToc: false
 
 ### 研究块二：持续学习与记忆机制
 
-这是另一条研究主线，关注模型如何在运行过程中形成、保持和更新内部状态：
+这是第二块研究方向，关注模型如何在运行过程中形成、保持和更新内部状态：
 
 - Continual Learning
 - Test-Time Learning / Test-Time Training

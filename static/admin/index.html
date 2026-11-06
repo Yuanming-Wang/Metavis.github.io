@@ -3,14 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f4ee">
+  <meta name="theme-color" content="#0a0e14">
   <title>写作台 · Metavis</title>
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./style.css?v=20261107-1">
   <script>
     window.MathJax = {
       tex: {
-        inlineMath: [["\\(", "\\)"], ["$", "$"]],
-        displayMath: [["\\[", "\\]"], ["$$", "$$"]]
+        inlineMath: [["\\\\(", "\\\\)"], ["$", "$"]],
+        displayMath: [["\\\\[", "\\\\]"], ["$$", "$$"]]
       },
       svg: { fontCache: "global" }
     };
@@ -18,54 +18,72 @@
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
-  <main class="admin-shell">
-    <header class="admin-header">
-      <a class="brand" href="../" aria-label="返回 Metavis 首页">Metavis</a>
-      <div class="header-actions">
+  <div class="admin-frame">
+    <header class="topbar">
+      <div class="brand-lockup">
+        <a class="brand" href="../" aria-label="返回 Metavis 首页">
+          <span class="brand-mark">◈</span>
+          <span>Metavis</span>
+        </a>
+        <span class="topbar-divider"></span>
+        <span class="workspace-name">RESEARCH CONSOLE</span>
+      </div>
+      <div class="topbar-actions">
+        <span class="connection-state"><span class="status-dot"></span>PRIVATE WORKSPACE</span>
         <span id="session-label" class="session-label"></span>
-        <button id="login-button" class="button button-primary" type="button">GitHub 登录</button>
-        <button id="logout-button" class="button button-ghost" type="button" hidden>退出</button>
+        <button id="login-button" class="button button-primary button-small" type="button">GitHub 登录</button>
+        <button id="logout-button" class="button button-ghost button-small" type="button" hidden>退出</button>
       </div>
     </header>
 
     <section id="setup-panel" class="panel setup-panel" hidden>
-      <p class="eyebrow">一次性配置</p>
-      <h1>写作台还没有连接发布接口</h1>
-      <p>先部署 <code>infra/worker</code> 中的 Worker，再把它的地址写入 <code>static/admin/config.js</code>。</p>
-      <p class="muted">公开网站已经可以访问；这一步只负责让你在网站内登录、写作和发布。</p>
+      <span class="eyebrow">SYSTEM SETUP</span>
+      <h1>写作接口还没有连接</h1>
+      <p>先部署 <code>infra/worker</code> 中的 Worker，再把地址写入 <code>static/admin/config.js</code>。</p>
+      <p class="muted">公开博客不受影响；这一步只负责登录、保存和发布文章。</p>
     </section>
 
-    <section id="login-panel" class="panel intro-panel" hidden>
-      <p class="eyebrow">Metavis writing desk</p>
-      <h1>把想法直接写进你的博客</h1>
-      <p>登录 GitHub 后，在这里像写普通文章一样写标题、正文、公式和标签。系统会自动生成博客页面，不需要你手动维护 Markdown 文件。</p>
-      <div class="intro-points">
-        <span>所见即所得编辑</span>
-        <span>LaTeX 公式按钮</span>
-        <span>草稿与一键发布</span>
-      </div>
-      <button id="login-button-secondary" class="button button-primary" type="button">使用 GitHub 登录</button>
-    </section>
-
-    <form id="editor-form" class="panel editor-panel" hidden>
-      <div class="editor-heading">
-        <div>
-          <p class="eyebrow">Metavis writing desk</p>
-          <h1>写一篇新文章</h1>
-          <p class="editor-subtitle">像科学空间一样专注于内容：排版、公式和发布都在这里完成。</p>
+    <section id="login-panel" class="login-stage" hidden>
+      <div class="login-copy">
+        <span class="eyebrow">METAVIS / WRITING SYSTEM</span>
+        <h1>把研究写成<br><em>可以被复用的知识。</em></h1>
+        <p class="login-lead">在一个安静、专注的工作台里记录问题、推导、实验和失败。文章会自动进入你的研究博客。</p>
+        <div class="principle-grid">
+          <div class="principle-card"><span>01</span><strong>直接写作</strong><p>所见即所得，专注内容本身。</p></div>
+          <div class="principle-card"><span>02</span><strong>实时预览</strong><p>公式、标题和段落即时检查。</p></div>
+          <div class="principle-card"><span>03</span><strong>自动发布</strong><p>提交后由 GitHub Actions 构建页面。</p></div>
         </div>
-        <span class="secure-badge">GitHub · 私有发布接口</span>
       </div>
+      <div class="login-card">
+        <div class="login-card-top"><span class="card-index">AUTH / 01</span><span class="secure-label"><span class="status-dot"></span>SECURE</span></div>
+        <div class="login-card-icon">↗</div>
+        <h2>进入写作台</h2>
+        <p>使用你的 GitHub 账号登录。只有指定账号可以发布文章。</p>
+        <button id="login-button-secondary" class="button button-primary button-wide" type="button">使用 GitHub 登录 <span>→</span></button>
+        <small class="login-note">OAuth 授权 · 不保存 GitHub 密码 · 私有发布接口</small>
+      </div>
+    </section>
 
-      <label class="field-label" for="title">标题
-        <input id="title" name="title" type="text" placeholder="例如：为什么我开始研究可学习记忆" autocomplete="off" required>
-      </label>
+    <form id="editor-form" class="workspace-panel" hidden>
+      <header class="workspace-heading">
+        <div>
+          <span class="eyebrow">NEW RESEARCH NOTE</span>
+          <h1>写一篇新文章</h1>
+          <p class="workspace-subtitle">把一个问题、一个推导或一次实验，变成可以继续生长的研究记录。</p>
+        </div>
+        <div class="workspace-meta">
+          <span class="autosave-label"><span class="status-dot"></span>本地自动保存</span>
+          <span class="secure-badge">GITHUB · PRIVATE PUBLISH</span>
+        </div>
+      </header>
 
-      <label class="field-label" for="description">摘要
-        <input id="description" name="description" type="text" placeholder="一句话说明这篇文章解决什么问题">
-      </label>
-
-      <div class="two-columns compact-fields">
+      <div class="metadata-grid">
+        <label class="field-label title-field" for="title">标题
+          <input id="title" name="title" type="text" placeholder="例如：为什么我开始研究可学习记忆" autocomplete="off" required>
+        </label>
+        <label class="field-label description-field" for="description">摘要
+          <input id="description" name="description" type="text" placeholder="一句话说明这篇文章解决什么问题">
+        </label>
         <label class="field-label" for="tags">标签
           <input id="tags" name="tags" type="text" placeholder="memory, inference, research">
           <small>多个标签用逗号分隔。</small>
@@ -76,24 +94,23 @@
       </div>
 
       <details class="advanced-settings">
-        <summary>高级设置：文章地址</summary>
+        <summary><span>高级设置</span><span>文章地址 slug · 通常不需要修改</span></summary>
         <label class="field-label" for="slug">文章地址 slug
           <input id="slug" name="slug" type="text" placeholder="系统会自动生成，例如 learnable-memory">
-          <small>通常不用改。只需要英文小写、数字和短横线。</small>
+          <small>只需要英文小写、数字和短横线。</small>
         </label>
       </details>
 
       <div class="writing-layout">
         <section class="writing-column" aria-label="文章编辑区">
-          <div class="section-label-row">
-            <label class="field-label section-label" for="editor">正文</label>
-            <span class="writing-hint">选中文字后使用工具栏，公式点击 <strong>ƒx</strong></span>
+          <div class="column-heading">
+            <div><span class="column-index">01</span><span class="section-label">COMPOSE</span></div>
+            <span class="writing-hint">选中文字后使用工具栏 · 公式点击 <strong>ƒx</strong></span>
           </div>
-
           <div class="toolbar" role="toolbar" aria-label="文章格式工具栏">
-            <button type="button" class="tool-button active-format" data-command="formatBlock" data-value="p" title="正文">正文</button>
-            <button type="button" class="tool-button" data-command="formatBlock" data-value="h2" title="二级标题">H2</button>
-            <button type="button" class="tool-button" data-command="formatBlock" data-value="h3" title="三级标题">H3</button>
+            <button type="button" class="tool-button tool-select active-format" data-command="formatBlock" data-value="p" title="正文">正文</button>
+            <button type="button" class="tool-button tool-select" data-command="formatBlock" data-value="h2" title="二级标题">H2</button>
+            <button type="button" class="tool-button tool-select" data-command="formatBlock" data-value="h3" title="三级标题">H3</button>
             <span class="tool-divider"></span>
             <button type="button" class="tool-button tool-icon" data-command="bold" title="加粗"><strong>B</strong></button>
             <button type="button" class="tool-button tool-icon" data-command="italic" title="斜体"><em>I</em></button>
@@ -105,21 +122,21 @@
             <button type="button" class="tool-button" id="image-button" title="插入图片链接">图片</button>
             <button type="button" class="tool-button formula-button" id="formula-button" title="插入 LaTeX 公式">ƒx</button>
           </div>
-
-          <div id="editor" class="rich-editor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="从这里开始写。你可以直接输入文字、选中文字加粗，插入标题、列表、链接、图片和 LaTeX 公式。" spellcheck="true"></div>
+          <div id="editor" class="rich-editor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="从这里开始写。把光标放在正文里，直接输入你的研究记录。" spellcheck="true"></div>
           <textarea id="body" name="body" hidden></textarea>
           <div class="writing-stats">
             <span id="word-count">0 字</span>
             <span id="read-time">预计 1 分钟阅读</span>
+            <span class="stats-spacer"></span>
             <button id="restore-draft" type="button" class="text-button" hidden>恢复本地草稿</button>
-            <button id="clear-draft" type="button" class="text-button" hidden>清空本地草稿</button>
+            <button id="clear-draft" type="button" class="text-button" hidden>清空草稿</button>
           </div>
         </section>
 
         <aside class="preview-column" aria-label="文章预览">
-          <div class="preview-heading">
-            <span class="section-label">实时预览</span>
-            <span class="preview-status">发布后页面效果</span>
+          <div class="column-heading">
+            <div><span class="column-index">02</span><span class="section-label">PREVIEW</span></div>
+            <span class="preview-status">发布后的页面效果</span>
           </div>
           <article id="preview" class="article-preview">
             <p class="preview-empty">正文写到这里后，预览会出现在这边。</p>
@@ -127,16 +144,13 @@
         </aside>
       </div>
 
-      <div class="editor-footer">
-        <div class="publish-note">
-          <span class="status-dot"></span>
-          <span>发布后 GitHub Actions 会自动构建博客</span>
-        </div>
+      <footer class="workspace-footer">
+        <div class="publish-note"><span class="status-dot"></span><span>发布后自动构建博客</span></div>
         <div class="publish-actions">
           <button id="save-draft" class="button button-ghost" type="button">保存草稿</button>
-          <button id="publish-button" class="button button-primary" type="button">立即发布</button>
+          <button id="publish-button" class="button button-primary" type="button">立即发布 <span>→</span></button>
         </div>
-      </div>
+      </footer>
       <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
     </form>
 
@@ -144,19 +158,16 @@
       <a href="../">返回公开博客</a>
       <span>Metavis · research notes</span>
     </footer>
-  </main>
+  </div>
 
   <div id="formula-dialog" class="dialog-backdrop" hidden>
     <section class="formula-dialog" role="dialog" aria-modal="true" aria-labelledby="formula-title">
       <div class="dialog-heading">
-        <div>
-          <p class="eyebrow">LaTeX</p>
-          <h2 id="formula-title">插入公式</h2>
-        </div>
+        <div><span class="eyebrow">LATEX / INSERT</span><h2 id="formula-title">插入公式</h2></div>
         <button id="close-formula" type="button" class="close-button" aria-label="关闭">×</button>
       </div>
       <label class="field-label" for="formula-input">公式内容
-        <input id="formula-input" type="text" placeholder="例如：E = mc^2 或 \sum_{i=1}^n i">
+        <input id="formula-input" type="text" placeholder="例如：E = mc^2">
         <small>只填写公式本身，不需要输入 $ 或 $$。</small>
       </label>
       <div class="formula-preview" id="formula-preview">公式预览</div>
@@ -168,6 +179,6 @@
   </div>
 
   <script src="./config.js"></script>
-  <script src="./app.js?v=20261106-3"></script>
+  <script src="./app.js?v=20261107-1"></script>
 </body>
 </html>

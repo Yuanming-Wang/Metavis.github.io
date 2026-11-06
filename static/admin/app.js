@@ -7,7 +7,6 @@
   const editorForm = document.querySelector("#editor-form");
   const editor = document.querySelector("#editor");
   const preview = document.querySelector("#preview");
-  const imageFile = document.querySelector("#image-file");
   const bodyField = document.querySelector("#body");
   const titleField = document.querySelector("#title");
   const slugField = document.querySelector("#slug");
@@ -150,40 +149,7 @@
     if (url) runCommand("createLink", url.trim());
   });
 
-  document.querySelector("#image-button").addEventListener("click", () => imageFile.click());
-
-  imageFile.addEventListener("change", async () => {
-    const file = imageFile.files && imageFile.files[0];
-    if (!file) return;
-    setMessage("正在上传图片……");
-    const formData = new FormData();
-    formData.append("file", file);
-    try {
-      const response = await fetch(apiBase + "/api/assets", {
-        method: "POST",
-        credentials: "include",
-        mode: "cors",
-        headers: authHeaders(),
-        body: formData
-      });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "图片上传失败");
-      const image = document.createElement("img");
-      image.src = data.url;
-      image.alt = file.name.replace(/\.[^.]+$/, "");
-      image.loading = "lazy";
-      insertNodeAtCaret(image);
-      updatePreview();
-      saveLocalDraft();
-      setMessage("图片已插入文章。", "success");
-    } catch (error) {
-      setMessage(error.message, "error");
-    } finally {
-      imageFile.value = "";
-    }
-  });
-
-  document.querySelector("#image-url-button").addEventListener("click", () => {
+  document.querySelector("#image-button").addEventListener("click", () => {
     const url = window.prompt("输入图片地址", "https://");
     if (!url) return;
     const alt = window.prompt("图片说明（可选）", "") || "";

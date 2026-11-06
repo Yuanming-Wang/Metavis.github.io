@@ -3,13 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f4ee">
   <title>写作台 · Metavis</title>
   <link rel="stylesheet" href="./style.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["\\(", "\\)"], ["$", "$"]],
+        displayMath: [["\\[", "\\]"], ["$$", "$$"]]
+      },
+      svg: { fontCache: "global" }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
   <main class="admin-shell">
     <header class="admin-header">
-      <a class="brand" href="../">Metavis</a>
+      <a class="brand" href="../" aria-label="返回 Metavis 首页">Metavis</a>
       <div class="header-actions">
         <span id="session-label" class="session-label"></span>
         <button id="login-button" class="button button-primary" type="button">GitHub 登录</button>
@@ -27,60 +38,106 @@
     <section id="login-panel" class="panel intro-panel" hidden>
       <p class="eyebrow">Metavis writing desk</p>
       <h1>把想法直接写进你的博客</h1>
-      <p>登录 GitHub 后，你可以在这里写 Markdown、保存草稿，并发布到公开博客。</p>
+      <p>登录 GitHub 后，在这里像写普通文章一样写标题、正文、公式和标签。系统会自动生成博客页面，不需要你手动维护 Markdown 文件。</p>
+      <div class="intro-points">
+        <span>所见即所得编辑</span>
+        <span>LaTeX 公式按钮</span>
+        <span>草稿与一键发布</span>
+      </div>
       <button id="login-button-secondary" class="button button-primary" type="button">使用 GitHub 登录</button>
     </section>
 
     <form id="editor-form" class="panel editor-panel" hidden>
       <div class="editor-heading">
         <div>
-          <p class="eyebrow">New note</p>
-          <h1>写一条新的想法</h1>
+          <p class="eyebrow">Metavis writing desk</p>
+          <h1>写一篇新文章</h1>
+          <p class="editor-subtitle">像科学空间一样专注于内容：排版、公式和发布都在这里完成。</p>
         </div>
         <span class="secure-badge">GitHub · 私有发布接口</span>
       </div>
 
-      <label>
-        标题
-        <input id="title" name="title" type="text" placeholder="例如：为什么我开始研究可学习记忆" required>
+      <label class="field-label" for="title">标题
+        <input id="title" name="title" type="text" placeholder="例如：为什么我开始研究可学习记忆" autocomplete="off" required>
       </label>
 
-      <div class="two-columns">
-        <label>
-          文件名 slug
-          <input id="slug" name="slug" type="text" placeholder="例如：learnable-memory" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" required>
-          <small>只用英文小写、数字和短横线。</small>
+      <label class="field-label" for="description">摘要
+        <input id="description" name="description" type="text" placeholder="一句话说明这篇文章解决什么问题">
+      </label>
+
+      <div class="two-columns compact-fields">
+        <label class="field-label" for="tags">标签
+          <input id="tags" name="tags" type="text" placeholder="memory, inference, research">
+          <small>多个标签用逗号分隔。</small>
         </label>
-        <label>
-          日期
+        <label class="field-label" for="date">发布日期
           <input id="date" name="date" type="date" required>
         </label>
       </div>
 
-      <label>
-        摘要
-        <input id="description" name="description" type="text" placeholder="一句话说明这条想法">
-      </label>
+      <details class="advanced-settings">
+        <summary>高级设置：文章地址</summary>
+        <label class="field-label" for="slug">文章地址 slug
+          <input id="slug" name="slug" type="text" placeholder="系统会自动生成，例如 learnable-memory">
+          <small>通常不用改。只需要英文小写、数字和短横线。</small>
+        </label>
+      </details>
 
-      <label>
-        标签
-        <input id="tags" name="tags" type="text" placeholder="memory, inference, research">
-        <small>用英文逗号分隔。</small>
-      </label>
+      <div class="writing-layout">
+        <section class="writing-column" aria-label="文章编辑区">
+          <div class="section-label-row">
+            <label class="field-label section-label" for="editor">正文</label>
+            <span class="writing-hint">选中文字后使用工具栏，公式点击 <strong>ƒx</strong></span>
+          </div>
 
-      <label>
-        正文（Markdown）
-        <textarea id="body" name="body" rows="18" placeholder="从这里开始写……" required></textarea>
-      </label>
+          <div class="toolbar" role="toolbar" aria-label="文章格式工具栏">
+            <button type="button" class="tool-button active-format" data-command="formatBlock" data-value="p" title="正文">正文</button>
+            <button type="button" class="tool-button" data-command="formatBlock" data-value="h2" title="二级标题">H2</button>
+            <button type="button" class="tool-button" data-command="formatBlock" data-value="h3" title="三级标题">H3</button>
+            <span class="tool-divider"></span>
+            <button type="button" class="tool-button tool-icon" data-command="bold" title="加粗"><strong>B</strong></button>
+            <button type="button" class="tool-button tool-icon" data-command="italic" title="斜体"><em>I</em></button>
+            <button type="button" class="tool-button" data-command="formatBlock" data-value="blockquote" title="引用">引用</button>
+            <button type="button" class="tool-button" data-command="insertUnorderedList" title="无序列表">• 列表</button>
+            <button type="button" class="tool-button" data-command="insertOrderedList" title="有序列表">1. 列表</button>
+            <span class="tool-divider"></span>
+            <button type="button" class="tool-button" id="link-button" title="插入链接">链接</button>
+            <button type="button" class="tool-button" id="image-button" title="插入图片链接">图片</button>
+            <button type="button" class="tool-button formula-button" id="formula-button" title="插入 LaTeX 公式">ƒx</button>
+          </div>
+
+          <div id="editor" class="rich-editor" contenteditable="true" role="textbox" aria-multiline="true" data-placeholder="从这里开始写。你可以直接输入文字、选中文字加粗，插入标题、列表、链接、图片和 LaTeX 公式。" spellcheck="true"></div>
+          <textarea id="body" name="body" hidden></textarea>
+          <div class="writing-stats">
+            <span id="word-count">0 字</span>
+            <span id="read-time">预计 1 分钟阅读</span>
+            <button id="restore-draft" type="button" class="text-button" hidden>恢复本地草稿</button>
+            <button id="clear-draft" type="button" class="text-button" hidden>清空本地草稿</button>
+          </div>
+        </section>
+
+        <aside class="preview-column" aria-label="文章预览">
+          <div class="preview-heading">
+            <span class="section-label">实时预览</span>
+            <span class="preview-status">发布后页面效果</span>
+          </div>
+          <article id="preview" class="article-preview">
+            <p class="preview-empty">正文写到这里后，预览会出现在这边。</p>
+          </article>
+        </aside>
+      </div>
 
       <div class="editor-footer">
-        <label class="check-label">
-          <input id="draft" name="draft" type="checkbox" checked>
-          保存为草稿
-        </label>
-        <button class="button button-primary" type="submit">保存到博客</button>
+        <div class="publish-note">
+          <span class="status-dot"></span>
+          <span>发布后 GitHub Actions 会自动构建博客</span>
+        </div>
+        <div class="publish-actions">
+          <button id="save-draft" class="button button-ghost" type="button">保存草稿</button>
+          <button id="publish-button" class="button button-primary" type="button">立即发布</button>
+        </div>
       </div>
-      <p id="form-message" class="form-message" role="status"></p>
+      <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
     </form>
 
     <footer class="admin-footer">
@@ -88,7 +145,29 @@
       <span>Metavis · research notes</span>
     </footer>
   </main>
+
+  <div id="formula-dialog" class="dialog-backdrop" hidden>
+    <section class="formula-dialog" role="dialog" aria-modal="true" aria-labelledby="formula-title">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">LaTeX</p>
+          <h2 id="formula-title">插入公式</h2>
+        </div>
+        <button id="close-formula" type="button" class="close-button" aria-label="关闭">×</button>
+      </div>
+      <label class="field-label" for="formula-input">公式内容
+        <input id="formula-input" type="text" placeholder="例如：E = mc^2 或 \sum_{i=1}^n i">
+        <small>只填写公式本身，不需要输入 $ 或 $$。</small>
+      </label>
+      <div class="formula-preview" id="formula-preview">公式预览</div>
+      <div class="dialog-actions">
+        <button type="button" class="button button-ghost" data-formula-mode="inline">行内公式</button>
+        <button type="button" class="button button-primary" data-formula-mode="block">独立公式</button>
+      </div>
+    </section>
+  </div>
+
   <script src="./config.js"></script>
-  <script src="./app.js?v=20261106-2"></script>
+  <script src="./app.js?v=20261106-3"></script>
 </body>
 </html>

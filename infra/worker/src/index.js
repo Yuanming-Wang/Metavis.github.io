@@ -1,4 +1,5 @@
 const encoder = new TextEncoder();
+const SESSION_MAX_AGE = 30 * 24 * 60 * 60;
 
 function base64UrlEncode(bytes) {
   let binary = "";
@@ -270,7 +271,7 @@ async function authCallback(request, env) {
     JSON.stringify({
       token: tokenData.access_token,
       login: user.login,
-      exp: Date.now() + 8 * 60 * 60 * 1000
+      exp: Date.now() + SESSION_MAX_AGE * 1000
     }),
     env.SESSION_SECRET
   );
@@ -279,7 +280,7 @@ async function authCallback(request, env) {
     status: 302,
     headers: {Location: oauthState.returnTo + "#session=" + encodeURIComponent(session)}
   });
-  response.headers.append("Set-Cookie", cookie("metavis_session", session, 8 * 60 * 60));
+  response.headers.append("Set-Cookie", cookie("metavis_session", session, SESSION_MAX_AGE));
   response.headers.append("Set-Cookie", cookie("metavis_oauth", "", 0));
   return response;
 }

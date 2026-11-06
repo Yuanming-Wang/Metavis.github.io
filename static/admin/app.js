@@ -28,13 +28,30 @@
   let slugTouched = false;
   let savedRange = null;
 
+  const sessionKey = "metavis_session";
   const returnedSession = new URLSearchParams(window.location.hash.slice(1)).get("session");
+
+  const persistSession = (token) => {
+    localStorage.setItem(sessionKey, token);
+    sessionStorage.setItem(sessionKey, token);
+  };
+
+  const clearSession = () => {
+    localStorage.removeItem(sessionKey);
+    sessionStorage.removeItem(sessionKey);
+  };
+
+  const existingSession = localStorage.getItem(sessionKey) || sessionStorage.getItem(sessionKey);
+  if (existingSession && !localStorage.getItem(sessionKey)) {
+    localStorage.setItem(sessionKey, existingSession);
+  }
+
   if (returnedSession) {
-    sessionStorage.setItem("metavis_session", returnedSession);
+    persistSession(returnedSession);
     window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
   }
 
-  const sessionToken = () => sessionStorage.getItem("metavis_session") || "";
+  const sessionToken = () => localStorage.getItem(sessionKey) || sessionStorage.getItem(sessionKey) || "";
   const authHeaders = () => {
     const token = sessionToken();
     return token ? {Authorization: "Bearer " + token} : {};
@@ -72,7 +89,7 @@
       mode: "cors",
       headers: authHeaders()
     });
-    sessionStorage.removeItem("metavis_session");
+    clearSession();
     showLoggedOut();
   });
 
@@ -85,9 +102,16 @@
       mode: "cors",
       headers: authHeaders()
     })
-      .then((response) => (response.ok ? response.json() : null))
+      .then(async (response) => {
+        if (response.ok) return response.json();
+        if (sessionToken()) clearSession();
+        return null;
+      })
       .then((data) => (data && data.login ? showLoggedIn(data.login) : showLoggedOut()))
-      .catch(showLoggedOut);
+      .catch(() => {
+        clearSession();
+        showLoggedOut();
+      });
   }
 
   const latinSlug = (value) => {

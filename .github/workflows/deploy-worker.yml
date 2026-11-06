@@ -1,11 +1,6 @@
 name: Deploy Metavis Auth Worker
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "infra/worker/**"
-      - ".github/workflows/deploy-worker.yml"
   workflow_dispatch:
 
 permissions:

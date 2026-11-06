@@ -1,2 +1,13 @@
 {{- $custom := resources.Get "css/extended/custom.css" | minify | fingerprint -}}
 <link rel="stylesheet" href="{{ $custom.RelPermalink }}" integrity="{{ $custom.Data.Integrity }}">
+
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [["\\\\(", "\\\\)"], ["$", "$"]],
+      displayMath: [["\\\\[", "\\\\]"], ["$$", "$$"]]
+    },
+    svg: { fontCache: "global" }
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>

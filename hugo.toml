@@ -27,8 +27,8 @@ buildFuture = true
 [params]
   env = 'production'
   author = 'Metavis'
-  description = 'Research notes on AI, mathematics, memory and efficient inference.'
-  keywords = ['AI', 'Mathematics', 'Inference', 'KV Cache', 'Research']
+  description = 'Research notes on resource-constrained model architectures, memory, continual learning and efficient inference.'
+  keywords = ['AI', 'Model Architecture', 'Neural Memory', 'Continual Learning', 'Mechanistic Interpretability', 'Efficient Inference', 'Embodied Intelligence']
   defaultTheme = 'auto'
   ShowReadingTime = true
   ShowShareButtons = false
@@ -44,9 +44,9 @@ buildFuture = true
 
 [params.homeInfoParams]
   Title = 'Metavis · 研究笔记'
-  Content = '''数学背景，关注高效智能与推理系统。
+  Content = '''以真实物理与计算约束为出发点，研究信息表示、记忆、状态更新与持续学习。
 
-这里记录公式推导、实验复盘，以及还没有答案的问题。'''
+这里记录模型架构、推理系统、数学推导、实验复盘，以及还没有答案的问题。'''
 
 [[params.socialIcons]]
   name = 'github'

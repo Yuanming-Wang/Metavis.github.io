@@ -8,39 +8,57 @@ showToc: false
 
 我是 Metavis，数学背景的研究者与工程师。这个博客记录我对智能系统的长期探索，也记录公式推导、论文阅读、工程实验和失败复盘。
 
+## 我的终极理想
+
+我的终极理想是创造 **AGI（Artificial General Intelligence，通用人工智能）**：一种能够理解不同任务、持续学习、形成长期记忆、主动行动并在真实环境中自主适应的通用智能系统。
+
+我把这条长期探索称为 **具身驱动的智能涌现**（Embodiment-Driven Emergence of Intelligence），并将未来的系统设想命名为 **Metavis**。
+
+## 两条研究主线
+
+### 从高效推理与机制理解走向 AGI
+
+我的主要技术跳板是：
+
+> **KV Cache 压缩 → 注意力机制研究 → 机制可解释性 → Scaling Law 数学理论 → 计算意识理论 → AGI**
+
+高效推理不是我的终点。它让我从真实的内存、带宽、时延和计算成本出发理解模型；注意力机制和机制可解释性让我进一步研究模型内部的信息处理与计算回路；Scaling Law 和计算意识理论则是我希望继续深入的数学与基础理论方向。
+
+### 持续学习与记忆机制
+
+这是另一条研究主线，关注模型如何在运行过程中形成、保持和更新内部状态：
+
+- Continual Learning
+- Test-Time Learning / Test-Time Training
+- Neural Memory
+- Memory Consolidation
+- State Representation
+- State Update Mechanisms
+- Fast Weights
+- Adaptive Plasticity
+
+我关心短期工作记忆如何转化为长期记忆，模型如何适应新环境，以及记忆检索、状态更新和新能力形成之间的关系。
+
 ## 我正在研究什么
 
-我当前的研究主线是：
+两条主线共享同一组基础问题：
 
-> **以真实物理与计算约束为出发点，研究智能系统的信息表示、记忆与学习机制，探索高效且可持续适应的新一代模型架构。**
+- 信息应该如何表示？
+- 哪些信息需要精确保留，哪些可以压缩或遗忘？
+- 内部状态应该如何更新？
+- 模型如何形成可解释的计算结构？
+- 真实的物理与计算约束如何反过来塑造智能架构？
 
-具体关注：
+当前具体关注：
 
-- 高效模型架构与大模型推理优化
-- Attention、KV Cache、稀疏计算与量化
-- Neural Memory、State Representation 与 State Update
-- Continual Learning、Test-Time Learning 与 Adaptive Plasticity
+- LLM Inference Optimization、KV Cache、Attention、稀疏计算与量化
 - Mechanistic Interpretability 与 Representation Learning
+- Scaling Laws 与计算意识的数学基础
+- Continual Learning、Test-Time Learning 与记忆巩固
 - 硬件感知架构、算法—系统协同和端侧推理
 - 具身智能与真实环境中的持续适应
 
-我把模型架构和学习机制作为研究对象，把推理系统、Kernel 和硬件执行作为验证工具。目标不是只优化某一个模型的运行速度，而是理解资源约束如何反过来塑造智能系统的结构。
-
-## 我正在追问的问题
-
-- 不同模态、不同时间尺度的信息，是否应该使用不同的表示与计算机制？
-- 有限的内部状态如何保留对未来行为真正有用的信息？
-- 短期工作记忆如何转化为长期记忆？
-- 模型如何在运行过程中更新状态并获得新能力？
-- 机制可解释性是否能够帮助我们发现并重新设计模型内部的计算结构？
-
-## 长期理想
-
-我希望研究智能产生的基本原理，并最终创造一种能够在真实物理世界中自主行动、持续学习和发展的智能系统。
-
-我把这条长期路线称为 **具身驱动的智能涌现**（Embodiment-Driven Emergence of Intelligence），并将未来的系统设想命名为 **Metavis**。
-
-这是一项长期科学探索，而不是已经完成的结论。现阶段，我会沿着信息表示、记忆、状态更新、持续学习和高效推理这条能够被实验验证的路线逐步推进。
+我把模型架构、机制理解和学习机制作为研究对象，把推理系统、Kernel 和硬件执行作为验证工具。现阶段的研究仍是通向 AGI 的基础积累，而不是已经完成的 AGI 理论。
 
 ## 联系与代码
 

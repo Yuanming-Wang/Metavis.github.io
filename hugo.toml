@@ -27,7 +27,7 @@ buildFuture = true
 [params]
   env = 'production'
   author = 'Metavis'
-  description = 'Research notes on efficient inference, mechanistic interpretability, continual learning and AGI.'
+  description = 'Research notes on efficient inference, mechanistic interpretability, continual learning, embodied intelligence and AGI.'
   keywords = ['AGI', 'Embodied Intelligence', 'KV Cache', 'Attention', 'Mechanistic Interpretability', 'Scaling Laws', 'Computational Consciousness', 'Continual Learning', 'Efficient Inference']
   defaultTheme = 'auto'
   ShowReadingTime = true
@@ -46,7 +46,7 @@ buildFuture = true
   Title = 'Metavis · 研究笔记'
   Content = '''终极目标是创造 AGI。
 
-当前沿着“高效推理 → 注意力机制 → 机制可解释性 → Scaling Law 数学理论 → 计算意识理论”的路线推进，并独立研究持续学习与记忆机制。'''
+三个并列方向共同指向 AGI：高效推理与机制可解释性、持续学习、具身智能。'''
 
 [[params.socialIcons]]
   name = 'github'

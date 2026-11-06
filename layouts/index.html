@@ -1,0 +1,63 @@
+{{- define "main" }}
+<main class="main metavis-home">
+  <header class="home-hero">
+    <p class="home-kicker">RESEARCH NOTES · AI · MATHEMATICS · SYSTEMS</p>
+    <h1>Metavis</h1>
+    <p class="home-lead">
+      记录高效智能、推理系统、数学推导与真实计算约束。
+      这里保留已经验证的结论，也保留还没有答案的问题。
+    </p>
+    <nav class="home-hero-links" aria-label="首页入口">
+      <a href="{{ "research/" | relURL }}">研究方向&nbsp;→</a>
+      <a href="{{ "archives/" | relURL }}">浏览归档&nbsp;→</a>
+      <a href="https://github.com/Yuanming-Wang">GitHub&nbsp;↗</a>
+    </nav>
+  </header>
+
+  <div class="home-layout">
+    <section class="home-main" aria-labelledby="latest-notes">
+      <div class="home-section-heading">
+        <h2 id="latest-notes">最新文章</h2>
+        <a href="{{ "posts/" | relURL }}">全部文章&nbsp;→</a>
+      </div>
+
+      {{ $posts := where site.RegularPages "Section" "posts" }}
+      {{ $posts = $posts.ByDate.Reverse }}
+      {{ if gt (len $posts) 0 }}
+        <div class="note-list">
+          {{ range first 8 $posts }}
+            <a class="note-entry" href="{{ .RelPermalink }}">
+              <span class="note-meta">{{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} 分钟阅读</span>
+              <h3>{{ .Title }}</h3>
+              {{ with .Description }}<p>{{ . }}</p>{{ end }}
+              {{ with .Params.tags }}
+                <span class="note-tags">
+                  {{ range . }}<span>#{{ . }}</span>{{ end }}
+                </span>
+              {{ end }}
+            </a>
+          {{ end }}
+        </div>
+      {{ else }}
+        <p class="home-empty">
+          这里还没有公开文章。第一篇文章可以从一个问题、一段推导，
+          或一次失败的实验开始。
+        </p>
+      {{ end }}
+    </section>
+
+    <aside class="home-sidebar">
+      <section class="home-sidebar-card">
+        <h2>关于 Metavis</h2>
+        <p>数学背景，关注高效模型架构、可学习记忆与推理系统。</p>
+        <a href="{{ "about/" | relURL }}">了解更多&nbsp;→</a>
+      </section>
+      <section class="home-sidebar-card">
+        <h2>研究方向</h2>
+        <p>KV Cache、Attention、记忆机制、端侧推理，以及资源约束下的智能。</p>
+        <a href="{{ "research/" | relURL }}">查看方向&nbsp;→</a>
+      </section>
+    </aside>
+  </div>
+</main>
+{{- end }}

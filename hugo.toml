@@ -77,3 +77,8 @@ buildFuture = true
   name = '关于'
   url = '/about/'
   weight = 50
+
+[[menu.main]]
+  name = '写作台'
+  url = '/admin/'
+  weight = 60

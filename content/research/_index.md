@@ -114,16 +114,16 @@ ReservoirKV 目前因阶段性实验结果而暂停，但并未被放弃。它�
 
 > **怎样用有限的内部状态，保存对未来行为真正有用的信息？**
 
-## 长期科学理想：Metavis
+## 终极科学理想：创造 AGI
 
-我长期想研究的是 **具身驱动的智能涌现**（Embodiment-Driven Emergence of Intelligence）。
+我的终极理想是创造 **AGI（Artificial General Intelligence，通用人工智能）**：一种能够理解不同任务、持续学习、形成长期记忆、主动行动并在真实环境中自主适应的通用智能系统。
 
-我的工作假设是：智能可能不是一组预先拼接好的功能模块，而是在具有身体边界、内部状态、物理约束和环境交互的动态系统中，通过持续适应与自组织逐渐形成。
+我目前把这条路线称为 **具身驱动的智能涌现**（Embodiment-Driven Emergence of Intelligence）。我的工作假设是：通用智能可能不是一组预先拼接好的功能模块，而是在具有身体边界、内部状态、物理约束和环境交互的动态系统中，通过持续适应与自组织逐渐形成。
 
-这不是已经被证明的结论，而是我希望沿着信息表示、记忆、状态更新、持续学习和真实交互逐步检验的科学问题。
+这不是已经被证明的结论，而是我希望沿着信息表示、记忆、状态更新、持续学习和真实交互逐步检验的科学问题。具身智能、记忆机制和高效推理是我当前通向 AGI 的研究路径，而不是彼此孤立的终点。
 
-最终，我希望构建 Metavis：一个能够通过自主行动、真实环境反馈、记忆积累和持续学习而不断成长的智能系统。
+我将未来的系统设想命名为 **Metavis**：一个能够通过自主行动、真实环境反馈、记忆积累和持续学习而不断成长的 AGI 系统。
 
 ## 研究关键词
 
-**Model Architecture · Efficient AI · Neural Memory · State Representation · Continual Learning · Test-Time Learning · Mechanistic Interpretability · Representation Learning · Attention Mechanisms · LLM Inference Optimization · Hardware-Aware AI · Embodied Intelligence**
+**AGI · Model Architecture · Efficient AI · Neural Memory · State Representation · Continual Learning · Test-Time Learning · Mechanistic Interpretability · Representation Learning · Attention Mechanisms · LLM Inference Optimization · Hardware-Aware AI · Embodied Intelligence**

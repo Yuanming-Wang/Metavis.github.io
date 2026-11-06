@@ -7,8 +7,8 @@
   --content: #2b3445;
   --code-bg: #f3f5f8;
   --border: #e5e7eb;
-  --accent: #6256d9;
-  --accent-soft: #eef0ff;
+  --accent: #987354;
+  --accent-soft: #f1e9df;
 }
 
 .dark {
@@ -20,8 +20,8 @@
   --content: #e5eaf2;
   --code-bg: #202938;
   --border: #30394a;
-  --accent: #a9a1ff;
-  --accent-soft: #292b51;
+  --accent: #d2b89a;
+  --accent-soft: #3a3029;
 }
 
 body {
@@ -619,4 +619,67 @@ body {
   .article-meta {
     justify-content: flex-start;
   }
+}
+
+
+/* Quiet, editorial finish */
+body {
+  background:
+    radial-gradient(circle at 8% -10%, rgba(214, 191, 163, 0.16), transparent 28rem),
+    var(--theme);
+}
+
+.header {
+  border-bottom-color: color-mix(in srgb, var(--border) 82%, transparent);
+  box-shadow: 0 8px 30px rgba(61, 48, 35, 0.025);
+}
+
+#menu a {
+  color: var(--secondary);
+  transition: color 0.18s ease;
+}
+#menu a:hover { color: var(--primary); }
+
+.home-hero {
+  position: relative;
+  max-width: 960px;
+}
+.home-hero::after {
+  position: absolute;
+  right: 0;
+  bottom: 2.8rem;
+  width: 4rem;
+  height: 1px;
+  background: var(--accent);
+  content: "";
+}
+.home-hero-links a {
+  border-bottom-color: color-mix(in srgb, var(--accent) 65%, transparent);
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.home-hero-links a:hover {
+  border-bottom-color: var(--accent);
+  color: var(--accent);
+}
+
+.first-entry {
+  background: linear-gradient(135deg, var(--entry), var(--accent-soft));
+  border-color: color-mix(in srgb, var(--border) 80%, var(--accent));
+}
+
+.post-entry {
+  background: color-mix(in srgb, var(--entry) 94%, var(--accent-soft));
+}
+.post-entry:hover {
+  border-color: color-mix(in srgb, var(--accent) 70%, var(--border));
+  box-shadow: 0 14px 38px rgba(61, 48, 35, 0.06);
+}
+
+.home-sidebar-card {
+  border-top-width: 1px;
+}
+
+.article-body .MathJax,
+.post-content .MathJax {
+  font-size: 1.06em;
 }

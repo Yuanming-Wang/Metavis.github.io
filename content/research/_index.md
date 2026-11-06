@@ -1,55 +1,76 @@
 ---
 title: '研究方向'
-description: '资源约束下的模型架构、记忆与持续学习。'
+description: '从高效推理与机制理解走向 AGI 理论，同时研究持续学习与记忆机制。'
 showToc: true
 ---
 
-> **以真实物理与计算约束为出发点，研究智能系统的信息表示、记忆与学习机制，探索高效且可持续适应的新一代模型架构。**
+> **我的终极理想是创造 AGI。当前从高效推理和模型机制出发，沿着可验证的技术问题逐步走向更深的数学理论与智能理论；与此同时，独立研究持续学习、记忆和状态更新。**
 
 ## 当前定位
 
-我目前关注 **Resource-Constrained Intelligent Model Architectures**：资源约束下的智能模型架构与学习机制。
+我关注资源与物理约束下的模型架构、推理机制、记忆与学习。
 
-更完整地说，是 **Hardware-Aware Model Architecture, Memory and Continual Learning**。研究重点不是把某一个模型或某一块 GPU 调得更快，而是从内存容量、带宽、时延、能耗、并行性和通信成本等稳定约束出发，反过来思考模型应该如何表示信息、组织记忆、更新状态和持续学习。
+其中，**高效推理和机制可解释性是一条连续路线**。我不把 KV Cache、Attention、Kernel 或推理系统当作最终职业终点，而是把它们作为理解模型内部计算机制、建立数学直觉并最终研究 AGI 的技术跳板。
 
-我的研究方式是：
+**持续学习与记忆机制是另一条研究块**，重点是模型如何在运行过程中形成、保留、更新和巩固内部状态。
 
-- **算法为主，系统为辅**：模型架构、记忆机制和学习机制是核心研究对象。
-- **算法—系统协同设计**：推理引擎、Kernel 和硬件执行是验证想法真实代价的手段。
-- **从可验证问题逐步走向基础问题**：先研究信息压缩、选择性计算和状态更新，再逐渐逼近持续适应与自主智能。
+## 两条研究主线
 
-## 四个核心问题
+### 主线一：从高效推理走向 AGI 理论
 
-### 1. 信息应该如何表示？
+我的理想技术路线是：
 
-不同模态、不同时间尺度和不同重要程度的信息，是否应该使用完全相同的 Token、Embedding 和计算路径？
+> **KV Cache 压缩 → 注意力机制研究 → 机制可解释性 → Scaling Law 数学理论 → 计算意识理论 → AGI**
 
-我关注表示学习、Attention、压缩表示和跨模态状态之间的关系，希望理解什么信息必须精确保留，什么信息可以转化为更紧凑的状态。
+这条路线的每一段都对应一个逐渐深入的问题：
 
-### 2. 记忆应该如何组织？
+1. **KV Cache 压缩**  
+   在有限显存、带宽和时延下，研究哪些信息必须保留、哪些信息可以压缩，建立对信息表示和记忆的第一手执行直觉。
 
-记忆不只是增大 KV Cache，也包括信息的选择、压缩、检索、遗忘和巩固。
+2. **注意力机制研究**  
+   从缓存和数据访问问题进入 Attention，研究模型如何选择信息、建立依赖并完成上下文计算。
 
-我关心：
+3. **机制可解释性**  
+   分析 Attention Head、MLP、层间连接和内部计算回路，理解知识、记忆和能力究竟如何在网络中实现。
 
-- 哪些信息应该保留，哪些信息可以遗忘？
-- 哪些记忆需要精确检索，哪些可以压缩为状态？
-- 短期工作记忆如何影响长期记忆？
-- 信息应该存储在 KV Cache、隐状态、外部记忆还是模型参数中？
+4. **Scaling Law 数学理论**  
+   从实验规律进一步研究模型规模、数据、计算量、损失和能力之间的数学关系，寻找现象背后的可解释结构。
 
-### 3. 内部状态应该如何更新？
+5. **计算意识理论**  
+   在理解表示、记忆、全局信息整合和内部状态之后，继续追问意识是否能够被形式化为某种计算过程或动力学结构。
 
-系统能否在持续运行时，根据新信息增量更新内部表示，而不必重新处理全部历史？
+6. **AGI**  
+   最终目标是创造具有通用理解、持续学习、长期记忆、主动行动和真实环境适应能力的 AGI。
 
-这里涉及 State Representation、State Update Mechanisms、Fast Weights、Test-Time Learning 和 Memory Consolidation。目标是在计算效率、历史知识保留和新环境适应之间建立可解释的机制联系。
+这是一条长期路线。前面的阶段可以用工程、实验和模型分析逐步验证，后面的 Scaling Law、计算意识与 AGI 仍属于开放的基础科学问题。
 
-### 4. 智能如何持续学习？
+### 主线二：持续学习与记忆机制
 
-我关注 Continual Learning、Online Learning、Test-Time Training、Adaptive Plasticity、Self-Distillation 和强化学习等方向，但会区分“记忆检索”“状态更新”和“能力形成”。
+这条主线独立研究模型如何在生命周期内不断获得和修正能力：
 
-真正的问题是：模型怎样在与环境交互的过程中获得新能力，同时避免灾难性遗忘、无效更新和不可控漂移？
+- Continual Learning
+- Test-Time Learning / Test-Time Training
+- Online Learning
+- Neural Memory
+- Memory Consolidation
+- State Representation
+- State Update Mechanisms
+- Fast Weights
+- Adaptive Plasticity
+- Selective Update
+- Episodic-to-Parametric Memory
 
-## 主要研究方向
+核心问题包括：
+
+- 短期工作记忆如何转化为长期记忆？
+- 哪些信息应该保留、压缩、检索或遗忘？
+- 模型如何在不重新处理全部历史的情况下更新内部状态？
+- 如何同时适应新环境并避免灾难性遗忘？
+- 记忆检索、状态更新和新能力形成之间究竟是什么关系？
+
+这条路线与 AGI 目标有关，但研究对象是持续学习和内部状态机制本身，不等同于简单地把“外挂记忆”接到现有模型上。
+
+## 主线一的当前研究方向
 
 ### 高效模型架构与推理
 
@@ -57,30 +78,11 @@ showToc: true
 - Hardware-Aware Architecture
 - Algorithm-System Co-design
 - LLM Inference Optimization
-- Attention Mechanisms
 - KV Cache Compression
+- Attention Mechanisms
 - Sparse Attention
 - Quantization
 - Efficient Inference
-
-### 神经记忆与状态机制
-
-- Neural Memory
-- Memory Architecture
-- Memory Consolidation
-- State Representation
-- State Update Mechanisms
-- Fast Weights
-- Episodic-to-Parametric Memory
-
-### 持续学习与测试时适应
-
-- Continual Learning
-- Test-Time Learning / Test-Time Training
-- Online Learning
-- Adaptive Plasticity
-- Selective Update
-- Learned Update Policy
 
 ### 机制可解释性
 
@@ -91,17 +93,28 @@ showToc: true
 - Transformer 内部如何表示和处理信息？
 - Attention Head、MLP 和层间结构如何形成计算回路？
 - 知识与记忆究竟存储在哪里？
-- 能否从内部机制出发，反过来设计更高效的新模型架构？
+- 能否根据发现的内部机制，反过来设计更高效的新模型架构？
 
-机制可解释性对我来说既是分析工具，也是理解记忆、表示和模型能力形成方式的理论入口。
+机制可解释性是连接高效推理、表示学习、Scaling Law 和 AGI 理论的重要中间环节。
 
-### 端侧与具身智能
+### Scaling Law 与计算意识
 
-我关注端侧推理、嵌入式设备和具身场景中的模型设计。长期来看，感知、行动、能源、身体结构和环境反馈不应只是模型外部的接口，而可能直接参与智能的形成。
+这是我的长期理论方向，目前仍处于问题定义和基础积累阶段：
 
-## 当前项目如何连接这条主线
+- 模型规模、数据、计算量与能力之间是否存在更深层的统一规律？
+- Scaling Law 能否从经验拟合走向更有解释力的数学理论？
+- 信息整合、内部状态、记忆和自我建模能否构成计算意识理论的形式基础？
+- 这些理论能否反过来指导 AGI 架构设计？
 
-| 项目 | 当前积累 | 对应问题 |
+## 端侧、具身与物理约束
+
+我关注端侧推理、嵌入式设备和具身场景中的模型设计。内存容量、带宽、时延、能耗、并行性和通信成本，不只是部署时才考虑的工程指标，也可能反过来约束智能系统的结构。
+
+长期来看，感知、行动、能源、身体结构和环境反馈不应只是模型外部的接口，而可能直接参与智能的形成。
+
+## 当前项目如何连接两条主线
+
+| 项目 | 当前积累 | 对应研究问题 |
 | --- | --- | --- |
 | ReservoirKV | KV Cache 压缩、残差表示、多轮记忆恢复 | 有限记忆容量下如何保留对未来有用的信息 |
 | TriAttention / TurboQuant | Attention 分解、残差编码、低比特压缩 | 表示结构与压缩精度如何协同 |
@@ -118,12 +131,12 @@ ReservoirKV 目前因阶段性实验结果而暂停，但并未被放弃。它�
 
 我的终极理想是创造 **AGI（Artificial General Intelligence，通用人工智能）**：一种能够理解不同任务、持续学习、形成长期记忆、主动行动并在真实环境中自主适应的通用智能系统。
 
-我目前把这条路线称为 **具身驱动的智能涌现**（Embodiment-Driven Emergence of Intelligence）。我的工作假设是：通用智能可能不是一组预先拼接好的功能模块，而是在具有身体边界、内部状态、物理约束和环境交互的动态系统中，通过持续适应与自组织逐渐形成。
+我将这条长期探索命名为 **具身驱动的智能涌现**（Embodiment-Driven Emergence of Intelligence），并将未来的系统设想命名为 **Metavis**。
 
-这不是已经被证明的结论，而是我希望沿着信息表示、记忆、状态更新、持续学习和真实交互逐步检验的科学问题。具身智能、记忆机制和高效推理是我当前通向 AGI 的研究路径，而不是彼此孤立的终点。
+我的工作假设是：通用智能可能不是把推理、记忆、意识和行动等模块简单拼接起来，而是在具有身体边界、内部状态、物理约束和环境交互的动态系统中，通过持续适应与自组织逐渐形成。
 
-我将未来的系统设想命名为 **Metavis**：一个能够通过自主行动、真实环境反馈、记忆积累和持续学习而不断成长的 AGI 系统。
+这不是已经被证明的结论，而是我希望通过高效推理、机制可解释性、数学理论、计算意识和持续学习等研究路线逐步检验的科学问题。
 
 ## 研究关键词
 
-**AGI · Model Architecture · Efficient AI · Neural Memory · State Representation · Continual Learning · Test-Time Learning · Mechanistic Interpretability · Representation Learning · Attention Mechanisms · LLM Inference Optimization · Hardware-Aware AI · Embodied Intelligence**
+**AGI · KV Cache Compression · Attention Mechanisms · Mechanistic Interpretability · Scaling Laws · Computational Consciousness · Continual Learning · Neural Memory · State Representation · Model Architecture · Hardware-Aware AI · Embodied Intelligence**

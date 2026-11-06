@@ -1,0 +1,43 @@
+{{- define "main" }}
+<main class="main article-page">
+  <article class="research-article">
+    <header class="article-header">
+      {{- partial "breadcrumbs.html" . }}
+      {{ with .Params.categories }}<div class="article-kicker">{{ delimit . " · " }}</div>{{ end }}
+      <h1>{{ .Title }}</h1>
+      {{ with .Description }}<p class="article-description">{{ . }}</p>{{ end }}
+      <div class="article-meta">
+        <span>{{ .Date.Format "2006-01-02" }}</span>
+        <span>·</span>
+        <span>{{ .ReadingTime }} 分钟阅读</span>
+        {{ with .Params.tags }}<span>·</span><span>{{ delimit . " · " }}</span>{{ end }}
+      </div>
+    </header>
+
+    {{ if .TableOfContents }}
+      <details class="mobile-toc">
+        <summary>文章目录</summary>
+        {{ .TableOfContents }}
+      </details>
+    {{ end }}
+
+    <div class="article-grid">
+      <div class="article-body post-content">
+        {{ .Content }}
+      </div>
+      {{ if .TableOfContents }}
+        <aside class="article-toc">
+          <p>目录</p>
+          {{ .TableOfContents }}
+        </aside>
+      {{ end }}
+    </div>
+
+    <footer class="article-footer">
+      {{ with .Params.tags }}
+        {{ range . }}<a href="{{ "tags/" | relURL }}{{ . | urlize }}/">#{{ . }}</a>&nbsp;{{ end }}
+      {{ end }}
+    </footer>
+  </article>
+</main>
+{{- end }}

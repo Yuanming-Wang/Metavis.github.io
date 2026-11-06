@@ -1,0 +1,24 @@
+{{- define "main" }}
+<main class="main section-page">
+  <header class="section-header">
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p>{{ . }}</p>{{ end }}
+  </header>
+
+  {{ with .Content }}
+    <div class="section-intro post-content">{{ . }}</div>
+  {{ end }}
+
+  {{ if .Pages }}
+    <div class="section-list">
+      {{ range .Pages.ByDate.Reverse }}
+        <a class="section-entry" href="{{ .RelPermalink }}">
+          <span class="section-entry-meta">{{ .Date.Format "2006-01-02" }} · {{ .ReadingTime }} 分钟阅读</span>
+          <h2>{{ .Title }}</h2>
+          {{ with .Description }}<p>{{ . }}</p>{{ end }}
+        </a>
+      {{ end }}
+    </div>
+  {{ end }}
+</main>
+{{- end }}

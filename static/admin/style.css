@@ -367,3 +367,31 @@ code { border-radius: 5px; background: var(--accent-soft); padding: 2px 5px; }
   .writing-hint { display: none; }
   .rich-editor { min-height: 340px; padding: 18px 16px 24px; }
 }
+
+
+@media (max-width: 680px) {
+  .toolbar {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    scrollbar-width: none;
+  }
+  .toolbar::-webkit-scrollbar { display: none; }
+  .toolbar .tool-button { flex: 0 0 auto; }
+  input { min-height: 46px; }
+  .editor-footer {
+    position: sticky;
+    z-index: 5;
+    bottom: 10px;
+    width: calc(100% + 20px);
+    margin: 16px -10px 0;
+    padding: 13px 10px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: color-mix(in srgb, var(--panel) 92%, transparent);
+    box-shadow: 0 12px 30px rgba(61, 48, 35, 0.1);
+    backdrop-filter: blur(14px);
+  }
+  .publish-note { font-size: 0.72rem; }
+  .rich-editor { font-size: 1.02rem; line-height: 1.95; }
+}

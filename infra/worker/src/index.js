@@ -129,6 +129,61 @@ function safeSlug(value) {
     .replace(/^-|-$/g, "");
 }
 
+function safeAssetName(value) {
+  return String(value || "image")
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "")
+    .slice(0, 80) || "image";
+}
+
+async function saveAsset(request, env) {
+  const session = await currentSession(request, env);
+  if (!session) return json({error: "请先登录 GitHub。"}, 401, env);
+
+  const formData = await request.formData();
+  const file = formData.get("file");
+  if (!(file instanceof File) || !file.size) {
+    return json({error: "请选择要上传的图片。"}, 400, env);
+  }
+  if (!String(file.type || "").startsWith("image/")) {
+    return json({error: "目前只支持图片文件。"}, 400, env);
+  }
+  if (file.size > 8 * 1024 * 1024) {
+    return json({error: "图片不能超过 8 MB。"}, 413, env);
+  }
+
+  const extension = (file.name.match(/\.[a-z0-9]+$/i) || [".png"])[0].toLowerCase();
+  const filename = Date.now() + "-" + safeAssetName(file.name.replace(/\.[^.]+$/, "")) + extension;
+  const path = "static/uploads/" + filename;
+  const encodedPath = path.split("/").map(encodeURIComponent).join("/");
+  const apiUrl = "https://api.github.com/repos/" + env.REPO_OWNER + "/" + env.REPO_NAME + "/contents/" + encodedPath;
+  const bytes = new Uint8Array(await file.arrayBuffer());
+  const headers = {
+    ...githubHeaders(session.token),
+    "Content-Type": "application/json"
+  };
+  const uploadResponse = await fetch(apiUrl, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify({
+      message: "Upload image: " + filename,
+      content: base64Encode(bytes),
+      branch: env.REPO_BRANCH
+    })
+  });
+
+  if (!uploadResponse.ok) {
+    return json({error: "图片上传失败，请检查 GitHub 权限。"}, 502, env);
+  }
+
+  return json({
+    path,
+    url: env.SITE_ORIGIN + "/uploads/" + filename
+  }, 201, env);
+}
+
 async function currentSession(request, env) {
   const authorization = request.headers.get("Authorization") || "";
   const bearer = authorization.startsWith("Bearer ") ? authorization.slice(7) : null;
@@ -320,6 +375,14 @@ export default {
         return await savePost(request, env);
       } catch {
         return json({error: "请求格式不正确。"}, 400, env);
+      }
+    }
+
+    if (url.pathname === "/api/assets" && request.method === "POST") {
+      try {
+        return await saveAsset(request, env);
+      } catch {
+        return json({error: "图片上传请求格式不正确。"}, 400, env);
       }
     }
 

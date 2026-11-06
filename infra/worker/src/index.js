@@ -73,7 +73,7 @@ function corsHeaders(env) {
   return {
     "Access-Control-Allow-Origin": env.SITE_ORIGIN,
     "Access-Control-Allow-Credentials": "true",
-    "Access-Control-Allow-Headers": "Content-Type",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
     "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Vary": "Origin"
   };
@@ -130,7 +130,9 @@ function safeSlug(value) {
 }
 
 async function currentSession(request, env) {
-  const raw = getCookie(request, "metavis_session");
+  const authorization = request.headers.get("Authorization") || "";
+  const bearer = authorization.startsWith("Bearer ") ? authorization.slice(7) : null;
+  const raw = bearer || getCookie(request, "metavis_session");
   if (!raw) return null;
   const decoded = await open(raw, env.SESSION_SECRET);
   if (!decoded) return null;
@@ -220,7 +222,7 @@ async function authCallback(request, env) {
 
   const response = new Response(null, {
     status: 302,
-    headers: {Location: oauthState.returnTo}
+    headers: {Location: oauthState.returnTo + "#session=" + encodeURIComponent(session)}
   });
   response.headers.append("Set-Cookie", cookie("metavis_session", session, 8 * 60 * 60));
   response.headers.append("Set-Cookie", cookie("metavis_oauth", "", 0));

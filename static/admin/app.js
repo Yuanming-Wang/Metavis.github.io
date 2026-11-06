@@ -13,6 +13,16 @@
   const sessionLabel = document.querySelector("#session-label");
   const message = document.querySelector("#form-message");
   const today = new Date().toISOString().slice(0, 10);
+  const returnedSession = new URLSearchParams(window.location.hash.slice(1)).get("session");
+  if (returnedSession) {
+    sessionStorage.setItem("metavis_session", returnedSession);
+    window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+  }
+  const sessionToken = () => sessionStorage.getItem("metavis_session") || "";
+  const authHeaders = () => {
+    const token = sessionToken();
+    return token ? {Authorization: "Bearer " + token} : {};
+  };
 
   document.querySelector("#date").value = today;
 
@@ -50,14 +60,17 @@
   logoutButton.addEventListener("click", async () => {
     await fetch(apiBase + "/auth/logout", {
       credentials: "include",
-      mode: "cors"
+      mode: "cors",
+      headers: authHeaders()
     });
+    sessionStorage.removeItem("metavis_session");
     showLoggedOut();
   });
 
   fetch(apiBase + "/api/session", {
     credentials: "include",
-    mode: "cors"
+    mode: "cors",
+    headers: authHeaders()
   })
     .then((response) => (response.ok ? response.json() : null))
     .then((data) => (data && data.login ? showLoggedIn(data.login) : showLoggedOut()))
@@ -86,7 +99,7 @@
         method: "POST",
         credentials: "include",
         mode: "cors",
-        headers: {"Content-Type": "application/json"},
+        headers: {...authHeaders(), "Content-Type": "application/json"},
         body: JSON.stringify(payload)
       });
       const data = await response.json();

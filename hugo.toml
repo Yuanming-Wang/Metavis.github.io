@@ -53,32 +53,21 @@ buildFuture = true
   url = 'https://github.com/Yuanming-Wang'
 
 [[menu.main]]
-  name = '首页'
-  url = '/'
+  name = '关于'
+  url = '/about/'
   weight = 10
-
-
-[[menu.main]]
-  name = '研究方向'
-  url = '/research/'
-  weight = 20
 
 [[menu.main]]
   name = '文章'
   url = '/posts/'
-  weight = 30
+  weight = 20
 
 [[menu.main]]
   name = '归档'
   url = '/archives/'
-  weight = 40
-
-[[menu.main]]
-  name = '关于'
-  url = '/about/'
-  weight = 50
+  weight = 30
 
 [[menu.main]]
   name = '写作台'
   url = '/admin/'
-  weight = 60
+  weight = 40

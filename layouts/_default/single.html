@@ -38,6 +38,8 @@
         {{ range . }}<a href="{{ "tags/" | relURL }}{{ . | urlize }}/">#{{ . }}</a>&nbsp;{{ end }}
       {{ end }}
     </footer>
+
+    {{ partial "comments.html" . }}
   </article>
 </main>
 {{- end }}

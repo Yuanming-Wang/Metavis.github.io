@@ -1823,3 +1823,42 @@ body {
     min-height: 112px;
   }
 }
+
+
+/* Unified about page */
+.metavis-about .home-hero {
+  margin-bottom: 0;
+}
+
+.about-research-section {
+  margin-top: clamp(2.8rem, 6vw, 5rem);
+}
+
+.about-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.about-section-heading .writing-zone-kicker {
+  color: var(--accent);
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+}
+
+.about-section-heading .content-rule {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(90deg, rgba(165, 111, 69, 0.48), transparent);
+}
+
+.metavis-about .research-content {
+  border-radius: 20px;
+}
+
+.metavis-about .research-content .post-content > h2:first-child {
+  margin-top: 0;
+}

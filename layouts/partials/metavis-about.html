@@ -28,21 +28,21 @@
         <h3>高效模型架构与推理</h3>
         <p>围绕 KV Cache、Attention、稀疏计算和量化，研究内存、带宽、时延与能耗约束下的模型设计。</p>
         <p class="branch-route">模型架构 → 推理机制 → 算法—系统协同</p>
-        <a href="#research-writing">查看文章&nbsp;→</a>
+        <a href="#writing-efficient"&nbsp;→</a>
       </article>
 
       <article class="branch-card">
         <p class="section-eyebrow">02 · 内部状态</p>
         <h3>神经记忆与持续学习</h3>
         <p>研究信息如何写入、保留、检索和更新，使模型在长期运行中形成稳定的内部状态与新能力。</p>
-        <a href="#research-writing">查看文章&nbsp;→</a>
+        <a href="#writing-memory"&nbsp;→</a>
       </article>
 
       <article class="branch-card">
         <p class="section-eyebrow">03 · 真实世界</p>
         <h3>机制可解释性与具身智能</h3>
         <p>理解模型内部的表示与计算回路，并研究身体、感知、行动和环境反馈如何构成智能闭环。</p>
-        <a href="#research-writing">查看文章&nbsp;→</a>
+        <a href="#writing-embodied"&nbsp;→</a>
       </article>
     </div>
   </section>
@@ -69,57 +69,63 @@
     <div class="research-writing-head">
       <div>
         <span class="writing-zone-kicker">RESEARCH WRITING / 02</span>
-        <h2 id="research-writing-title">把研究方向写成文章</h2>
-        <p>从一个问题、一段推导或一次实验开始，持续积累你的研究记录。</p>
+        <h2 id="research-writing-title">三个方向，三块研究写作区</h2>
+        <p>每个方向都有独立的文章入口，分别记录问题、推导、实验和研究进展。</p>
       </div>
-      <a class="research-write-cta" href="{{ "admin/" | relURL }}">进入写作台 <span>→</span></a>
+      <a class="research-write-cta" href="{{ "posts/" | relURL }}">查看全部文章 <span>→</span></a>
     </div>
 
-    <div class="research-writing-grid">
-      <div class="research-topic-grid" aria-label="研究文章方向">
-        <a class="research-topic-card" href="#research-writing">
-          <span>01</span>
-          <strong>高效模型架构与推理优化</strong>
-          <small>KV Cache · Attention · Inference</small>
-        </a>
-        <a class="research-topic-card" href="#research-writing">
-          <span>02</span>
-          <strong>神经记忆与持续学习</strong>
-          <small>Memory · State · Adaptation</small>
-        </a>
-        <a class="research-topic-card" href="#research-writing">
-          <span>03</span>
-          <strong>机制可解释性与具身智能</strong>
-          <small>Mechanism · Embodiment · AGI</small>
-        </a>
-      </div>
-
-      <div class="research-notes-panel">
-        <div class="research-notes-panel-head">
-          <span>PUBLIC NOTES</span>
-          <a href="{{ "posts/" | relURL }}">查看全部 →</a>
+    <div class="research-writing-tracks">
+      <section id="writing-efficient" class="research-writing-track">
+        <div class="research-track-heading">
+          <span class="research-track-index">01</span>
+          <div>
+            <span class="research-track-kicker">COMPUTE / ARCHITECTURE</span>
+            <h3>高效模型架构与推理优化</h3>
+          </div>
+          <a class="research-track-cta" href="{{ "admin/" | relURL }}">开始写作&nbsp;→</a>
         </div>
-        {{ $posts := where site.RegularPages "Section" "posts" }}
-        {{ $posts = $posts.ByDate.Reverse }}
-        {{ if gt (len $posts) 0 }}
-          <div class="research-note-list">
-            {{ range first 4 $posts }}
-              <a class="research-note-entry" href="{{ .RelPermalink }}">
-                <span>{{ .Date.Format "2006-01-02" }}</span>
-                <strong>{{ .Title }}</strong>
-                {{ with .Description }}<small>{{ . }}</small>{{ end }}
-              </a>
-            {{ end }}
+        <p>记录 KV Cache、Attention、稀疏计算、量化、推理系统与算法—系统协同。</p>
+        <div class="research-track-empty">
+          <strong>还没有这个方向的文章</strong>
+          <span>从一个推理优化问题开始，写下第一篇研究记录。</span>
+          <a href="{{ "admin/" | relURL }}">进入写作台</a>
+        </div>
+      </section>
+
+      <section id="writing-memory" class="research-writing-track">
+        <div class="research-track-heading">
+          <span class="research-track-index">02</span>
+          <div>
+            <span class="research-track-kicker">STATE / LEARNING</span>
+            <h3>神经记忆与持续学习</h3>
           </div>
-        {{ else }}
-          <div class="research-writing-empty">
-            <span class="empty-mark">◌</span>
-            <strong>还没有公开研究文章</strong>
-            <p>你的第一篇文章可以从一个具体问题开始。</p>
-            <a href="{{ "admin/" | relURL }}">开始写作 →</a>
+          <a class="research-track-cta" href="{{ "admin/" | relURL }}">开始写作&nbsp;→</a>
+        </div>
+        <p>记录 Neural Memory、State Representation、State Update、Continual Learning 与 Test-Time Learning。</p>
+        <div class="research-track-empty">
+          <strong>还没有这个方向的文章</strong>
+          <span>从一次记忆实验、论文推导或状态更新问题开始。</span>
+          <a href="{{ "admin/" | relURL }}">进入写作台</a>
+        </div>
+      </section>
+
+      <section id="writing-embodied" class="research-writing-track">
+        <div class="research-track-heading">
+          <span class="research-track-index">03</span>
+          <div>
+            <span class="research-track-kicker">MECHANISM / EMBODIMENT</span>
+            <h3>机制可解释性与具身智能</h3>
           </div>
-        {{ end }}
-      </div>
+          <a class="research-track-cta" href="{{ "admin/" | relURL }}">开始写作&nbsp;→</a>
+        </div>
+        <p>记录 Transformer 内部机制、计算回路、身体、感知、行动与真实环境闭环。</p>
+        <div class="research-track-empty">
+          <strong>还没有这个方向的文章</strong>
+          <span>从一次机制分析或具身智能实验开始，建立长期研究记录。</span>
+          <a href="{{ "admin/" | relURL }}">进入写作台</a>
+        </div>
+      </section>
     </div>
   </section>
 </main>

@@ -1974,3 +1974,32 @@ body {
     gap: 0.35rem;
   }
 }
+
+
+.research-track-posts {
+  margin-top: 1rem;
+  border-top: 1px solid #dfd0bd;
+}
+
+.research-track-post {
+  display: grid;
+  gap: 0.25rem;
+  border-bottom: 1px solid #dfd0bd;
+  padding: 0.75rem 0;
+}
+
+.research-track-post:last-child {
+  border-bottom: 0;
+}
+
+.research-track-post span,
+.research-track-post small {
+  color: var(--secondary);
+  font-size: 0.68rem;
+}
+
+.research-track-post strong {
+  color: var(--primary);
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: 0.96rem;
+}

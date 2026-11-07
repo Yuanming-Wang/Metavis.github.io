@@ -465,3 +465,7 @@ button { color: inherit; }
   html { scroll-behavior: auto; }
   .home-section { opacity: 1; transform: none; transition: none; }
 }
+
+
+.footer-github { margin-left: 16px; color: var(--ink-soft); transition: color .2s ease; }
+.footer-github:hover { color: var(--brown-deep); }

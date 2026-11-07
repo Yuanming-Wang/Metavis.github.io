@@ -182,14 +182,14 @@ button { color: inherit; }
   border-bottom: 1px solid var(--line);
   background: var(--paper-deep);
 }
-.research-card { --pointer-x: 50%; --pointer-y: 50%; display: grid; grid-template-columns: 48px minmax(220px, .7fr) minmax(260px, 1fr) auto; gap: 24px; align-items: start; padding: 30px 0; border-bottom: 1px solid var(--line); background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(239, 226, 211, .72), transparent 32rem), var(--paper-deep); transition: background .25s ease, transform .25s ease, padding-left .25s ease, box-shadow .25s ease; }
+.research-card { --pointer-x: 50%; --pointer-y: 50%; display: grid; grid-template-columns: 48px minmax(220px, .72fr) minmax(0, 1fr) 220px; gap: 24px; align-items: start; padding: 30px 0; border-bottom: 1px solid var(--line); background: radial-gradient(circle at var(--pointer-x) var(--pointer-y), rgba(239, 226, 211, .72), transparent 32rem), var(--paper-deep); transition: background .25s ease, transform .25s ease, padding-left .25s ease, box-shadow .25s ease; }
 .research-card:last-child { border-bottom: 0; }
 .research-card:hover, .research-card:focus-within { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(91, 66, 43, .08); }
 .research-card.hash-focus { background: rgba(239, 226, 211, .62); }
 .research-card-number { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border: 1px solid var(--line-strong); border-radius: 50%; color: var(--brown); font-family: var(--mono); font-size: .68rem; }
 .research-card h3 { margin: 0; color: var(--ink); font-family: var(--serif); font-size: 1.55rem; font-weight: 500; letter-spacing: -.04em; line-height: 1.28; writing-mode: horizontal-tb; }
 .research-card p { margin: 0; color: var(--ink-soft); font-size: .9rem; line-height: 1.82; writing-mode: horizontal-tb; }
-.research-card-footer { display: flex; align-items: flex-start; justify-content: flex-start; flex-direction: column; gap: 14px; color: var(--brown-deep); font-size: .76rem; }
+.research-card-footer { display: flex; min-width: 0; align-items: flex-start; justify-content: flex-start; flex-direction: column; gap: 14px; color: var(--brown-deep); font-size: .76rem; }
 .research-card-footer span { min-width: 0; color: var(--ink-faint); font-family: var(--mono); font-size: .62rem; letter-spacing: .04em; white-space: nowrap; }
 .research-card-footer a { color: var(--brown-deep); font-size: .76rem; white-space: nowrap; transition: color .2s ease, transform .2s ease; }
 .research-card-footer a:hover { color: var(--brown); transform: translateX(4px); }

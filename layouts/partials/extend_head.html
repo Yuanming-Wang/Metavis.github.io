@@ -1,6 +1,9 @@
 {{- $custom := resources.Get "css/extended/custom.css" | minify | fingerprint -}}
 <link rel="stylesheet" href="{{ $custom.RelPermalink }}" integrity="{{ $custom.Data.Integrity }}">
 
+{{- $siteScript := resources.Get "js/site.ts" | js.Build (dict "targetPath" "js/site.js" "minify" true) -}}
+<script defer src="{{ $siteScript.RelPermalink }}"></script>
+
 <script>
   const __slash = String.fromCharCode(92);
   window.MathJax = {

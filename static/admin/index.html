@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f2e9">
   <title>写作台 · Metavis</title>
-  <link rel="stylesheet" href="./style.css?v=20261107-4">
+  <link rel="stylesheet" href="./style.css?v=20261107-5">
   <script>
     window.MathJax = {
       tex: {
@@ -83,15 +83,6 @@
         <label class="field-label description-field" for="description">摘要
           <input id="description" name="description" type="text" placeholder="一句话说明这篇文章解决什么问题">
         </label>
-        <label class="field-label research-area-field" for="research-area">研究方向
-          <select id="research-area" name="research_area" required>
-            <option value="">请选择研究方向</option>
-            <option value="efficient-inference">高效模型架构与推理优化</option>
-            <option value="memory-continual-learning">神经记忆与持续学习</option>
-            <option value="interpretability-embodiment">机制可解释性与具身智能</option>
-          </select>
-          <small>发布后会出现在这个研究方向的文章列表中。</small>
-        </label>
         <label class="field-label" for="tags">标签
           <input id="tags" name="tags" type="text" placeholder="memory, inference, research">
           <small>多个标签用逗号分隔。</small>
@@ -100,14 +91,6 @@
           <input id="date" name="date" type="date" required>
         </label>
       </div>
-
-      <details class="advanced-settings">
-        <summary><span>高级设置</span><span>文章地址 slug · 通常不需要修改</span></summary>
-        <label class="field-label" for="slug">文章地址 slug
-          <input id="slug" name="slug" type="text" placeholder="系统会自动生成，例如 learnable-memory">
-          <small>只需要英文小写、数字和短横线。</small>
-        </label>
-      </details>
 
       <div class="writing-layout">
         <section class="writing-column" aria-label="文章编辑区">
@@ -189,6 +172,6 @@
   </div>
 
   <script src="./config.js"></script>
-  <script src="./app.js?v=20261107-4"></script>
+  <script src="./app.js?v=20261107-5"></script>
 </body>
 </html>

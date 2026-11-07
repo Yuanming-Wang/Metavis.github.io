@@ -84,6 +84,15 @@
         <label class="field-label description-field" for="description">摘要
           <input id="description" name="description" type="text" placeholder="一句话说明这篇文章解决什么问题">
         </label>
+        <label class="field-label research-area-field" for="research-area">研究方向
+          <select id="research-area" name="research_area" required>
+            <option value="">请选择研究方向</option>
+            <option value="efficient-inference">高效模型架构与推理优化</option>
+            <option value="memory-continual-learning">神经记忆与持续学习</option>
+            <option value="interpretability-embodiment">机制可解释性与具身智能</option>
+          </select>
+          <small>文章会出现在对应研究方向的文章区。</small>
+        </label>
         <label class="field-label" for="tags">标签
           <input id="tags" name="tags" type="text" placeholder="memory, inference, research">
           <small>多个标签用逗号分隔。</small>
@@ -179,6 +188,6 @@
   </div>
 
   <script src="./config.js"></script>
-  <script src="./app.js?v=20261107-1"></script>
+  <script src="./app.js?v=20261107-2"></script>
 </body>
 </html>

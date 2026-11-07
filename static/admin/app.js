@@ -13,6 +13,7 @@
   const dateField = document.querySelector("#date");
   const descriptionField = document.querySelector("#description");
   const tagsField = document.querySelector("#tags");
+  const researchAreaField = document.querySelector("#research-area");
   const loginButtons = [
     document.querySelector("#login-button"),
     document.querySelector("#login-button-secondary")
@@ -56,6 +57,11 @@
     const token = sessionToken();
     return token ? {Authorization: "Bearer " + token} : {};
   };
+
+  const topicFromUrl = new URLSearchParams(window.location.search).get("topic");
+  if (topicFromUrl && researchAreaField && Array.from(researchAreaField.options).some((option) => option.value === topicFromUrl)) {
+    researchAreaField.value = topicFromUrl;
+  }
 
   dateField.value = today;
 
@@ -361,7 +367,7 @@
     window.clearTimeout(editor._draftTimer);
     editor._draftTimer = window.setTimeout(saveLocalDraft, 350);
   });
-  [titleField, slugField, dateField, descriptionField, tagsField].forEach((field) => {
+  [titleField, slugField, dateField, descriptionField, tagsField, researchAreaField].forEach((field) => {
     field.addEventListener("input", () => {
       updatePreview();
       window.clearTimeout(field._draftTimer);
@@ -378,8 +384,14 @@
     updatePreview();
     const title = titleField.value.trim();
     const body = bodyField.value.trim();
+    const researchArea = researchAreaField.value;
     if (!title || !body) {
       setMessage("先填写标题和正文。", "error");
+      return;
+    }
+    if (!researchArea) {
+      setMessage("请选择一个研究方向。", "error");
+      researchAreaField.focus();
       return;
     }
     if (!apiBase) {
@@ -392,7 +404,11 @@
       slug: slugField.value.trim() || latinSlug(title),
       date: dateField.value || today,
       description: descriptionField.value.trim(),
-      tags: tagsField.value.split(",").map((tag) => tag.trim()).filter(Boolean),
+      tags: Array.from(new Set([
+        researchArea,
+        ...tagsField.value.split(",").map((tag) => tag.trim()).filter(Boolean)
+      ])),
+      research_area: researchArea,
       body,
       draft
     };

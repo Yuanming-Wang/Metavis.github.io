@@ -117,7 +117,7 @@ button { color: inherit; }
 }
 .hero-kicker { margin: 0 0 22px; }
 .hero h1 {
-  max-width: 760px;
+  max-width: 100%;
   margin: 0;
   color: var(--ink);
   font-family: var(--serif);
@@ -125,6 +125,11 @@ button { color: inherit; }
   font-weight: 500;
   letter-spacing: -.085em;
   line-height: .92;
+}
+.hero h1 span,
+.hero h1 em {
+  display: block;
+  white-space: nowrap;
 }
 .hero h1 em { color: var(--brown); font-style: normal; }
 .hero-lead {
@@ -335,6 +340,13 @@ button { color: inherit; }
 .mobile-toc summary { cursor: pointer; font-family: var(--mono); font-size: .68rem; }
 .article-footer { max-width: 680px; margin: 56px auto 0; padding-top: 18px; border-top: 1px solid var(--line); }
 .article-footer a { margin-right: 12px; color: var(--brown-deep); font-family: var(--mono); font-size: .68rem; }
+.article-comments { max-width: 680px; margin: 68px auto 0; padding-top: 28px; border-top: 1px solid var(--line); }
+.article-comments-head { margin-bottom: 24px; }
+.comments-kicker { color: var(--brown); font-family: var(--mono); font-size: .64rem; letter-spacing: .11em; }
+.article-comments h2 { margin: 9px 0 8px; color: var(--ink); font-family: var(--serif); font-size: 1.8rem; font-weight: 500; letter-spacing: -.04em; }
+.article-comments p { margin: 0; color: var(--ink-soft); font-size: .86rem; line-height: 1.75; }
+.article-comments .giscus { min-height: 120px; }
+.article-comments .giscus-frame { width: 100%; }
 .error-page { max-width: 620px; margin: 0 auto; text-align: center; }
 .error-page h1 { margin: 0; color: var(--brown); font-family: var(--serif); font-size: clamp(5rem, 15vw, 10rem); font-weight: 500; letter-spacing: -.1em; line-height: .9; }
 .error-page p { color: var(--ink-soft); line-height: 1.8; }
@@ -399,8 +411,8 @@ button { color: inherit; }
 }
 @media (min-width: 881px) {
   .hero { grid-template-columns: minmax(0, 1.4fr) minmax(250px, .6fr); gap: clamp(50px, 6vw, 86px); }
-  .hero h1 { white-space: nowrap; font-size: clamp(2.8rem, 5.4vw, 6.2rem); }
-  .hero h1 em { display: inline; }
+  .hero h1 { white-space: normal; font-size: clamp(2.8rem, 5.4vw, 6.2rem); }
+  .hero h1 em { display: block; }
 }
 @media (max-width: 680px) {
   .nav, .main { width: min(calc(100% - 32px), var(--content-width)); }

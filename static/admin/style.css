@@ -120,6 +120,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--brown); box-shad
 .formula-button { color: var(--brown); font-weight: 800; }
 .tool-divider { width: 1px; height: 18px; margin: 0 4px; background: var(--line-strong); }
 .rich-editor { min-height: 500px; padding: 24px 22px 30px; outline: none; color: var(--ink); font-family: var(--serif); font-size: 1.04rem; line-height: 1.95; }
+.rich-editor.drop-ready { outline: 2px dashed var(--brown); outline-offset: -10px; background: rgba(239, 226, 211, .45); }
 .rich-editor:empty::before { color: var(--ink-faint); content: attr(data-placeholder); pointer-events: none; }
 .rich-editor h2, .article-preview h2 { margin: 1.45em 0 .55em; color: var(--ink); font-family: var(--serif); font-size: 1.45rem; }
 .rich-editor h3, .article-preview h3 { margin: 1.35em 0 .45em; color: var(--ink); font-family: var(--serif); font-size: 1.15rem; }

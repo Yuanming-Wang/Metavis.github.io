@@ -193,10 +193,10 @@
     saveLocalDraft();
   };
 
-  const uploadImage = async (file) => {
+  const uploadImage = async (file, altOverride = null) => {
     if (!apiBase) {
       setMessage("发布接口还没有配置。", "error");
-      return;
+      return false;
     }
     const formData = new FormData();
     formData.append("file", file);
@@ -211,7 +211,9 @@
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "图片上传失败");
-      const alt = window.prompt("图片说明（可选）", "") || "";
+      const alt = altOverride === null
+        ? (window.prompt("图片说明（可选）", "") || "")
+        : altOverride;
       const image = document.createElement("img");
       image.src = data.url;
       image.alt = alt;
@@ -220,8 +222,10 @@
       updatePreview();
       saveLocalDraft();
       setMessage("图片已插入正文。", "success");
+      return true;
     } catch (error) {
       setMessage(error.message || "图片上传失败", "error");
+      return false;
     }
   };
 
@@ -231,6 +235,159 @@
     const file = imageFile.files && imageFile.files[0];
     if (file) await uploadImage(file);
     imageFile.value = "";
+  });
+
+  const escapeHtml = (value) => String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+  const inlineMarkdown = (value) => {
+    let html = escapeHtml(value);
+    html = html.replace(/!\[([^\]]*)\]\(([^\s)]+)(?:\s+"[^"]*")?\)/g, '<img src="$2" alt="$1" loading="lazy">');
+    html = html.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    html = html.replace(/`([^`]+)`/g, "<code>$1</code>");
+    html = html.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+    html = html.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+    html = html.replace(/\*([^*]+)\*/g, "<em>$1</em>");
+    html = html.replace(/_([^_]+)_/g, "<em>$1</em>");
+    return html;
+  };
+
+  const markdownToHtml = (source) => {
+    const lines = String(source || "").replace(/\r\n?/g, "\n").split("\n");
+    const output = [];
+    let paragraph = [];
+    let listType = null;
+    let listItems = [];
+    let codeLines = null;
+
+    const flushParagraph = () => {
+      if (!paragraph.length) return;
+      output.push("<p>" + paragraph.map(inlineMarkdown).join("<br>") + "</p>");
+      paragraph = [];
+    };
+    const flushList = () => {
+      if (!listType) return;
+      const tag = listType === "ol" ? "ol" : "ul";
+      output.push("<" + tag + ">" + listItems.map((item) => "<li>" + inlineMarkdown(item) + "</li>").join("") + "</" + tag + ">");
+      listType = null;
+      listItems = [];
+    };
+    const flushCode = () => {
+      if (codeLines === null) return;
+      output.push("<pre><code>" + escapeHtml(codeLines.join("\n")) + "</code></pre>");
+      codeLines = null;
+    };
+    const flushBlocks = () => { flushParagraph(); flushList(); };
+
+    for (const line of lines) {
+      if (/^\s*```/.test(line)) {
+        flushBlocks();
+        if (codeLines === null) codeLines = [];
+        else flushCode();
+        continue;
+      }
+      if (codeLines !== null) {
+        codeLines.push(line);
+        continue;
+      }
+      if (!line.trim()) {
+        flushBlocks();
+        continue;
+      }
+      const heading = line.match(/^\s{0,3}(#{1,6})\s+(.+?)\s*#*\s*$/);
+      if (heading) {
+        flushBlocks();
+        const level = Math.min(heading[1].length, 6);
+        output.push("<h" + level + ">" + inlineMarkdown(heading[2]) + "</h" + level + ">");
+        continue;
+      }
+      const unordered = line.match(/^\s*[-*+]\s+(.+)$/);
+      const ordered = line.match(/^\s*\d+[.)]\s+(.+)$/);
+      if (unordered || ordered) {
+        flushParagraph();
+        const nextType = ordered ? "ol" : "ul";
+        if (listType && listType !== nextType) flushList();
+        listType = nextType;
+        listItems.push((unordered || ordered)[1]);
+        continue;
+      }
+      const quote = line.match(/^\s*>\s?(.*)$/);
+      if (quote) {
+        flushBlocks();
+        output.push("<blockquote>" + inlineMarkdown(quote[1]) + "</blockquote>");
+        continue;
+      }
+      if (/^\s{0,3}([-*_])(?:\s*\1){2,}\s*$/.test(line)) {
+        flushBlocks();
+        output.push("<hr>");
+        continue;
+      }
+      paragraph.push(line);
+    }
+    flushBlocks();
+    flushCode();
+    return output.join("");
+  };
+
+  const looksLikeMarkdown = (text) => /(^|\n)\s*(#{1,6}\s|[-*+]\s+|\d+[.)]\s+|>\s|```)|!\[[^\]]*\]\(|\[[^\]]+\]\([^)]*\)/m.test(text);
+
+  const insertHtmlAtCaret = (html) => {
+    editor.focus();
+    const selection = window.getSelection();
+    const range = savedRange || (selection && selection.rangeCount ? selection.getRangeAt(0) : null);
+    if (!range) {
+      editor.insertAdjacentHTML("beforeend", html);
+      return;
+    }
+    range.deleteContents();
+    const template = document.createElement("template");
+    template.innerHTML = html;
+    const fragment = template.content;
+    const lastNode = fragment.lastChild;
+    range.insertNode(fragment);
+    if (lastNode) {
+      range.setStartAfter(lastNode);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      savedRange = range.cloneRange();
+    }
+  };
+
+  editor.addEventListener("paste", async (event) => {
+    const files = Array.from(event.clipboardData?.files || []).filter((file) => String(file.type || "").startsWith("image/"));
+    if (files.length) {
+      event.preventDefault();
+      for (const file of files) await uploadImage(file, file.name.replace(/\.[^.]+$/, ""));
+      return;
+    }
+    const text = event.clipboardData?.getData("text/plain") || "";
+    const html = event.clipboardData?.getData("text/html") || "";
+    if (text && !html && looksLikeMarkdown(text)) {
+      event.preventDefault();
+      insertHtmlAtCaret(markdownToHtml(text));
+      updatePreview();
+      saveLocalDraft();
+    }
+  });
+
+  editor.addEventListener("dragover", (event) => {
+    if (Array.from(event.dataTransfer?.items || []).some((item) => item.kind === "file" && item.type.startsWith("image/"))) {
+      event.preventDefault();
+      editor.classList.add("drop-ready");
+    }
+  });
+  editor.addEventListener("dragleave", () => editor.classList.remove("drop-ready"));
+  editor.addEventListener("drop", async (event) => {
+    const files = Array.from(event.dataTransfer?.files || []).filter((file) => String(file.type || "").startsWith("image/"));
+    editor.classList.remove("drop-ready");
+    if (!files.length) return;
+    event.preventDefault();
+    for (const file of files) await uploadImage(file, file.name.replace(/\.[^.]+$/, ""));
   });
 
   const formulaDialog = document.querySelector("#formula-dialog");

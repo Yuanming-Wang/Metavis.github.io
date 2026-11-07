@@ -98,7 +98,7 @@ button { color: inherit; }
 #menu a:hover, #menu a.active { color: var(--brown-deep); }
 #menu a:hover::after, #menu a.active::after { transform: scaleX(1); transform-origin: left; }
 
-.main { width: min(calc(100% - 48px), var(--content-width)); margin: 0 auto; }
+.main { width: min(calc(100% - 48px), var(--content-width)) !important; max-width: var(--content-width) !important; margin: 0 auto !important; padding-right: 0 !important; padding-left: 0 !important; }
 .metavis-home { padding: 0 0 110px; }
 .hero {
   display: grid;
@@ -423,7 +423,7 @@ button { color: inherit; }
   .hero h1 em { display: block; }
 }
 @media (max-width: 680px) {
-  .nav, .main { width: min(calc(100% - 32px), var(--content-width)); }
+  .nav, .main { width: min(calc(100% - 32px), var(--content-width)) !important; max-width: var(--content-width) !important; }
   .nav { min-height: 64px; align-items: flex-start; padding: 18px 0; }
   #menu { flex-wrap: wrap; justify-content: flex-end; gap: 8px 14px; }
   #menu a { font-size: .74rem; }

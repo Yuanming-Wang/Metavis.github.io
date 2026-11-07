@@ -328,6 +328,7 @@
       date: dateField.value,
       description: descriptionField.value,
       tags: tagsField.value,
+      researchArea: researchAreaField.value,
       html: editor.innerHTML,
       savedAt: new Date().toISOString()
     }));
@@ -349,6 +350,7 @@
     dateField.value = draft.date || today;
     descriptionField.value = draft.description || "";
     tagsField.value = draft.tags || "";
+    researchAreaField.value = draft.researchArea || researchAreaField.value || "";
     editor.innerHTML = draft.html || "";
     document.querySelector("#restore-draft").hidden = true;
     updatePreview();

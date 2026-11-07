@@ -14,8 +14,11 @@ function base64UrlDecode(value) {
 }
 
 function base64Encode(bytes) {
+  const chunkSize = 0x8000;
   let binary = "";
-  for (let i = 0; i < bytes.length; i += 1) binary += String.fromCharCode(bytes[i]);
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+  }
   return btoa(binary);
 }
 
@@ -145,7 +148,7 @@ async function saveAsset(request, env) {
 
   const formData = await request.formData();
   const file = formData.get("file");
-  if (!(file instanceof File) || !file.size) {
+  if (!file || typeof file.arrayBuffer !== "function" || !file.size) {
     return json({error: "请选择要上传的图片。"}, 400, env);
   }
   if (!String(file.type || "").startsWith("image/")) {
@@ -176,12 +179,22 @@ async function saveAsset(request, env) {
   });
 
   if (!uploadResponse.ok) {
-    return json({error: "图片上传失败，请检查 GitHub 权限。"}, 502, env);
+    let detail = "";
+    try {
+      const errorData = await uploadResponse.json();
+      detail = String(errorData.message || errorData.error || "").trim();
+    } catch {}
+    return json({
+      error: detail
+        ? "图片上传失败：" + detail
+        : "图片上传失败，请检查 GitHub 权限。"
+    }, 502, env);
   }
 
+  const basePath = String(env.SITE_BASE_PATH || "").replace(/\/+$/, "");
   return json({
     path,
-    url: env.SITE_ORIGIN + (env.SITE_BASE_PATH || "") + "/uploads/" + filename
+    url: String(env.SITE_ORIGIN || "").replace(/\/+$/, "") + basePath + "/uploads/" + filename
   }, 201, env);
 }
 

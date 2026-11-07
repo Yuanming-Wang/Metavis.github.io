@@ -58,21 +58,16 @@ buildFuture = true
   weight = 10
 
 [[menu.main]]
-  name = '研究'
-  url = '/research/'
-  weight = 20
-
-[[menu.main]]
   name = '文章'
   url = '/posts/'
-  weight = 30
+  weight = 20
 
 [[menu.main]]
   name = '归档'
   url = '/archives/'
-  weight = 40
+  weight = 30
 
 [[menu.main]]
   name = '写作台'
   url = '/admin/'
-  weight = 50
+  weight = 40

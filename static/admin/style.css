@@ -77,7 +77,6 @@ button { -webkit-tap-highlight-color: transparent; }
   font-weight: 800;
   letter-spacing: -0.03em;
 }
-.brand-mark { color: var(--accent); font-size: 1.22rem; }
 .topbar-divider { width: 1px; height: 20px; background: var(--border-strong); }
 .workspace-name, .connection-state, .eyebrow, .section-label, .card-index {
   font-family: "DM Mono", ui-monospace, monospace;
@@ -332,7 +331,7 @@ body::before {
 
 .topbar { border-bottom-color: var(--border); }
 .brand { color: var(--text); }
-.brand-mark, .workspace-name, .session-label { color: var(--accent); }
+.workspace-name, .session-label { color: var(--accent); }
 .topbar-divider { background: var(--border-strong); }
 .workspace-name, .connection-state { color: var(--muted); }
 .status-dot { background: var(--success); box-shadow: 0 0 12px rgba(98, 131, 92, 0.45); }
@@ -509,7 +508,6 @@ body {
 .admin-frame { width: min(100% - 48px, 1180px); }
 .topbar { min-height: 72px; }
 .brand { font-family: Georgia, "Times New Roman", "Noto Serif SC", serif; font-size: 1.28rem; font-weight: 500; }
-.brand-mark { display: grid; place-items: center; width: 27px; height: 27px; border: 1px solid var(--accent); border-radius: 50%; font-size: .7rem; }
 .panel, .workspace-panel, .login-card { border-radius: 4px; box-shadow: 0 20px 60px rgba(91, 66, 43, .08); }
 .workspace-panel { padding: clamp(24px, 4vw, 46px); }
 .workspace-heading h1, .login-copy h1, h1, h2 { font-family: Georgia, "Times New Roman", "Noto Serif SC", serif; font-weight: 500; }

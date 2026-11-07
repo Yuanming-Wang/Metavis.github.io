@@ -76,6 +76,8 @@
     </div>
 
     <div class="research-writing-tracks">
+      {{ $posts := where site.RegularPages "Section" "posts" }}
+
       <section id="writing-efficient" class="research-writing-track">
         <div class="research-track-heading">
           <span class="research-track-index">01</span>
@@ -83,13 +85,28 @@
             <span class="research-track-kicker">COMPUTE / ARCHITECTURE</span>
             <h3>高效模型架构与推理优化</h3>
           </div>
-          <a class="research-track-cta" href="{{ "admin/" | relURL }}">开始写作&nbsp;→</a>
+          <a class="research-track-cta" href="{{ "admin/?topic=efficient-inference" | relURL }}">开始写作&nbsp;→</a>
         </div>
         <p>记录 KV Cache、Attention、稀疏计算、量化、推理系统与算法—系统协同。</p>
-        <div class="research-track-empty">
-          <strong>还没有这个方向的文章</strong>
-          <span>从一个推理优化问题开始，写下第一篇研究记录。</span>
-          <a href="{{ "admin/" | relURL }}">进入写作台</a>
+        {{ $found := false }}
+        <div class="research-track-posts">
+          {{ range $posts.ByDate.Reverse }}
+            {{ if in .Params.tags "efficient-inference" }}
+              {{ $found = true }}
+              <a class="research-track-post" href="{{ .RelPermalink }}">
+                <span>{{ .Date.Format "2006-01-02" }}</span>
+                <strong>{{ .Title }}</strong>
+                {{ with .Description }}<small>{{ . }}</small>{{ end }}
+              </a>
+            {{ end }}
+          {{ end }}
+          {{ if not $found }}
+            <div class="research-track-empty">
+              <strong>还没有这个方向的文章</strong>
+              <span>从一个推理优化问题开始，写下第一篇研究记录。</span>
+              <a href="{{ "admin/?topic=efficient-inference" | relURL }}">进入写作台</a>
+            </div>
+          {{ end }}
         </div>
       </section>
 
@@ -100,13 +117,28 @@
             <span class="research-track-kicker">STATE / LEARNING</span>
             <h3>神经记忆与持续学习</h3>
           </div>
-          <a class="research-track-cta" href="{{ "admin/" | relURL }}">开始写作&nbsp;→</a>
+          <a class="research-track-cta" href="{{ "admin/?topic=memory-continual-learning" | relURL }}">开始写作&nbsp;→</a>
         </div>
         <p>记录 Neural Memory、State Representation、State Update、Continual Learning 与 Test-Time Learning。</p>
-        <div class="research-track-empty">
-          <strong>还没有这个方向的文章</strong>
-          <span>从一次记忆实验、论文推导或状态更新问题开始。</span>
-          <a href="{{ "admin/" | relURL }}">进入写作台</a>
+        {{ $found := false }}
+        <div class="research-track-posts">
+          {{ range $posts.ByDate.Reverse }}
+            {{ if in .Params.tags "memory-continual-learning" }}
+              {{ $found = true }}
+              <a class="research-track-post" href="{{ .RelPermalink }}">
+                <span>{{ .Date.Format "2006-01-02" }}</span>
+                <strong>{{ .Title }}</strong>
+                {{ with .Description }}<small>{{ . }}</small>{{ end }}
+              </a>
+            {{ end }}
+          {{ end }}
+          {{ if not $found }}
+            <div class="research-track-empty">
+              <strong>还没有这个方向的文章</strong>
+              <span>从一次记忆实验、论文推导或状态更新问题开始。</span>
+              <a href="{{ "admin/?topic=memory-continual-learning" | relURL }}">进入写作台</a>
+            </div>
+          {{ end }}
         </div>
       </section>
 
@@ -117,13 +149,28 @@
             <span class="research-track-kicker">MECHANISM / EMBODIMENT</span>
             <h3>机制可解释性与具身智能</h3>
           </div>
-          <a class="research-track-cta" href="{{ "admin/" | relURL }}">开始写作&nbsp;→</a>
+          <a class="research-track-cta" href="{{ "admin/?topic=interpretability-embodiment" | relURL }}">开始写作&nbsp;→</a>
         </div>
         <p>记录 Transformer 内部机制、计算回路、身体、感知、行动与真实环境闭环。</p>
-        <div class="research-track-empty">
-          <strong>还没有这个方向的文章</strong>
-          <span>从一次机制分析或具身智能实验开始，建立长期研究记录。</span>
-          <a href="{{ "admin/" | relURL }}">进入写作台</a>
+        {{ $found := false }}
+        <div class="research-track-posts">
+          {{ range $posts.ByDate.Reverse }}
+            {{ if in .Params.tags "interpretability-embodiment" }}
+              {{ $found = true }}
+              <a class="research-track-post" href="{{ .RelPermalink }}">
+                <span>{{ .Date.Format "2006-01-02" }}</span>
+                <strong>{{ .Title }}</strong>
+                {{ with .Description }}<small>{{ . }}</small>{{ end }}
+              </a>
+            {{ end }}
+          {{ end }}
+          {{ if not $found }}
+            <div class="research-track-empty">
+              <strong>还没有这个方向的文章</strong>
+              <span>从一次机制分析或具身智能实验开始，建立长期研究记录。</span>
+              <a href="{{ "admin/?topic=interpretability-embodiment" | relURL }}">进入写作台</a>
+            </div>
+          {{ end }}
         </div>
       </section>
     </div>

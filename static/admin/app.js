@@ -13,7 +13,6 @@
   const dateField = document.querySelector("#date");
   const descriptionField = document.querySelector("#description");
   const tagsField = document.querySelector("#tags");
-  const researchAreaField = document.querySelector("#research-area");
   const imageFile = document.querySelector("#image-file");
   const loginButtons = [
     document.querySelector("#login-button"),
@@ -58,11 +57,6 @@
     const token = sessionToken();
     return token ? {Authorization: "Bearer " + token} : {};
   };
-
-  const topicFromUrl = new URLSearchParams(window.location.search).get("topic");
-  if (topicFromUrl && researchAreaField && Array.from(researchAreaField.options).some((option) => option.value === topicFromUrl)) {
-    researchAreaField.value = topicFromUrl;
-  }
 
   dateField.value = today;
 
@@ -198,8 +192,12 @@
       setMessage("发布接口还没有配置。", "error");
       return false;
     }
+    if (!file || !String(file.type || "").startsWith("image/")) {
+      setMessage("请选择有效的图片文件。", "error");
+      return false;
+    }
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", file, file.name || "image");
     setMessage("正在上传图片……");
     try {
       const response = await fetch(apiBase + "/api/assets", {
@@ -209,8 +207,18 @@
         headers: authHeaders(),
         body: formData
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "图片上传失败");
+      const contentType = response.headers.get("content-type") || "";
+      let data = {};
+      if (contentType.includes("application/json")) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        if (text) data.error = text;
+      }
+      if (!response.ok) {
+        throw new Error(data.error || ("图片上传失败（" + response.status + "）"));
+      }
+      if (!data.url) throw new Error("图片上传接口没有返回图片地址。");
       const alt = altOverride === null
         ? (window.prompt("图片说明（可选）", "") || "")
         : altOverride;
@@ -229,7 +237,7 @@
     }
   };
 
-  document.querySelector("#image-button").addEventListener("click", () => imageFile?.click());
+  document.querySelector("#image-button").addEventListener("click", () => { rememberSelection(); imageFile?.click(); });
   document.querySelector("#image-url-button").addEventListener("click", insertImageUrl);
   imageFile?.addEventListener("change", async () => {
     const file = imageFile.files && imageFile.files[0];
@@ -526,7 +534,6 @@
       date: dateField.value,
       description: descriptionField.value,
       tags: tagsField.value,
-      researchArea: researchAreaField.value,
       html: editor.innerHTML,
       savedAt: new Date().toISOString()
     }));
@@ -548,7 +555,6 @@
     dateField.value = draft.date || today;
     descriptionField.value = draft.description || "";
     tagsField.value = draft.tags || "";
-    researchAreaField.value = draft.researchArea || researchAreaField.value || "";
     editor.innerHTML = draft.html || "";
     document.querySelector("#restore-draft").hidden = true;
     updatePreview();
@@ -567,7 +573,7 @@
     window.clearTimeout(editor._draftTimer);
     editor._draftTimer = window.setTimeout(saveLocalDraft, 350);
   });
-  [titleField, slugField, dateField, descriptionField, tagsField, researchAreaField].forEach((field) => {
+  [titleField, slugField, dateField, descriptionField, tagsField].forEach((field) => {
     field.addEventListener("input", () => {
       updatePreview();
       window.clearTimeout(field._draftTimer);
@@ -580,18 +586,33 @@
     message.className = "form-message" + (kind ? " " + kind : "");
   };
 
+  const inferResearchTags = (source) => {
+    const normalized = String(source || "").toLowerCase();
+    const axes = [
+      {
+        slug: "efficient-inference",
+        keywords: ["推理", "attention", "kv cache", "kv-cache", "量化", "稀疏", "模型架构", "inference", "serving"]
+      },
+      {
+        slug: "memory-continual-learning",
+        keywords: ["记忆", "持续学习", "test-time", "ttt", "fast weight", "memory", "continual", "记忆库"]
+      },
+      {
+        slug: "interpretability-embodiment",
+        keywords: ["可解释", "具身", "身体", "环境反馈", "interpretability", "embodiment", "agent"]
+      }
+    ];
+    return axes
+      .filter((axis) => axis.keywords.some((keyword) => normalized.includes(keyword)))
+      .map((axis) => axis.slug);
+  };
+
   const savePost = async (draft) => {
     updatePreview();
     const title = titleField.value.trim();
     const body = bodyField.value.trim();
-    const researchArea = researchAreaField.value;
     if (!title || !body) {
       setMessage("先填写标题和正文。", "error");
-      return;
-    }
-    if (!researchArea) {
-      setMessage("请选择一个研究方向。", "error");
-      researchAreaField.focus();
       return;
     }
     if (!apiBase) {
@@ -605,10 +626,9 @@
       date: dateField.value || today,
       description: descriptionField.value.trim(),
       tags: Array.from(new Set([
-        researchArea,
-        ...tagsField.value.split(",").map((tag) => tag.trim()).filter(Boolean)
+        ...tagsField.value.split(",").map((tag) => tag.trim()).filter(Boolean),
+        ...inferResearchTags([title, descriptionField.value, tagsField.value, body].join("\n"))
       ])),
-      research_area: researchArea,
       body,
       draft
     };

@@ -499,6 +499,31 @@ select {
   cursor: pointer;
 }
 
+/* Editorial research-console finish: the writing surface follows the public blog. */
+body {
+  background:
+    radial-gradient(circle at 10% -6%, rgba(214, 191, 163, 0.22), transparent 30rem),
+    radial-gradient(circle at 88% 0%, rgba(238, 218, 193, 0.16), transparent 26rem),
+    var(--bg);
+}
+.admin-frame { width: min(100% - 48px, 1180px); }
+.topbar { min-height: 72px; }
+.brand { font-family: Georgia, "Times New Roman", "Noto Serif SC", serif; font-size: 1.28rem; font-weight: 500; }
+.brand-mark { display: grid; place-items: center; width: 27px; height: 27px; border: 1px solid var(--accent); border-radius: 50%; font-size: .7rem; }
+.panel, .workspace-panel, .login-card { border-radius: 4px; box-shadow: 0 20px 60px rgba(91, 66, 43, .08); }
+.workspace-panel { padding: clamp(24px, 4vw, 46px); }
+.workspace-heading h1, .login-copy h1, h1, h2 { font-family: Georgia, "Times New Roman", "Noto Serif SC", serif; font-weight: 500; }
+.workspace-heading h1 { letter-spacing: -.06em; }
+.metadata-grid { gap: 18px; }
+.writing-column, .preview-column { border-radius: 4px; }
+.toolbar { background: var(--panel); }
+.tool-button { border-radius: 3px; }
+.rich-editor, .article-preview { font-family: Georgia, "Times New Roman", "Noto Serif SC", serif; }
+.rich-editor { min-height: 500px; font-size: 1.05rem; line-height: 2; }
+.article-preview { font-size: 1.02rem; line-height: 1.95; }
+.workspace-footer { margin-top: 28px; }
+.button { border-radius: 3px; }
+
 select:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px rgba(165, 111, 69, 0.12);

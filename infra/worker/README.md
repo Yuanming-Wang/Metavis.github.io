@@ -25,4 +25,8 @@
 不要把这两个值提交到 GitHub。
 6. 把部署后得到的 Worker 地址写入 static/admin/config.js 的 apiBase，再提交一次。
 
+图片上传
+
+写作台的“上传图片”会把图片写入 `static/uploads/`，文章中使用对应的 `/Metavis.github.io/uploads/...` 地址。`SITE_BASE_PATH` 必须保持为 `/Metavis.github.io`，否则 GitHub Pages 项目站点的图片地址会缺少仓库前缀。
+
 GitHub OAuth 的 client secret 和会话密钥只放在 Worker Secret 中，不能放进静态网页。部署时请使用 HTTPS。

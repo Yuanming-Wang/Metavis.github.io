@@ -1,5 +1,3 @@
-{{- $posts := where site.RegularPages "Section" "posts" -}}
-{{- $posts = $posts.ByDate.Reverse -}}
 <main class="main metavis-home">
   <section class="hero" aria-labelledby="home-title">
     <div class="hero-copy">
@@ -9,7 +7,6 @@
       <div class="hero-actions">
         <a class="text-link primary" href="#research">浏览研究方向 <span>↓</span></a>
         <a class="text-link" href="{{ "posts/" | relURL }}">阅读研究文章 <span>→</span></a>
-        <a class="text-link" href="{{ "admin/" | relURL }}">进入写作台 <span>↗</span></a>
       </div>
     </div>
     <aside class="hero-aside" aria-label="研究说明">
@@ -28,92 +25,29 @@
       <p>从计算效率、内部状态和真实世界闭环三个层次，寻找下一代智能系统的结构。</p>
     </div>
     <div class="research-grid">
-      <a class="research-card" href="#writing-efficient">
+      <article class="research-card">
         <span class="research-card-number">01</span>
         <h3>高效模型架构<br>与推理优化</h3>
         <p>从 KV Cache、Attention、稀疏计算和量化切入，研究内存、带宽、时延与能耗如何塑造模型。</p>
-        <div class="research-card-footer"><span>COMPUTE / ARCHITECTURE</span><b>→</b></div>
-      </a>
-      <a class="research-card" href="#writing-memory">
+        <div class="research-card-footer"><span>COMPUTE / ARCHITECTURE</span><a href="{{ "posts/" | relURL }}">文章 →</a></div>
+      </article>
+      <article class="research-card">
         <span class="research-card-number">02</span>
         <h3>神经记忆<br>与持续学习</h3>
         <p>研究信息如何写入、保留、检索与更新，让模型在长期运行中形成稳定的内部状态。</p>
-        <div class="research-card-footer"><span>STATE / LEARNING</span><b>→</b></div>
-      </a>
-      <a class="research-card" href="#writing-embodied">
+        <div class="research-card-footer"><span>STATE / LEARNING</span><a href="{{ "posts/" | relURL }}">文章 →</a></div>
+      </article>
+      <article class="research-card">
         <span class="research-card-number">03</span>
         <h3>机制可解释性<br>与具身智能</h3>
         <p>理解模型内部的计算回路，并研究身体、感知、行动和环境反馈如何形成智能闭环。</p>
-        <div class="research-card-footer"><span>MECHANISM / EMBODIMENT</span><b>→</b></div>
-      </a>
-    </div>
-  </section>
-
-  <section id="writing" class="home-section writing-zone" aria-labelledby="writing-title">
-    <div class="section-heading">
-      <div><span class="section-label">02 / RESEARCH WRITING</span><h2 id="writing-title">每个方向，都有自己的写作区</h2></div>
-      <p>文章会按照研究方向归档。你可以从一个问题、一次推导或一组实验开始，持续积累自己的研究线索。</p>
-    </div>
-
-    <div class="writing-areas">
-      <section id="writing-efficient" class="writing-area">
-        <div class="writing-area-head">
-          <span class="writing-area-index">01</span>
-          <div class="writing-area-title"><span class="writing-area-kicker">COMPUTE / ARCHITECTURE</span><h3>高效模型架构与推理优化</h3><p>KV Cache、Attention、稀疏计算、量化与算法—系统协同。</p></div>
-          <a class="writing-area-action" href="{{ "admin/?topic=efficient-inference" | relURL }}">开始写作 <span>→</span></a>
-        </div>
-        <div class="writing-area-posts">
-          {{ $found := false }}
-          {{ range $posts }}
-            {{ if in .Params.tags "efficient-inference" }}
-              {{ $found = true }}
-              <a class="writing-post" href="{{ .RelPermalink }}"><span class="writing-post-date">{{ .Date.Format "2006-01-02" }}</span><div><strong>{{ .Title }}</strong>{{ with .Description }}<small>{{ . }}</small>{{ end }}</div><span class="writing-post-arrow">→</span></a>
-            {{ end }}
-          {{ end }}
-          {{ if not $found }}<div class="writing-empty"><span>还没有这个方向的公开文章</span><a href="{{ "admin/?topic=efficient-inference" | relURL }}">写下第一篇 <span>→</span></a></div>{{ end }}
-        </div>
-      </section>
-
-      <section id="writing-memory" class="writing-area">
-        <div class="writing-area-head">
-          <span class="writing-area-index">02</span>
-          <div class="writing-area-title"><span class="writing-area-kicker">STATE / LEARNING</span><h3>神经记忆与持续学习</h3><p>记忆写入、检索、巩固、状态更新与 Test-Time Learning。</p></div>
-          <a class="writing-area-action" href="{{ "admin/?topic=memory-continual-learning" | relURL }}">开始写作 <span>→</span></a>
-        </div>
-        <div class="writing-area-posts">
-          {{ $found := false }}
-          {{ range $posts }}
-            {{ if in .Params.tags "memory-continual-learning" }}
-              {{ $found = true }}
-              <a class="writing-post" href="{{ .RelPermalink }}"><span class="writing-post-date">{{ .Date.Format "2006-01-02" }}</span><div><strong>{{ .Title }}</strong>{{ with .Description }}<small>{{ . }}</small>{{ end }}</div><span class="writing-post-arrow">→</span></a>
-            {{ end }}
-          {{ end }}
-          {{ if not $found }}<div class="writing-empty"><span>还没有这个方向的公开文章</span><a href="{{ "admin/?topic=memory-continual-learning" | relURL }}">写下第一篇 <span>→</span></a></div>{{ end }}
-        </div>
-      </section>
-
-      <section id="writing-embodied" class="writing-area">
-        <div class="writing-area-head">
-          <span class="writing-area-index">03</span>
-          <div class="writing-area-title"><span class="writing-area-kicker">MECHANISM / EMBODIMENT</span><h3>机制可解释性与具身智能</h3><p>内部计算回路、身体、感知、行动与环境反馈。</p></div>
-          <a class="writing-area-action" href="{{ "admin/?topic=interpretability-embodiment" | relURL }}">开始写作 <span>→</span></a>
-        </div>
-        <div class="writing-area-posts">
-          {{ $found := false }}
-          {{ range $posts }}
-            {{ if in .Params.tags "interpretability-embodiment" }}
-              {{ $found = true }}
-              <a class="writing-post" href="{{ .RelPermalink }}"><span class="writing-post-date">{{ .Date.Format "2006-01-02" }}</span><div><strong>{{ .Title }}</strong>{{ with .Description }}<small>{{ . }}</small>{{ end }}</div><span class="writing-post-arrow">→</span></a>
-            {{ end }}
-          {{ end }}
-          {{ if not $found }}<div class="writing-empty"><span>还没有这个方向的公开文章</span><a href="{{ "admin/?topic=interpretability-embodiment" | relURL }}">写下第一篇 <span>→</span></a></div>{{ end }}
-        </div>
-      </section>
+        <div class="research-card-footer"><span>MECHANISM / EMBODIMENT</span><a href="{{ "posts/" | relURL }}">文章 →</a></div>
+      </article>
     </div>
   </section>
 
   <section class="home-section home-statement" aria-label="研究宣言">
-    <span class="statement-label">03 / POSITION</span>
+    <span class="statement-label">02 / POSITION</span>
     <p class="statement-copy">研究不是把模型从环境里抽象出来，而是理解资源、内部状态、身体与环境反馈如何共同塑造智能。</p>
   </section>
 </main>

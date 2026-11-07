@@ -42,6 +42,17 @@ const setCurrentMenuItem = (): void => {
   });
 };
 
+const wireResearchHover = (): void => {
+  const cards = Array.from(document.querySelectorAll<HTMLElement>(".research-card"));
+  cards.forEach((card) => {
+    card.addEventListener("pointermove", (event) => {
+      const bounds = card.getBoundingClientRect();
+      card.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
+      card.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
+    });
+  });
+};
+
 const markSiteReady = (): void => {
   document.documentElement.dataset.siteReady = "true";
 };
@@ -52,6 +63,7 @@ const boot = (): void => {
   void sectionNames;
   revealSections();
   setCurrentMenuItem();
+  wireResearchHover();
   syncResearchHash();
   window.addEventListener("hashchange", syncResearchHash);
   markSiteReady();

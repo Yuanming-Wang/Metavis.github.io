@@ -15,7 +15,6 @@
   const tagsField = document.querySelector("#tags");
   const imageFile = document.querySelector("#image-file");
   const loginButtons = [
-    document.querySelector("#login-button"),
     document.querySelector("#login-button-secondary")
   ].filter(Boolean);
   const logoutButton = document.querySelector("#logout-button");
@@ -63,7 +62,7 @@
   const showLoggedOut = () => {
     loginPanel.hidden = false;
     editorForm.hidden = true;
-    loginButton.hidden = false;
+    if (loginButton) loginButton.hidden = false;
     logoutButton.hidden = true;
     sessionLabel.textContent = "";
   };
@@ -71,7 +70,7 @@
   const showLoggedIn = (login) => {
     loginPanel.hidden = true;
     editorForm.hidden = false;
-    loginButton.hidden = true;
+    if (loginButton) loginButton.hidden = true;
     logoutButton.hidden = false;
     sessionLabel.textContent = login ? "已登录：" + login : "已登录";
     updatePreview();
@@ -96,7 +95,7 @@
 
   if (!apiBase || apiBase.includes("YOUR-METAVIS-WORKER")) {
     setupPanel.hidden = false;
-    loginButton.hidden = true;
+    if (loginButton) loginButton.hidden = true;
   } else {
     fetch(apiBase + "/api/session", {
       credentials: "include",

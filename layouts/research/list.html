@@ -45,5 +45,63 @@
       </div>
     </article>
   </div>
+
+  <section class="research-writing-zone" aria-labelledby="research-writing-title">
+    <div class="research-writing-head">
+      <div>
+        <span class="writing-zone-kicker">RESEARCH WRITING / 02</span>
+        <h2 id="research-writing-title">把研究方向写成文章</h2>
+        <p>从一个问题、一段推导或一次实验开始，持续积累你的研究记录。</p>
+      </div>
+      <a class="research-write-cta" href="{{ "admin/" | relURL }}">进入写作台 <span>→</span></a>
+    </div>
+
+    <div class="research-writing-grid">
+      <div class="research-topic-grid" aria-label="研究文章方向">
+        <a class="research-topic-card" href="#1-高效模型架构与推理优化">
+          <span>01</span>
+          <strong>高效模型架构与推理优化</strong>
+          <small>KV Cache · Attention · Inference</small>
+        </a>
+        <a class="research-topic-card" href="#2-神经记忆与持续学习">
+          <span>02</span>
+          <strong>神经记忆与持续学习</strong>
+          <small>Memory · State · Adaptation</small>
+        </a>
+        <a class="research-topic-card" href="#3-机制可解释性与具身智能">
+          <span>03</span>
+          <strong>机制可解释性与具身智能</strong>
+          <small>Mechanism · Embodiment · AGI</small>
+        </a>
+      </div>
+
+      <div class="research-notes-panel">
+        <div class="research-notes-panel-head">
+          <span>PUBLIC NOTES</span>
+          <a href="{{ "posts/" | relURL }}">查看全部 →</a>
+        </div>
+        {{ $posts := where site.RegularPages "Section" "posts" }}
+        {{ $posts = $posts.ByDate.Reverse }}
+        {{ if gt (len $posts) 0 }}
+          <div class="research-note-list">
+            {{ range first 4 $posts }}
+              <a class="research-note-entry" href="{{ .RelPermalink }}">
+                <span>{{ .Date.Format "2006-01-02" }}</span>
+                <strong>{{ .Title }}</strong>
+                {{ with .Description }}<small>{{ . }}</small>{{ end }}
+              </a>
+            {{ end }}
+          </div>
+        {{ else }}
+          <div class="research-writing-empty">
+            <span class="empty-mark">◌</span>
+            <strong>还没有公开研究文章</strong>
+            <p>你的第一篇文章可以从一个具体问题开始。</p>
+            <a href="{{ "admin/" | relURL }}">开始写作 →</a>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
 </main>
 {{- end }}

@@ -14,6 +14,7 @@
   const descriptionField = document.querySelector("#description");
   const tagsField = document.querySelector("#tags");
   const researchAreaField = document.querySelector("#research-area");
+  const imageFile = document.querySelector("#image-file");
   const loginButtons = [
     document.querySelector("#login-button"),
     document.querySelector("#login-button-secondary")
@@ -179,7 +180,7 @@
     if (url) runCommand("createLink", url.trim());
   });
 
-  document.querySelector("#image-button").addEventListener("click", () => {
+  const insertImageUrl = () => {
     const url = window.prompt("输入图片地址", "https://");
     if (!url) return;
     const alt = window.prompt("图片说明（可选）", "") || "";
@@ -190,6 +191,46 @@
     insertNodeAtCaret(image);
     updatePreview();
     saveLocalDraft();
+  };
+
+  const uploadImage = async (file) => {
+    if (!apiBase) {
+      setMessage("发布接口还没有配置。", "error");
+      return;
+    }
+    const formData = new FormData();
+    formData.append("file", file);
+    setMessage("正在上传图片……");
+    try {
+      const response = await fetch(apiBase + "/api/assets", {
+        method: "POST",
+        credentials: "include",
+        mode: "cors",
+        headers: authHeaders(),
+        body: formData
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "图片上传失败");
+      const alt = window.prompt("图片说明（可选）", "") || "";
+      const image = document.createElement("img");
+      image.src = data.url;
+      image.alt = alt;
+      image.loading = "lazy";
+      insertNodeAtCaret(image);
+      updatePreview();
+      saveLocalDraft();
+      setMessage("图片已插入正文。", "success");
+    } catch (error) {
+      setMessage(error.message || "图片上传失败", "error");
+    }
+  };
+
+  document.querySelector("#image-button").addEventListener("click", () => imageFile?.click());
+  document.querySelector("#image-url-button").addEventListener("click", insertImageUrl);
+  imageFile?.addEventListener("change", async () => {
+    const file = imageFile.files && imageFile.files[0];
+    if (file) await uploadImage(file);
+    imageFile.value = "";
   });
 
   const formulaDialog = document.querySelector("#formula-dialog");

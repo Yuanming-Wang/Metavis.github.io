@@ -5,6 +5,7 @@ workers_dev = true
 
 [vars]
 SITE_ORIGIN = "https://yuanming-wang.github.io"
+SITE_BASE_PATH = "/Metavis.github.io"
 SITE_ADMIN_URL = "https://yuanming-wang.github.io/Metavis.github.io/admin/"
 GITHUB_CLIENT_ID = "Ov23liX2KSwrxunfAA9m"
 REPO_OWNER = "Yuanming-Wang"

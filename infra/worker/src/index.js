@@ -141,7 +141,7 @@ function safeAssetName(value) {
 
 async function saveAsset(request, env) {
   const session = await currentSession(request, env);
-  if (!session) return json({error: "请先登录 GitHub。"}, 401, env);
+  if (!session || session.login !== env.ADMIN_LOGIN) return json({error: "只有指定 GitHub 账号可以写作。"}, 401, env);
 
   const formData = await request.formData();
   const file = formData.get("file");
@@ -181,7 +181,7 @@ async function saveAsset(request, env) {
 
   return json({
     path,
-    url: env.SITE_ORIGIN + "/uploads/" + filename
+    url: env.SITE_ORIGIN + (env.SITE_BASE_PATH || "") + "/uploads/" + filename
   }, 201, env);
 }
 
@@ -287,7 +287,7 @@ async function authCallback(request, env) {
 
 async function savePost(request, env) {
   const session = await currentSession(request, env);
-  if (!session) return json({error: "请先登录 GitHub。"}, 401, env);
+  if (!session || session.login !== env.ADMIN_LOGIN) return json({error: "只有指定 GitHub 账号可以写作。"}, 401, env);
 
   const payload = await request.json();
   const title = String(payload.title || "").trim();

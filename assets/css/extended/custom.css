@@ -1862,3 +1862,115 @@ body {
 .metavis-about .research-content .post-content > h2:first-child {
   margin-top: 0;
 }
+
+
+/* Separate writing zones for the three research directions */
+.research-writing-tracks {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1.2rem;
+}
+
+.research-writing-track {
+  scroll-margin-top: 5rem;
+  border: 1px solid #e1d1bd;
+  border-radius: 15px;
+  background: rgba(255, 250, 243, 0.78);
+  padding: 1.15rem 1.2rem 1.25rem;
+}
+
+.research-track-heading {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+}
+
+.research-track-index {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border: 1px solid #cdb49b;
+  border-radius: 50%;
+  color: #7d4e2e;
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 0.68rem;
+}
+
+.research-track-kicker {
+  color: var(--accent);
+  font-family: "DM Mono", ui-monospace, monospace;
+  font-size: 0.59rem;
+  letter-spacing: 0.12em;
+}
+
+.research-track-heading h3 {
+  margin: 0.3rem 0 0;
+  color: var(--primary);
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: 1.18rem;
+}
+
+.research-track-cta {
+  color: #7d4e2e;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.research-track-cta:hover {
+  color: var(--accent);
+}
+
+.research-writing-track > p {
+  margin: 0.85rem 0 0;
+  color: var(--secondary);
+  font-size: 0.86rem;
+  line-height: 1.75;
+}
+
+.research-track-empty {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: 1rem;
+  border-top: 1px solid #dfd0bd;
+  padding-top: 0.9rem;
+}
+
+.research-track-empty strong {
+  color: var(--primary);
+  font-family: "Noto Serif SC", Georgia, serif;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.research-track-empty span {
+  flex: 1;
+  color: var(--secondary);
+  font-size: 0.76rem;
+}
+
+.research-track-empty a {
+  color: #7d4e2e;
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+  .research-track-heading {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .research-track-cta {
+    grid-column: 2;
+  }
+
+  .research-track-empty {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+}

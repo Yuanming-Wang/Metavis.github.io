@@ -3,25 +3,25 @@
 {{- $posts = $posts.ByDate.Reverse -}}
 <main class="main posts-page">
   <header class="posts-header">
-    <span class="section-label">PUBLIC NOTES / THREE AXES</span>
+    <span class="section-label">研究笔记 / 三个方向</span>
     <h1>{{ .Title }}</h1>
     {{ with .Description }}<p>{{ . }}</p>{{ end }}
   </header>
 
   <div class="article-modules">
-    <section class="article-module">
-      <header class="article-module-head"><span class="article-module-index">01</span><div><span class="article-module-kicker">COMPUTE / ARCHITECTURE</span><h2>高效模型架构与推理优化</h2><p>KV Cache、Attention、稀疏计算、量化与算法—系统协同。</p></div></header>
-      <div class="article-module-list">{{ $found := false }}{{ range $posts }}{{ if in .Params.tags "efficient-inference" }}{{ $found = true }}<a class="article-module-entry" href="{{ .RelPermalink }}"><span>{{ .Date.Format "2006-01-02" }}</span><div><h3>{{ .Title }}</h3>{{ with .Description }}<p>{{ . }}</p>{{ end }}</div><b>→</b></a>{{ end }}{{ end }}{{ if not $found }}<div class="article-module-empty">这个方向还没有公开文章。</div>{{ end }}</div>
+    <section id="efficient-inference" class="article-module" aria-labelledby="module-efficient-title">
+      <header class="article-module-head"><span class="article-module-index">01</span><div><span class="article-module-kicker">计算 · 架构</span><h2 id="module-efficient-title">高效模型架构与推理优化</h2><p>KV Cache、Attention、稀疏计算、量化与算法—系统协同</p></div></header>
+      <div class="article-module-list">{{ $found := false }}{{ range $posts }}{{ if in .Params.tags "efficient-inference" }}{{ $found = true }}<a class="article-module-entry" href="{{ .RelPermalink }}"><span>{{ .Date.Format "2006-01-02" }}</span><div><h3>{{ .Title }}</h3>{{ with .Description }}<p>{{ . }}</p>{{ end }}</div><b>→</b></a>{{ end }}{{ end }}{{ if not $found }}<div class="article-module-empty">这个方向还没有公开文章</div>{{ end }}</div>
     </section>
 
-    <section class="article-module">
-      <header class="article-module-head"><span class="article-module-index">02</span><div><span class="article-module-kicker">STATE / LEARNING</span><h2>神经记忆与持续学习</h2><p>记忆写入、检索、巩固、状态更新与 Test-Time Learning。</p></div></header>
-      <div class="article-module-list">{{ $found := false }}{{ range $posts }}{{ if in .Params.tags "memory-continual-learning" }}{{ $found = true }}<a class="article-module-entry" href="{{ .RelPermalink }}"><span>{{ .Date.Format "2006-01-02" }}</span><div><h3>{{ .Title }}</h3>{{ with .Description }}<p>{{ . }}</p>{{ end }}</div><b>→</b></a>{{ end }}{{ end }}{{ if not $found }}<div class="article-module-empty">这个方向还没有公开文章。</div>{{ end }}</div>
+    <section id="memory-continual-learning" class="article-module" aria-labelledby="module-memory-title">
+      <header class="article-module-head"><span class="article-module-index">02</span><div><span class="article-module-kicker">状态 · 学习</span><h2 id="module-memory-title">神经记忆与持续学习</h2><p>记忆写入、检索、巩固、状态更新与 Test-Time Learning</p></div></header>
+      <div class="article-module-list">{{ $found := false }}{{ range $posts }}{{ if in .Params.tags "memory-continual-learning" }}{{ $found = true }}<a class="article-module-entry" href="{{ .RelPermalink }}"><span>{{ .Date.Format "2006-01-02" }}</span><div><h3>{{ .Title }}</h3>{{ with .Description }}<p>{{ . }}</p>{{ end }}</div><b>→</b></a>{{ end }}{{ end }}{{ if not $found }}<div class="article-module-empty">这个方向还没有公开文章</div>{{ end }}</div>
     </section>
 
-    <section class="article-module">
-      <header class="article-module-head"><span class="article-module-index">03</span><div><span class="article-module-kicker">MECHANISM / EMBODIMENT</span><h2>机制可解释性与具身智能</h2><p>内部计算回路、身体、感知、行动与环境反馈。</p></div></header>
-      <div class="article-module-list">{{ $found := false }}{{ range $posts }}{{ if in .Params.tags "interpretability-embodiment" }}{{ $found = true }}<a class="article-module-entry" href="{{ .RelPermalink }}"><span>{{ .Date.Format "2006-01-02" }}</span><div><h3>{{ .Title }}</h3>{{ with .Description }}<p>{{ . }}</p>{{ end }}</div><b>→</b></a>{{ end }}{{ end }}{{ if not $found }}<div class="article-module-empty">这个方向还没有公开文章。</div>{{ end }}</div>
+    <section id="interpretability-embodiment" class="article-module" aria-labelledby="module-embodiment-title">
+      <header class="article-module-head"><span class="article-module-index">03</span><div><span class="article-module-kicker">机制 · 具身</span><h2 id="module-embodiment-title">机制可解释性与具身智能</h2><p>内部计算回路、身体、感知、行动与环境反馈</p></div></header>
+      <div class="article-module-list">{{ $found := false }}{{ range $posts }}{{ if in .Params.tags "interpretability-embodiment" }}{{ $found = true }}<a class="article-module-entry" href="{{ .RelPermalink }}"><span>{{ .Date.Format "2006-01-02" }}</span><div><h3>{{ .Title }}</h3>{{ with .Description }}<p>{{ . }}</p>{{ end }}</div><b>→</b></a>{{ end }}{{ end }}{{ if not $found }}<div class="article-module-empty">这个方向还没有公开文章</div>{{ end }}</div>
     </section>
   </div>
 </main>

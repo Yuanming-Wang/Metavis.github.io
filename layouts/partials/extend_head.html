@@ -1,9 +1,17 @@
 {{- $custom := resources.Get "css/extended/custom.css" | minify | fingerprint -}}
 <link rel="stylesheet" href="{{ $custom.RelPermalink }}" integrity="{{ $custom.Data.Integrity }}">
+<meta name="page-type" content="software">
+<meta name="site-kind" content="software">
+<meta name="theme-color" content="#F7F5EF">
+<script>
+  document.documentElement.dataset.type = "software";
+  document.documentElement.dataset.radius = "soft";
+  document.documentElement.dataset.buttons = "solid";
+</script>
 
 {{- $siteScript := resources.Get "js/site.ts" | js.Build (dict "targetPath" "js/site.js" "minify" true) -}}
 <script defer src="{{ $siteScript.RelPermalink }}"></script>
-<script defer src="{{ "motion-backdrop.js" | relURL }}?v=20261108-4"></script>
+<script defer src="{{ "motion-backdrop.js" | relURL }}?v=20261108-5"></script>
 
 <script>
   const __slash = String.fromCharCode(92);

@@ -88,6 +88,7 @@ function json(data, status, env, extra = {}) {
     status,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": "no-store",
       ...corsHeaders(env),
       ...extra
     }

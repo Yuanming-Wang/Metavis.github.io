@@ -269,7 +269,8 @@ async function authCallback(request, env) {
   });
   const tokenData = await tokenResponse.json();
   if (!tokenResponse.ok || !tokenData.access_token) {
-    return new Response("GitHub 登录失败。", {status: 502});
+    const detail = tokenData.error_description || tokenData.error || "token exchange failed";
+    return new Response("GitHub 登录失败：" + detail, {status: 502});
   }
 
   const userResponse = await fetch("https://api.github.com/user", {

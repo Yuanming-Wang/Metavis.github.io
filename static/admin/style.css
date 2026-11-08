@@ -708,3 +708,110 @@ body::after {
   animation: none !important;
   background: none !important;
 }
+
+
+/* Taste-inspired final system for the writing desk. */
+:root {
+  --paper: #f7f5ef;
+  --paper-deep: #efebe2;
+  --surface: #fffdf9;
+  --ink: #211d19;
+  --ink-soft: #62594f;
+  --ink-faint: #91877b;
+  --line: rgba(33, 29, 25, .14);
+  --line-strong: rgba(33, 29, 25, .28);
+  --brown: #8b5537;
+  --brown-deep: #653c28;
+  --brown-pale: #efe2d3;
+}
+body {
+  background: var(--paper) !important;
+  color: var(--ink);
+}
+.admin-frame {
+  width: min(calc(100% - 48px), 1280px);
+  padding: 0 0 48px;
+}
+.topbar {
+  min-height: 72px;
+  border-bottom: 1px solid var(--line);
+}
+.button {
+  min-height: 46px;
+  border-radius: 999px;
+  padding: 10px 20px;
+}
+.button-primary {
+  background: var(--brown-deep);
+  border-color: var(--brown-deep);
+}
+.button-primary:hover {
+  background: var(--brown);
+}
+.login-stage {
+  min-height: calc(100svh - 160px);
+  margin: 0;
+  padding: 96px 0 72px;
+}
+.login-copy h1 {
+  max-width: 720px;
+  font-size: clamp(3.2rem, 6.4vw, 6.8rem);
+  line-height: .92;
+}
+.principle-grid {
+  max-width: 760px;
+  gap: 16px;
+  margin-top: 52px;
+}
+.principle-card {
+  min-height: 112px;
+  padding: 16px 0;
+  border-top: 1px solid var(--line);
+  background: transparent;
+}
+.login-card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 253, 249, .88);
+  box-shadow: 0 16px 40px rgba(33, 29, 25, .08);
+}
+.login-card::before {
+  display: none;
+}
+.workspace-panel {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  padding-top: 72px;
+}
+.workspace-heading {
+  align-items: flex-end;
+  padding-bottom: 40px;
+  border-bottom: 1px solid var(--line);
+}
+.writing-column,
+.preview-column {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 253, 249, .82);
+  box-shadow: none;
+}
+.toolbar {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+}
+.article-preview {
+  border: 0;
+  background: transparent;
+}
+@media (max-width: 900px) {
+  .login-stage {
+    min-height: auto;
+    padding: 72px 0 48px;
+  }
+  .principle-grid {
+    grid-template-columns: 1fr;
+    margin-top: 36px;
+  }
+}

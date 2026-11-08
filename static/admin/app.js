@@ -28,6 +28,7 @@
   const localDraftKey = "metavis-writing-draft-v2";
   let slugTouched = false;
   let savedRange = null;
+  const pendingImages = new Map();
 
   const sessionKey = "metavis_session";
   const returnedSession = new URLSearchParams(window.location.hash.slice(1)).get("session");
@@ -222,7 +223,49 @@
     saveLocalDraft();
   };
 
-  const uploadImage = async (file, altOverride = null) => {
+  const cleanupPendingImages = () => {
+    const active = new Set(
+      Array.from(editor.querySelectorAll("img[data-pending-image]"))
+        .map((image) => image.dataset.pendingImage)
+        .filter(Boolean)
+    );
+    for (const [id, item] of pendingImages) {
+      if (!active.has(id)) {
+        URL.revokeObjectURL(item.localPreviewUrl);
+        pendingImages.delete(id);
+      }
+    }
+  };
+
+  const uploadAsset = async (file) => {
+    const formData = new FormData();
+    formData.append("file", file, file.name || "image");
+    const response = await fetch(apiBase + "/api/assets?ts=" + Date.now(), {
+      method: "POST",
+      credentials: "include",
+      mode: "cors",
+      cache: "no-store",
+      headers: authHeaders(),
+      body: formData
+    });
+    const contentType = response.headers.get("content-type") || "";
+    let data = {};
+    if (contentType.includes("application/json")) {
+      data = await response.json();
+    } else {
+      const text = await response.text();
+      if (text) data.error = text;
+    }
+    if (!response.ok) {
+      throw new Error(data.error || ("图片上传失败（" + response.status + "）"));
+    }
+    if (!data.url || !data.path || !data.sha) {
+      throw new Error("图片上传接口没有返回完整的图片信息。");
+    }
+    return data;
+  };
+
+  const uploadImage = (file, altOverride = null) => {
     if (!apiBase) {
       setMessage("发布接口还没有配置。", "error");
       return false;
@@ -235,48 +278,59 @@
       setMessage("图片不能超过 8 MB。", "error");
       return false;
     }
-    const formData = new FormData();
-    formData.append("file", file, file.name || "image");
-    setMessage("正在上传图片……");
+
+    const id = "pending-" + Date.now() + "-" + Math.random().toString(36).slice(2, 9);
+    const localPreviewUrl = URL.createObjectURL(file);
+    pendingImages.set(id, {file, localPreviewUrl});
+
+    const alt = altOverride === null
+      ? (window.prompt("图片说明（可选）", "") || "")
+      : altOverride;
+    const image = document.createElement("img");
+    image.src = localPreviewUrl;
+    image.dataset.previewSrc = localPreviewUrl;
+    image.dataset.pendingImage = id;
+    image.alt = alt;
+    image.loading = "lazy";
+    insertNodeAtCaret(image);
+    updatePreview();
+    saveLocalDraft();
+    setMessage("图片已加入本地预览；点击发布后才会上传到 GitHub。", "success");
+    return true;
+  };
+
+  const uploadPendingImages = async () => {
+    const uploaded = [];
     try {
-      const response = await fetch(apiBase + "/api/assets?ts=" + Date.now(), {
-        method: "POST",
-        credentials: "include",
-        mode: "cors",
-        cache: "no-store",
-        headers: authHeaders(),
-        body: formData
-      });
-      const contentType = response.headers.get("content-type") || "";
-      let data = {};
-      if (contentType.includes("application/json")) {
-        data = await response.json();
-      } else {
-        const text = await response.text();
-        if (text) data.error = text;
+      for (const image of Array.from(editor.querySelectorAll("img[data-pending-image]"))) {
+        const id = image.dataset.pendingImage;
+        const item = pendingImages.get(id);
+        if (!item) continue;
+        setMessage("正在上传图片并发布……");
+        const data = await uploadAsset(item.file);
+        image.dataset.remoteSrc = data.url;
+        uploaded.push({id, image, path: data.path, sha: data.sha});
       }
-      if (!response.ok) {
-        throw new Error(data.error || ("图片上传失败（" + response.status + "）"));
-      }
-      if (!data.url) throw new Error("图片上传接口没有返回图片地址。");
-      const alt = altOverride === null
-        ? (window.prompt("图片说明（可选）", "") || "")
-        : altOverride;
-      const image = document.createElement("img");
-      const localPreviewUrl = URL.createObjectURL(file);
-      image.src = localPreviewUrl;
-      image.dataset.previewSrc = localPreviewUrl;
-      image.dataset.remoteSrc = data.url;
-      image.alt = alt;
-      image.loading = "lazy";
-      insertNodeAtCaret(image);
-      updatePreview();
-      saveLocalDraft();
-      setMessage("图片已插入正文，网站地址正在构建。", "success");
-      return true;
+      return uploaded;
     } catch (error) {
-      setMessage(error.message || "图片上传失败", "error");
-      return false;
+      error.uploadedAssets = uploaded;
+      throw error;
+    }
+  };
+
+  const cleanupUploadedAssets = async (assets) => {
+    for (const asset of assets) {
+      try {
+        const query = "?path=" + encodeURIComponent(asset.path) + "&sha=" + encodeURIComponent(asset.sha);
+        await fetch(apiBase + "/api/assets" + query, {
+          method: "DELETE",
+          credentials: "include",
+          mode: "cors",
+          cache: "no-store",
+          headers: authHeaders()
+        });
+      } catch {}
+      if (asset.image) delete asset.image.dataset.remoteSrc;
     }
   };
 
@@ -284,8 +338,15 @@
   document.querySelector("#image-url-button").addEventListener("click", insertImageUrl);
   imageFile?.addEventListener("change", async () => {
     const file = imageFile.files && imageFile.files[0];
-    if (file) await uploadImage(file);
+    if (file) uploadImage(file);
     imageFile.value = "";
+  });
+
+  window.addEventListener("pagehide", () => {
+    editor.querySelectorAll("img[data-preview-src]").forEach((image) => {
+      URL.revokeObjectURL(image.dataset.previewSrc);
+    });
+    pendingImages.clear();
   });
 
   const escapeHtml = (value) => String(value)
@@ -576,6 +637,10 @@
   };
 
   const saveLocalDraft = () => {
+    if (editor.querySelector("img[data-pending-image]")) {
+      localStorage.removeItem(localDraftKey);
+      return;
+    }
     if (!editor.innerHTML.trim() && !titleField.value.trim()) return;
     localStorage.setItem(localDraftKey, JSON.stringify({
       title: titleField.value,
@@ -621,6 +686,7 @@
   });
 
   editor.addEventListener("input", () => {
+    cleanupPendingImages();
     updatePreview();
     window.clearTimeout(editor._draftTimer);
     editor._draftTimer = window.setTimeout(saveLocalDraft, 350);
@@ -660,10 +726,13 @@
   };
 
   const savePost = async (draft) => {
+    cleanupPendingImages();
     updatePreview();
     const title = titleField.value.trim();
-    const body = bodyField.value.trim();
-    if (!title || !body) {
+    const initialBody = bodyField.value.trim();
+    const pendingCount = editor.querySelectorAll("img[data-pending-image]").length;
+
+    if (!title || !initialBody) {
       setMessage("先填写标题和正文。", "error");
       return;
     }
@@ -671,6 +740,26 @@
       setMessage("发布接口还没有配置。", "error");
       return;
     }
+    if (draft && pendingCount) {
+      setMessage("草稿不会上传图片；点击发布后才会保存图片。", "error");
+      return;
+    }
+
+    let uploadedAssets = [];
+    if (!draft && pendingCount) {
+      try {
+        uploadedAssets = await uploadPendingImages();
+      } catch (error) {
+        if (error.uploadedAssets && error.uploadedAssets.length) {
+          await cleanupUploadedAssets(error.uploadedAssets);
+        }
+        setMessage(error.message || "图片上传失败，未发布文章。", "error");
+        return;
+      }
+    }
+
+    updatePreview();
+    const body = bodyField.value.trim();
     setMessage(draft ? "正在保存草稿……" : "正在发布……");
     const payload = {
       title,
@@ -690,16 +779,23 @@
         method: "POST",
         credentials: "include",
         mode: "cors",
+        cache: "no-store",
         headers: {...authHeaders(), "Content-Type": "application/json"},
         body: JSON.stringify(payload)
       });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || "发布失败");
+
+      uploadedAssets.forEach((asset) => {
+        pendingImages.delete(asset.id);
+        if (asset.image) delete asset.image.dataset.pendingImage;
+      });
       setMessage(data.message || (draft ? "草稿已保存。" : "文章已发布。"), "success");
       localStorage.removeItem(localDraftKey);
       document.querySelector("#restore-draft").hidden = true;
       document.querySelector("#clear-draft").hidden = true;
     } catch (error) {
+      if (uploadedAssets.length) await cleanupUploadedAssets(uploadedAssets);
       setMessage(error.message, "error");
     }
   };

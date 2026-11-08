@@ -78,7 +78,7 @@ function corsHeaders(env) {
     "Access-Control-Allow-Origin": env.SITE_ORIGIN,
     "Access-Control-Allow-Credentials": "true",
     "Access-Control-Allow-Headers": "Content-Type, Authorization",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
     "Vary": "Origin"
   };
 }
@@ -192,11 +192,52 @@ async function saveAsset(request, env) {
     }, 502, env);
   }
 
+  const uploadData = await uploadResponse.json().catch(() => ({}));
   const basePath = String(env.SITE_BASE_PATH || "").replace(/\/+$/, "");
   return json({
     path,
+    sha: uploadData.content && uploadData.content.sha ? uploadData.content.sha : "",
     url: String(env.SITE_ORIGIN || "").replace(/\/+$/, "") + basePath + "/uploads/" + filename
   }, 201, env);
+}
+
+async function deleteAsset(request, env) {
+  const session = await currentSession(request, env);
+  if (!session || session.login !== env.ADMIN_LOGIN) {
+    return json({error: "只有指定 GitHub 账号可以写作。"}, 401, env);
+  }
+
+  const query = new URL(request.url).searchParams;
+  const path = String(query.get("path") || "");
+  const sha = String(query.get("sha") || "");
+  if (!/^static\/uploads\/[A-Za-z0-9._-]+$/.test(path) || !sha) {
+    return json({error: "图片路径或版本信息无效。"}, 400, env);
+  }
+
+  const encodedPath = path.split("/").map(encodeURIComponent).join("/");
+  const apiUrl = "https://api.github.com/repos/" + env.REPO_OWNER + "/" + env.REPO_NAME + "/contents/" + encodedPath;
+  const response = await fetch(apiUrl, {
+    method: "DELETE",
+    headers: {...githubHeaders(session.token), "Content-Type": "application/json"},
+    body: JSON.stringify({
+      message: "Delete unpublished image: " + path.split("/").pop(),
+      sha,
+      branch: env.REPO_BRANCH
+    })
+  });
+
+  if (!response.ok) {
+    let detail = "";
+    try {
+      const errorData = await response.json();
+      detail = String(errorData.message || errorData.error || "").trim();
+    } catch {}
+    return json({
+      error: detail ? "临时图片清理失败：" + detail : "临时图片清理失败。"
+    }, 502, env);
+  }
+
+  return json({message: "临时图片已清理。"}, 200, env);
 }
 
 async function currentSession(request, env) {
@@ -399,6 +440,14 @@ export default {
         return await saveAsset(request, env);
       } catch {
         return json({error: "图片上传请求格式不正确。"}, 400, env);
+      }
+    }
+
+    if (url.pathname === "/api/assets" && request.method === "DELETE") {
+      try {
+        return await deleteAsset(request, env);
+      } catch {
+        return json({error: "临时图片清理请求格式不正确。"}, 400, env);
       }
     }
 

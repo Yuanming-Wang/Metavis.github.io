@@ -643,3 +643,150 @@ body::after {
     animation: none;
   }
 }
+
+
+/* MiMo-inspired light stage: white canvas, soft color clouds, quiet motion. */
+:root {
+  --paper: #f7f7f4;
+  --paper-deep: #eeeeeb;
+  --surface: rgba(255, 255, 253, .76);
+  --ink: #171817;
+  --ink-soft: #5b5d59;
+  --ink-faint: #979a94;
+  --line: rgba(23, 24, 23, .12);
+  --line-strong: rgba(23, 24, 23, .24);
+  --brown: #d58a62;
+  --brown-deep: #a75a3c;
+  --brown-pale: rgba(213, 138, 98, .14);
+  --green: #668c78;
+}
+@keyframes metavis-soft-drift {
+  0% { transform: translate3d(-3%, -2%, 0) scale(1); }
+  50% { transform: translate3d(3%, 2%, 0) scale(1.05); }
+  100% { transform: translate3d(-1%, 4%, 0) scale(1.02); }
+}
+@keyframes metavis-soft-lens {
+  0% { transform: translate3d(-2%, 0, 0) rotate(-2deg); opacity: .24; }
+  50% { transform: translate3d(3%, 2%, 0) rotate(2deg); opacity: .34; }
+  100% { transform: translate3d(-1%, 4%, 0) rotate(-1deg); opacity: .25; }
+}
+html {
+  background: #f7f7f4;
+}
+body,
+body.list,
+body#top {
+  background: #f7f7f4 !important;
+  color: var(--ink) !important;
+}
+body::before {
+  background:
+    radial-gradient(circle at 14% 16%, rgba(255, 194, 150, .48), transparent 27%),
+    radial-gradient(circle at 80% 17%, rgba(201, 195, 250, .40), transparent 32%),
+    radial-gradient(circle at 54% 78%, rgba(166, 224, 216, .34), transparent 34%),
+    radial-gradient(circle at 6% 88%, rgba(255, 219, 152, .22), transparent 26%);
+  filter: blur(82px) saturate(112%);
+  opacity: .72;
+  animation: metavis-soft-drift 32s ease-in-out infinite alternate;
+}
+body::after {
+  background:
+    radial-gradient(ellipse at 50% 44%, rgba(255,255,255,.62), transparent 58%),
+    linear-gradient(118deg, transparent 0 44%, rgba(255, 255, 255, .34) 51%, transparent 58%),
+    repeating-linear-gradient(90deg, rgba(20,20,20,.018) 0 1px, transparent 1px 96px);
+  mix-blend-mode: normal;
+  opacity: .48;
+  animation: metavis-soft-lens 22s ease-in-out infinite alternate;
+}
+.header {
+  border-bottom-color: var(--line);
+  background: rgba(247, 247, 244, .72);
+  box-shadow: 0 8px 28px rgba(32, 32, 30, .04);
+}
+.logo a,
+#menu a,
+.hero h1,
+.section-heading h2,
+.research-card h3,
+.statement-copy,
+.article-header h1,
+.section-header h1,
+.posts-header h1,
+.archive-header h1,
+.research-title-block h1 {
+  color: var(--ink);
+}
+#menu a:hover,
+#menu a.active,
+.text-link,
+.text-link:hover,
+.research-card-footer a,
+.article-module-entry:hover h3,
+.footer a:hover,
+.footer-github:hover {
+  color: var(--brown-deep);
+}
+.hero h1 em,
+.hero-kicker,
+.section-label,
+.research-card-kicker,
+.article-kicker,
+.reading-label,
+.statement-label {
+  color: var(--brown-deep);
+}
+.hero-note,
+.hero-metrics,
+.research-card,
+.home-statement,
+.direction-block,
+.article-module,
+.research-topic-card,
+.article-comments,
+.article-footer {
+  border-color: var(--line);
+  background: rgba(255, 255, 253, .66);
+  box-shadow: 0 16px 48px rgba(30, 30, 28, .06);
+  backdrop-filter: blur(18px);
+}
+.hero-note {
+  border-left-color: var(--brown);
+}
+.text-link {
+  border-color: var(--line-strong);
+  background: rgba(255, 255, 253, .65);
+}
+.text-link.primary {
+  border-color: var(--brown);
+  background: var(--brown);
+  color: #fffaf4;
+}
+.text-link.primary:hover {
+  background: var(--brown-deep);
+  color: #fffaf4;
+}
+.research-card:hover,
+.article-module:hover,
+.direction-block:hover {
+  border-color: rgba(213, 138, 98, .48);
+  background: rgba(255, 255, 253, .86);
+}
+.post-content blockquote {
+  background: var(--brown-pale);
+  color: var(--ink-soft);
+}
+.post-content code,
+.formula-preview {
+  background: rgba(255, 255, 253, .76);
+  border-color: var(--line);
+}
+.post-content pre {
+  background: #242623;
+  border-color: var(--line);
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
+}

@@ -3,7 +3,7 @@
 {{- $posts = $posts.ByDate.Reverse -}}
 <main class="main posts-page">
   <header class="posts-header">
-    <span class="section-label">研究笔记 / 三个方向 · 一个贯穿主题</span>
+    <span class="section-label">研究笔记 / 三个方向</span>
     <h1>{{ .Title }}</h1>
     {{ with .Description }}<p>{{ . }}</p>{{ end }}
   </header>
@@ -19,21 +19,12 @@
       <div class="article-module-list">{{ $found := false }}{{ range $posts }}{{ if in .Params.tags "memory-continual-learning" }}{{ $found = true }}<a class="article-module-entry" href="{{ .RelPermalink }}"><span>{{ .Date.Format "2006-01-02" }}</span><div><h3>{{ .Title }}</h3>{{ with .Description }}<p>{{ . }}</p>{{ end }}</div><b>→</b></a>{{ end }}{{ end }}{{ if not $found }}<div class="article-module-empty">这个方向还没有公开文章</div>{{ end }}</div>
     </section>
 
-    <section id="interpretability-embodiment" class="article-module" aria-labelledby="module-embodiment-title">
+    <section id="embodied-adaptation" class="article-module" aria-labelledby="module-embodiment-title">
       <header class="article-module-head"><span class="article-module-index">03</span><div><span class="article-module-kicker">感知 · 行动</span><h2 id="module-embodiment-title">具身智能与环境适应</h2><p>关注感知、行动与环境反馈构成的闭环，以及智能系统在真实环境中的适应能力</p></div></header>
-      <div class="article-module-list">{{ $found := false }}{{ range $posts }}{{ if in .Params.tags "interpretability-embodiment" }}{{ $found = true }}<a class="article-module-entry" href="{{ .RelPermalink }}"><span>{{ .Date.Format "2006-01-02" }}</span><div><h3>{{ .Title }}</h3>{{ with .Description }}<p>{{ . }}</p>{{ end }}</div><b>→</b></a>{{ end }}{{ end }}{{ if not $found }}<div class="article-module-empty">这个方向还没有公开文章</div>{{ end }}</div>
+      <div class="article-module-list">{{ $found := false }}{{ range $posts }}{{ if in .Params.tags "embodied-adaptation" }}{{ $found = true }}<a class="article-module-entry" href="{{ .RelPermalink }}"><span>{{ .Date.Format "2006-01-02" }}</span><div><h3>{{ .Title }}</h3>{{ with .Description }}<p>{{ . }}</p>{{ end }}</div><b>→</b></a>{{ end }}{{ end }}{{ if not $found }}<div class="article-module-empty">这个方向还没有公开文章</div>{{ end }}</div>
     </section>
   </div>
 
-  <aside class="interpretability-note" aria-labelledby="posts-interpretability-title">
-    <div>
-      <span class="focus-kicker">贯穿性研究主题</span>
-      <h2 id="posts-interpretability-title">机制可解释性</h2>
-    </div>
-    <div>
-      <p>通过研究内部表征、特征、计算电路与信息流，理解模型行为和能力形成的机制。这一主题贯穿架构设计、记忆学习与具身交互，而非独立的第四个方向。</p>
-      <a class="focus-link" href="{{ "research/#mechanistic-interpretability" | relURL }}">查看研究思路 <span>→</span></a>
-    </div>
-  </aside>
+
 </main>
 {{- end -}}

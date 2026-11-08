@@ -692,3 +692,10 @@ body::after {
   box-shadow: 0 16px 48px rgba(91, 66, 43, .06);
   backdrop-filter: blur(18px);
 }
+
+
+/* Keep the writing desk motion layer behind the working surface. */
+.metavis-motion-host > :not([data-metavis-motion-backdrop]) {
+  position: relative;
+  z-index: 1;
+}

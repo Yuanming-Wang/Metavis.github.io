@@ -699,3 +699,12 @@ body::after {
   position: relative;
   z-index: 1;
 }
+
+
+/* Keep the writing desk paper surface clear while the canvas moves quietly. */
+body::before,
+body::after {
+  opacity: 0 !important;
+  animation: none !important;
+  background: none !important;
+}

@@ -27,8 +27,8 @@ buildFuture = true
 [params]
   env = 'production'
   author = 'Metavis'
-  description = 'Research notes on efficient inference, mechanistic interpretability, continual learning, embodied intelligence and AGI.'
-  keywords = ['AGI', 'Embodied Intelligence', 'KV Cache', 'Attention', 'Mechanistic Interpretability', 'Scaling Laws', 'Computational Consciousness', 'Continual Learning', 'Efficient Inference']
+  description = 'Research on efficient model architecture and inference, neural memory and continual learning, embodied intelligence, with mechanistic interpretability as a cross-cutting focus.'
+  keywords = ['AGI', 'Efficient Model Architecture', 'Efficient Inference', 'Neural Memory', 'Continual Learning', 'Embodied Intelligence', 'Environmental Adaptation', 'Mechanistic Interpretability', 'Model Representations', 'Circuits', 'Information Flow']
   defaultTheme = 'auto'
   ShowReadingTime = true
   ShowShareButtons = false
@@ -44,7 +44,7 @@ buildFuture = true
 
 [params.homeInfoParams]
   Title = 'Metavis · 研究笔记'
-  Content = '''从真实计算与物理约束出发，探索高效模型架构、神经记忆与持续学习，以及机制可解释性和具身智能。'''
+  Content = '''从真实计算与物理约束出发，探索高效模型架构、神经记忆与持续学习，以及具身智能与环境适应；机制可解释性贯穿其中。'''
 
 [[params.socialIcons]]
   name = 'github'

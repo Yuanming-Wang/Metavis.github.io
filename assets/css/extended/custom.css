@@ -728,3 +728,36 @@ body#top {
     padding: 24px 18px 28px;
   }
 }
+
+
+/* Quiet hero entrance: one deliberate moment, then the page settles. */
+@keyframes metavis-hero-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes metavis-hero-rule {
+  from { opacity: 0; transform: scaleX(.86); transform-origin: left; }
+  to { opacity: 1; transform: scaleX(1); transform-origin: left; }
+}
+.hero-copy {
+  animation: metavis-hero-in .72s cubic-bezier(.22, .8, .24, 1) both;
+}
+.hero-aside {
+  animation: metavis-hero-in .72s .12s cubic-bezier(.22, .8, .24, 1) both;
+}
+.hero {
+  animation: metavis-hero-rule .9s .2s ease both;
+}
+.research-card,
+.article-module,
+.direction-block,
+.home-statement {
+  will-change: transform;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-copy,
+  .hero-aside,
+  .hero {
+    animation: none;
+  }
+}

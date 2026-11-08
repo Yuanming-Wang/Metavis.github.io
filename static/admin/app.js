@@ -231,14 +231,19 @@
       setMessage("请选择有效的图片文件。", "error");
       return false;
     }
+    if (file.size > 8 * 1024 * 1024) {
+      setMessage("图片不能超过 8 MB。", "error");
+      return false;
+    }
     const formData = new FormData();
     formData.append("file", file, file.name || "image");
     setMessage("正在上传图片……");
     try {
-      const response = await fetch(apiBase + "/api/assets", {
+      const response = await fetch(apiBase + "/api/assets?ts=" + Date.now(), {
         method: "POST",
         credentials: "include",
         mode: "cors",
+        cache: "no-store",
         headers: authHeaders(),
         body: formData
       });

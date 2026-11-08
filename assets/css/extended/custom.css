@@ -877,3 +877,15 @@ body::before,
 body::after {
   opacity: .22;
 }
+
+
+/* Keep the paper surface clear and let the canvas carry the motion. */
+body::before,
+body::after {
+  opacity: 0 !important;
+  animation: none !important;
+  background: none !important;
+}
+.hero.metavis-motion-host {
+  background: transparent;
+}

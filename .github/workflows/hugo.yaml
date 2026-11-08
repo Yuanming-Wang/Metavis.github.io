@@ -31,10 +31,12 @@ jobs:
 
       - name: Install Hugo
         run: |
-          HUGO_VERSION="0.169.0"
           mkdir -p "$HOME/.local/bin"
+          HUGO_ASSET_ID="682125110"
           curl --retry 5 --retry-all-errors --retry-delay 5 -fsSL \
-            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_${HUGO_VERSION}_linux-amd64.tar.gz" \
+            -H "Authorization: Bearer ${{ github.token }}" \
+            -H "Accept: application/octet-stream" \
+            "https://api.github.com/repos/gohugoio/hugo/releases/assets/${HUGO_ASSET_ID}" \
             -o /tmp/hugo.tar.gz
           tar -xzf /tmp/hugo.tar.gz \
             -C "$HOME/.local/bin" hugo

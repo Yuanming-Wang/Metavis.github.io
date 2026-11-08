@@ -30,20 +30,35 @@
 
   const sessionKey = "metavis_session";
   const returnedSession = new URLSearchParams(window.location.hash.slice(1)).get("session");
+  let memorySession = "";
+
+  const readStorage = (storage) => {
+    try { return storage.getItem(sessionKey) || ""; } catch { return ""; }
+  };
+
+  const writeStorage = (storage, token) => {
+    try { storage.setItem(sessionKey, token); } catch {}
+  };
+
+  const removeStorage = (storage) => {
+    try { storage.removeItem(sessionKey); } catch {}
+  };
 
   const persistSession = (token) => {
-    localStorage.setItem(sessionKey, token);
-    sessionStorage.setItem(sessionKey, token);
+    memorySession = token;
+    writeStorage(localStorage, token);
+    writeStorage(sessionStorage, token);
   };
 
   const clearSession = () => {
-    localStorage.removeItem(sessionKey);
-    sessionStorage.removeItem(sessionKey);
+    memorySession = "";
+    removeStorage(localStorage);
+    removeStorage(sessionStorage);
   };
 
-  const existingSession = localStorage.getItem(sessionKey) || sessionStorage.getItem(sessionKey);
-  if (existingSession && !localStorage.getItem(sessionKey)) {
-    localStorage.setItem(sessionKey, existingSession);
+  const existingSession = readStorage(localStorage) || readStorage(sessionStorage);
+  if (existingSession && !readStorage(localStorage)) {
+    writeStorage(localStorage, existingSession);
   }
 
   if (returnedSession) {
@@ -51,7 +66,7 @@
     window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
   }
 
-  const sessionToken = () => localStorage.getItem(sessionKey) || sessionStorage.getItem(sessionKey) || "";
+  const sessionToken = () => readStorage(localStorage) || readStorage(sessionStorage) || memorySession;
   const authHeaders = () => {
     const token = sessionToken();
     return token ? {Authorization: "Bearer " + token} : {};

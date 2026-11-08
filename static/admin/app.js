@@ -545,7 +545,7 @@
     }
     if (tag === "img") {
       const source = node.dataset && node.dataset.remoteSrc ? node.dataset.remoteSrc : node.src;
-      return "![" + (node.alt || "") + "](" + source + ")\\n\\n";
+      return "![" + (node.alt || "") + "](" + source + ")\n\n";
     }
     if (tag === "hr") return "\n\n---\n\n";
     return serializeChildren(node);

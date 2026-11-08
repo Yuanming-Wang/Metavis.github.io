@@ -1,21 +1,18 @@
+type SiteSection = "research" | "writing" | "position";
+
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const revealSections = (): void => {
   const sections = Array.from(document.querySelectorAll<HTMLElement>(".home-section"));
   if (reducedMotion || !("IntersectionObserver" in window)) {
-    sections.forEach((section) => {
-      section.classList.remove("reveal-pending");
-      section.classList.add("is-visible");
-    });
+    sections.forEach((section) => section.classList.add("is-visible"));
     return;
   }
 
-  sections.forEach((section) => section.classList.add("reveal-pending"));
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.remove("reveal-pending");
           entry.target.classList.add("is-visible");
           observer.unobserve(entry.target);
         }
@@ -41,10 +38,7 @@ const setCurrentMenuItem = (): void => {
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("#menu a"));
   links.forEach((link) => {
     const linkPath = new URL(link.href, window.location.origin).pathname.replace(/\/+$/, "") || "/";
-    const current = linkPath === path;
-    link.classList.toggle("active", current);
-    if (current) link.setAttribute("aria-current", "page");
-    else link.removeAttribute("aria-current");
+    if (linkPath === path) link.classList.add("active");
   });
 };
 
@@ -64,6 +58,9 @@ const markSiteReady = (): void => {
 };
 
 const boot = (): void => {
+  // Keep the public site deliberately quiet: TypeScript only owns small stateful touches.
+  const sectionNames: SiteSection[] = ["research", "writing", "position"];
+  void sectionNames;
   revealSections();
   setCurrentMenuItem();
   wireResearchHover();

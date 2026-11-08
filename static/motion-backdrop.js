@@ -2,20 +2,23 @@
   const init = () => {
     if (document.querySelector("[data-metavis-motion-backdrop]")) return;
 
+    const host = document.querySelector(".hero") || document.body;
+    const isHero = host !== document.body;
     const canvas = document.createElement("canvas");
     canvas.dataset.metavisMotionBackdrop = "true";
     canvas.setAttribute("aria-hidden", "true");
     Object.assign(canvas.style, {
-      position: "fixed",
+      position: isHero ? "absolute" : "fixed",
       inset: "0",
       width: "100%",
       height: "100%",
       pointerEvents: "none",
       zIndex: "0",
-      opacity: "0.44",
+      opacity: isHero ? "0.60" : "0.44",
       mixBlendMode: "multiply"
     });
-    document.body.insertBefore(canvas, document.body.firstChild);
+    host.insertBefore(canvas, host.firstChild);
+    host.classList.add("metavis-motion-host");
 
     const ctx = canvas.getContext("2d", {alpha: true});
     if (!ctx) return;
@@ -24,8 +27,8 @@
     const accent = [138, 90, 56];
     const pointer = {x: .5, y: .5, tx: .5, ty: .5};
     const lights = [
-      {x: .18, y: .16, radius: .29, speed: .00010, phase: .6},
-      {x: .78, y: .36, radius: .34, speed: .000075, phase: 2.2},
+      {x: .19, y: .18, radius: .30, speed: .00010, phase: .6},
+      {x: .81, y: .34, radius: .36, speed: .000075, phase: 2.2},
       {x: .46, y: .88, radius: .30, speed: .00009, phase: 4.4}
     ];
     let width = 0;
@@ -33,14 +36,24 @@
     let dpr = 1;
     let specks = [];
 
+    const measure = () => {
+      if (isHero) {
+        const rect = host.getBoundingClientRect();
+        width = Math.max(1, rect.width);
+        height = Math.max(1, rect.height);
+      } else {
+        width = window.innerWidth;
+        height = window.innerHeight;
+      }
+    };
+
     const resize = () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
+      measure();
       dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
       specks = Array.from({
-        length: Math.max(28, Math.min(68, Math.floor(width * height / 30000)))
+        length: Math.max(30, Math.min(72, Math.floor(width * height / 28000)))
       }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -69,8 +82,8 @@
         const radius = Math.max(width, height) * light.radius;
         const [r, g, b] = accent;
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-        gradient.addColorStop(0, "rgba(" + r + "," + g + "," + b + ",.095)");
-        gradient.addColorStop(.43, "rgba(" + r + "," + g + "," + b + ",.028)");
+        gradient.addColorStop(0, "rgba(" + r + "," + g + "," + b + ",.11)");
+        gradient.addColorStop(.43, "rgba(" + r + "," + g + "," + b + ",.03)");
         gradient.addColorStop(1, "rgba(" + r + "," + g + "," + b + ",0)");
         ctx.fillStyle = gradient;
         ctx.beginPath();
@@ -79,21 +92,21 @@
       }
 
       ctx.save();
-      ctx.translate((pointer.x - .5) * 11, (pointer.y - .5) * 8);
-      const bandCount = Math.max(9, Math.min(15, Math.round(height / 105)));
+      ctx.translate((pointer.x - .5) * 12, (pointer.y - .5) * 8);
+      const bandCount = Math.max(8, Math.min(16, Math.round(height / 88)));
       for (let band = 0; band < bandCount; band += 1) {
-        const baseY = height * (0.10 + band / Math.max(1, bandCount - 1) * .82);
-        const amplitude = 8 + (band % 3) * 4;
+        const baseY = height * (.08 + band / Math.max(1, bandCount - 1) * .84);
+        const amplitude = Math.max(8, height * .018) + (band % 3) * 3;
         const phase = band * .72;
         ctx.beginPath();
-        for (let x = -80; x <= width + 80; x += 72) {
+        for (let x = -80; x <= width + 80; x += 68) {
           const wave = Math.sin(x * .0042 + t * .00018 + phase) * amplitude
             + Math.cos(x * .0019 - t * .00012 + phase * 1.7) * amplitude * .55;
           const y = baseY + wave;
           if (x === -80) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
-        const alpha = .018 + (band % 4) * .006;
+        const alpha = .018 + (band % 4) * .005;
         ctx.strokeStyle = "rgba(138,90,56," + alpha + ")";
         ctx.lineWidth = band % 4 === 0 ? 1.35 : .8;
         ctx.stroke();
@@ -122,9 +135,13 @@
     };
 
     window.addEventListener("resize", resize, {passive: true});
+    if (isHero && window.ResizeObserver) {
+      new ResizeObserver(resize).observe(host);
+    }
     window.addEventListener("pointermove", (event) => {
-      pointer.tx = event.clientX / Math.max(window.innerWidth, 1);
-      pointer.ty = event.clientY / Math.max(window.innerHeight, 1);
+      const rect = isHero ? host.getBoundingClientRect() : {left: 0, top: 0};
+      pointer.tx = (event.clientX - rect.left) / Math.max(width, 1);
+      pointer.ty = (event.clientY - rect.top) / Math.max(height, 1);
     }, {passive: true});
     resize();
     draw(0);

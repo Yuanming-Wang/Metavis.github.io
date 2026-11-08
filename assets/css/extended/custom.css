@@ -1031,128 +1031,138 @@ body {
   }
 }
 
-/* Mechanistic interpretability as the root of the research map */
-.research-map {
-  max-width: 860px;
-  margin: 0 auto;
-}
-.research-map-node {
-  width: fit-content;
-  max-width: min(100%, 620px);
-  margin: 0 auto;
-  padding: 16px 30px 14px;
-  display: flex;
-  flex-direction: column;
+/* Shared interpretability perspective and responsive research layout */
+.interpretability-overview {
+  display: grid;
+  grid-template-columns: minmax(230px, .78fr) minmax(0, 1.22fr);
   align-items: center;
-  gap: 5px;
-  border: 1px solid rgba(104, 67, 46, .2);
-  border-radius: 8px;
-  background: linear-gradient(135deg, rgba(253, 251, 247, .98), rgba(238, 226, 212, .48));
-  box-shadow: 0 5px 18px rgba(57, 43, 31, .035);
-  text-align: center;
+  gap: clamp(24px, 4vw, 56px);
+  margin: 0 0 28px;
+  padding: 22px 28px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 5px;
+  background: linear-gradient(110deg, rgba(238, 226, 212, .42), rgba(253, 251, 247, .72));
 }
-.research-map-title {
+.interpretability-overview-title { min-width: 0; }
+.interpretability-overview-kicker {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--accent);
+  font-size: .7rem;
+  letter-spacing: .08em;
+  line-height: 1.5;
+}
+.interpretability-overview-title h3 {
   margin: 0;
-  color: var(--accent-deep);
+  color: var(--ink);
   font-family: var(--serif);
-  font-size: clamp(1.42rem, 2.2vw, 1.78rem);
+  font-size: clamp(1.65rem, 2.6vw, 2.15rem);
   font-weight: 500;
-  letter-spacing: -.045em;
-  line-height: 1.35;
+  letter-spacing: -.05em;
+  line-height: 1.28;
 }
-.research-map-description {
+.interpretability-overview > p {
+  max-width: 58ch;
   margin: 0;
   color: var(--ink-soft);
-  font-size: .86rem;
-  line-height: 1.65;
+  font-size: .94rem;
+  line-height: 1.9;
 }
-.research-map-stem {
-  width: 1px;
-  height: 22px;
-  margin: 0 auto;
-  background: var(--line-strong);
-}
-.research-map-branches {
-  position: relative;
-  display: grid;
+.research-grid {
+  position: static;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  height: 24px;
+  gap: 18px;
+  padding-left: 0;
 }
-.research-map-branches::before {
-  position: absolute;
-  top: 0;
-  right: 16.6667%;
-  left: 16.6667%;
-  height: 1px;
-  background: var(--line-strong);
-  content: "";
+.research-grid::before,
+.research-card::before { display: none !important; }
+.research-card,
+.research-card:last-child {
+  width: auto;
+  min-width: 0;
+  min-height: 338px;
+  grid-column: auto;
+  justify-self: stretch;
+  padding: 27px 28px 25px;
 }
-.research-map-branches span {
-  justify-self: center;
-  width: 1px;
-  height: 24px;
-  background: var(--line-strong);
-}
-.research-map + .research-grid { margin-top: 0; }
+.research-card h3 { margin-top: 28px; }
+.research-card p { min-height: 0; }
+.research-card-footer { margin-top: auto; }
 
-@media (min-width: 901px) and (max-width: 1040px) {
-  .research-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-  .research-card, .research-card:last-child {
-    grid-column: auto;
-    min-height: 330px;
-    padding: 23px 18px 20px;
+@media (max-width: 1040px) {
+  .interpretability-overview {
+    grid-template-columns: minmax(190px, .8fr) minmax(0, 1.2fr);
+    gap: 24px;
+    padding: 21px 24px;
   }
-  .research-card h3 { font-size: clamp(1.16rem, 1.65vw, 1.42rem); }
-  .research-card p { min-height: 5em; font-size: .85rem; }
-}
-
-@media (max-width: 900px) {
-  .research-map-node {
-    width: 100%;
-    align-items: flex-start;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 4px 12px;
-    padding: 12px 16px;
-    border-left: 3px solid var(--accent);
-    text-align: left;
-  }
-  .research-map-title { font-size: 1.28rem; }
-  .research-map-description { align-self: center; font-size: .82rem; }
-  .research-map-stem { height: 18px; margin-left: 10px; margin-right: 0; }
-  .research-map-branches { display: none; }
   .research-grid {
-    position: relative;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .research-card,
+  .research-card:last-child {
+    min-height: 316px;
+    padding: 24px 24px 22px;
+  }
+  .research-card:last-child {
+    width: calc((100% - 16px) / 2);
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
+  .research-card h3 { font-size: 1.42rem; }
+}
+
+@media (max-width: 760px) {
+  .interpretability-overview {
     grid-template-columns: 1fr;
-    padding-left: 22px;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 19px 20px 20px;
   }
-  .research-grid::before {
-    position: absolute;
-    top: 0;
-    bottom: 34px;
-    left: 10px;
-    width: 1px;
-    background: var(--line-strong);
-    content: "";
+  .interpretability-overview-kicker {
+    margin-bottom: 4px;
+    font-size: .66rem;
   }
-  .research-card { position: relative; }
-  .research-card::before {
-    position: absolute;
-    top: 31px;
-    left: -12px;
-    width: 12px;
-    height: 1px;
-    background: var(--line-strong);
-    content: "";
+  .interpretability-overview-title h3 { font-size: 1.55rem; }
+  .interpretability-overview > p {
+    max-width: none;
+    font-size: .9rem;
+    line-height: 1.8;
   }
-  .research-card:last-child { grid-column: auto; min-height: 0; }
+  .research-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 13px;
+    padding: 0;
+  }
+  .research-card,
+  .research-card:last-child {
+    width: 100%;
+    min-height: 0;
+    grid-column: auto;
+    justify-self: stretch;
+    padding: 24px 24px 21px;
+  }
+  .research-card h3 {
+    margin: 23px 0 10px;
+    font-size: 1.42rem;
+  }
+  .research-card p { max-width: 52ch; }
+  .research-card-footer { margin-top: 23px; padding-top: 18px; }
 }
 
 @media (max-width: 520px) {
-  .research-map-node { padding: 11px 13px; }
-  .research-map-title { font-size: 1.18rem; }
-  .research-map-description { font-size: .78rem; }
-  .research-grid { gap: 12px; padding-left: 19px; }
-  .research-grid::before { left: 8px; }
-  .research-card::before { left: -11px; width: 11px; }
+  .interpretability-overview {
+    gap: 7px;
+    padding: 17px 17px 18px;
+    margin-bottom: 16px;
+  }
+  .interpretability-overview-title h3 { font-size: 1.42rem; }
+  .interpretability-overview > p { font-size: .86rem; }
+  .research-grid { gap: 11px; }
+  .research-card,
+  .research-card:last-child { padding: 21px 20px 19px; }
+  .research-card h3 { margin-top: 21px; font-size: 1.34rem; }
+  .research-card p { font-size: .9rem; line-height: 1.8; }
+  .research-card-footer { gap: 8px; font-size: .79rem; }
 }

@@ -761,3 +761,20 @@ body#top {
     animation: none;
   }
 }
+
+
+/* Palette direction: mineral paper, deep ink and signal teal. */
+:root {
+  --paper: #f3f6f4;
+  --paper-deep: #e5ece9;
+  --surface: #fbfdfb;
+  --ink: #172522;
+  --ink-soft: #53625e;
+  --ink-faint: #83908c;
+  --line: #d3dfda;
+  --line-strong: #adbfba;
+  --brown: #2d8290;
+  --brown-deep: #0d5360;
+  --brown-pale: #dcecee;
+  --green: #3d7665;
+}

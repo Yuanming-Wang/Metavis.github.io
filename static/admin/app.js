@@ -117,6 +117,8 @@
     showLoggedOut();
   });
 
+  showLoggedOut();
+
   if (!apiBase || apiBase.includes("YOUR-METAVIS-WORKER")) {
     setupPanel.hidden = false;
     if (loginButton) loginButton.hidden = true;

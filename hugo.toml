@@ -44,9 +44,7 @@ buildFuture = true
 
 [params.homeInfoParams]
   Title = 'Metavis · 研究笔记'
-  Content = '''终极目标是创造 AGI。
-
-三个并列方向共同指向 AGI：高效推理与机制可解释性、持续学习、具身智能。'''
+  Content = '''从真实计算与物理约束出发，探索高效模型架构、神经记忆与持续学习，以及机制可解释性和具身智能。'''
 
 [[params.socialIcons]]
   name = 'github'

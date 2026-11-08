@@ -20,6 +20,7 @@
   const logoutButton = document.querySelector("#logout-button");
   const loginButton = document.querySelector("#login-button");
   const sessionLabel = document.querySelector("#session-label");
+  const authMessage = document.querySelector("#auth-message");
   const message = document.querySelector("#form-message");
   const wordCount = document.querySelector("#word-count");
   const readTime = document.querySelector("#read-time");
@@ -30,6 +31,7 @@
 
   const sessionKey = "metavis_session";
   const returnedSession = new URLSearchParams(window.location.hash.slice(1)).get("session");
+  const hadReturnedSession = Boolean(returnedSession);
   let memorySession = "";
 
   const readStorage = (storage) => {
@@ -72,6 +74,12 @@
     return token ? {Authorization: "Bearer " + token} : {};
   };
 
+  const setAuthMessage = (text) => {
+    if (!authMessage) return;
+    authMessage.textContent = text;
+    authMessage.hidden = !text;
+  };
+
   dateField.value = today;
 
   const showLoggedOut = () => {
@@ -112,20 +120,33 @@
     setupPanel.hidden = false;
     if (loginButton) loginButton.hidden = true;
   } else {
-    fetch(apiBase + "/api/session", {
+    fetch(apiBase + "/api/session?ts=" + Date.now(), {
       credentials: "include",
       mode: "cors",
+      cache: "no-store",
       headers: authHeaders()
     })
       .then(async (response) => {
         if (response.ok) return response.json();
-        if (sessionToken()) clearSession();
-        return null;
+        const error = new Error("会话验证失败");
+        error.status = response.status;
+        throw error;
       })
-      .then((data) => (data && data.login ? showLoggedIn(data.login) : showLoggedOut()))
-      .catch(() => {
+      .then((data) => {
+        if (!data || !data.login) {
+          const error = new Error("Worker 没有返回登录用户");
+          error.status = 401;
+          throw error;
+        }
+        setAuthMessage("");
+        showLoggedIn(data.login);
+      })
+      .catch((error) => {
         clearSession();
         showLoggedOut();
+        if (hadReturnedSession) {
+          setAuthMessage("登录回调已返回，但写作台没有接受这个会话（" + (error.status || "网络") + "）。请再点一次登录；如果仍失败，刷新页面后重试。");
+        }
       });
   }
 

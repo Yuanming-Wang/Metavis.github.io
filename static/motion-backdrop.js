@@ -14,7 +14,7 @@
       height: "100%",
       pointerEvents: "none",
       zIndex: "0",
-      opacity: isHero ? "0.60" : "0.44",
+      opacity: isHero ? "0.34" : "0.30",
       mixBlendMode: "multiply"
     });
     host.insertBefore(canvas, host.firstChild);
@@ -82,8 +82,8 @@
         const radius = Math.max(width, height) * light.radius;
         const [r, g, b] = accent;
         const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-        gradient.addColorStop(0, "rgba(" + r + "," + g + "," + b + ",.11)");
-        gradient.addColorStop(.43, "rgba(" + r + "," + g + "," + b + ",.03)");
+        gradient.addColorStop(0, "rgba(" + r + "," + g + "," + b + ",.065)");
+        gradient.addColorStop(.43, "rgba(" + r + "," + g + "," + b + ",.018)");
         gradient.addColorStop(1, "rgba(" + r + "," + g + "," + b + ",0)");
         ctx.fillStyle = gradient;
         ctx.beginPath();
@@ -106,7 +106,7 @@
           if (x === -80) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         }
-        const alpha = .018 + (band % 4) * .005;
+        const alpha = .011 + (band % 4) * .003;
         ctx.strokeStyle = "rgba(138,90,56," + alpha + ")";
         ctx.lineWidth = band % 4 === 0 ? 1.35 : .8;
         ctx.stroke();

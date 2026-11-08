@@ -37,10 +37,10 @@ const syncResearchHash = (): void => {
 };
 
 const setCurrentMenuItem = (): void => {
-  const path = window.location.pathname.replace(/\\/+$/, "") || "/";
+  const path = window.location.pathname.replace(/\/+$/, "") || "/";
   const links = Array.from(document.querySelectorAll<HTMLAnchorElement>("#menu a"));
   links.forEach((link) => {
-    const linkPath = new URL(link.href, window.location.origin).pathname.replace(/\\/+$/, "") || "/";
+    const linkPath = new URL(link.href, window.location.origin).pathname.replace(/\/+$/, "") || "/";
     const current = linkPath === path;
     link.classList.toggle("active", current);
     if (current) link.setAttribute("aria-current", "page");

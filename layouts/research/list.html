@@ -2,7 +2,7 @@
 <main class="main research-page">
   <header class="research-hero">
     <div class="research-hero-top">
-      <span class="research-kicker">METAVIS / RESEARCH MAP</span>
+      <span class="research-kicker">Metavis / 研究方向</span>
       {{- partial "breadcrumbs.html" . }}
     </div>
     <div class="research-hero-grid">
@@ -12,39 +12,23 @@
         {{ with .Description }}<p class="research-dek">{{ . }}</p>{{ end }}
       </div>
       <div class="research-signal" aria-label="研究概览">
-        <div class="signal-row">
-          <span class="signal-label">FOCUS</span>
-          <strong>MODEL · MEMORY · EMBODIMENT</strong>
-        </div>
-        <div class="signal-row">
-          <span class="signal-label">METHOD</span>
-          <strong>CONSTRAINT → MECHANISM → SYSTEM</strong>
-        </div>
+        <div class="signal-row"><span class="signal-label">关注主题</span><strong>模型 · 记忆 · 具身</strong></div>
+        <div class="signal-row"><span class="signal-label">研究方法</span><strong>约束 → 机制 → 系统</strong></div>
       </div>
     </div>
   </header>
-
   <div class="research-body-grid">
     <aside class="research-rail">
       <div class="rail-sticky">
-        <span class="rail-label">ON THIS PAGE</span>
-        {{ with .TableOfContents }}
-          <nav class="research-toc" aria-label="研究方向目录">{{ . }}</nav>
-        {{ end }}
-        <div class="rail-footer"><span class="rail-dot"></span><span>LONG-TERM RESEARCH / AGI</span></div>
+        <span class="rail-label">本页目录</span>
+        {{ with .TableOfContents }}<nav class="research-toc" aria-label="研究方向目录">{{ . }}</nav>{{ end }}
+        <div class="rail-footer"><span class="rail-dot"></span><span>长期研究 / AGI</span></div>
       </div>
     </aside>
-
     <article class="research-content">
-      <div class="research-content-head">
-        <span class="content-kicker">01 / RESEARCH STATEMENT</span>
-        <span class="content-rule"></span>
-      </div>
-      <div class="post-content">
-        {{ .Content }}
-      </div>
+      <div class="research-content-head"><span class="content-kicker">研究说明</span><span class="content-rule"></span></div>
+      <div class="post-content">{{ .Content }}</div>
     </article>
   </div>
-
 </main>
 {{- end }}

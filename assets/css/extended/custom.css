@@ -1166,3 +1166,43 @@ body {
   .research-card p { font-size: .9rem; line-height: 1.8; }
   .research-card-footer { gap: 8px; font-size: .79rem; }
 }
+
+
+/* Align the research section heading with the cards below */
+#research > .section-heading {
+  width: 100%;
+  margin-inline: 0;
+  padding-inline: 0;
+}
+#research > .section-heading > div {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  align-self: flex-start;
+}
+#research > .section-heading .section-label,
+#research > .section-heading h2 {
+  display: block;
+  width: 100%;
+  margin-left: 0;
+  padding-left: 0;
+  text-align: left;
+  text-indent: 0;
+}
+#research > .section-heading > p {
+  margin-left: 0;
+  text-align: left;
+}
+@media (max-width: 960px) {
+  #research > .section-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  #research > .section-heading > div,
+  #research > .section-heading > p {
+    width: 100%;
+    max-width: none;
+  }
+}

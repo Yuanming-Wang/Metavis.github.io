@@ -263,13 +263,16 @@
         ? (window.prompt("图片说明（可选）", "") || "")
         : altOverride;
       const image = document.createElement("img");
-      image.src = data.url;
+      const localPreviewUrl = URL.createObjectURL(file);
+      image.src = localPreviewUrl;
+      image.dataset.previewSrc = localPreviewUrl;
+      image.dataset.remoteSrc = data.url;
       image.alt = alt;
       image.loading = "lazy";
       insertNodeAtCaret(image);
       updatePreview();
       saveLocalDraft();
-      setMessage("图片已插入正文。", "success");
+      setMessage("图片已插入正文，网站地址正在构建。", "success");
       return true;
     } catch (error) {
       setMessage(error.message || "图片上传失败", "error");
@@ -540,7 +543,10 @@
       const label = cleanInline(serializeChildren(node)).trim() || node.href;
       return "[" + label + "](" + node.href + ")";
     }
-    if (tag === "img") return "![" + (node.alt || "") + "](" + node.src + ")\n\n";
+    if (tag === "img") {
+      const source = node.dataset && node.dataset.remoteSrc ? node.dataset.remoteSrc : node.src;
+      return "![" + (node.alt || "") + "](" + source + ")\\n\\n";
+    }
     if (tag === "hr") return "\n\n---\n\n";
     return serializeChildren(node);
   };
@@ -556,6 +562,9 @@
     clone.querySelectorAll("[data-latex]").forEach((node) => {
       const value = node.dataset.latex || "";
       node.textContent = node.dataset.display === "true" ? "\\[" + value + "\\]" : "\\(" + value + "\\)";
+    });
+    clone.querySelectorAll("img[data-preview-src]").forEach((node) => {
+      if (node.dataset.previewSrc) node.src = node.dataset.previewSrc;
     });
     preview.innerHTML = clone.innerHTML.trim()
       ? clone.innerHTML
@@ -596,6 +605,9 @@
     descriptionField.value = draft.description || "";
     tagsField.value = draft.tags || "";
     editor.innerHTML = draft.html || "";
+    editor.querySelectorAll("img[data-remote-src]").forEach((image) => {
+      if (!image.src || image.src.startsWith("blob:")) image.src = image.dataset.remoteSrc;
+    });
     document.querySelector("#restore-draft").hidden = true;
     updatePreview();
     setMessage("已恢复本地草稿。", "success");

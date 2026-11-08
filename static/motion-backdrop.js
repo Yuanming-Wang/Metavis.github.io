@@ -14,27 +14,23 @@
       height: "100%",
       pointerEvents: "none",
       zIndex: "0",
-      opacity: isHero ? "0.34" : "0.30",
+      opacity: isHero ? "0.58" : "0.22",
       mixBlendMode: "multiply"
     });
     host.insertBefore(canvas, host.firstChild);
     host.classList.add("metavis-motion-host");
 
-    const ctx = canvas.getContext("2d", {alpha: true});
+    const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const accent = [138, 90, 56];
-    const pointer = {x: .5, y: .5, tx: .5, ty: .5};
-    const lights = [
-      {x: .19, y: .18, radius: .30, speed: .00010, phase: .6},
-      {x: .81, y: .34, radius: .36, speed: .000075, phase: 2.2},
-      {x: .46, y: .88, radius: .30, speed: .00009, phase: 4.4}
-    ];
-    let width = 0;
-    let height = 0;
+    const accent = [139, 85, 55];
+    const pointer = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
+    let width = 1;
+    let height = 1;
     let dpr = 1;
-    let specks = [];
+    let raf = 0;
+    let lastFrame = 0;
 
     const measure = () => {
       if (isHero) {
@@ -52,104 +48,98 @@
       dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       canvas.width = Math.floor(width * dpr);
       canvas.height = Math.floor(height * dpr);
-      specks = Array.from({
-        length: Math.max(30, Math.min(72, Math.floor(width * height / 28000)))
-      }, () => ({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - .5) * .028,
-        vy: (Math.random() - .5) * .022,
-        radius: .45 + Math.random() * 1.1,
-        alpha: .05 + Math.random() * .08
-      }));
+      draw(0, true);
     };
 
-    const draw = (time) => {
+    const draw = (time, force = false) => {
+      if (!force && !reduced && time - lastFrame < 30) {
+        raf = window.requestAnimationFrame(draw);
+        return;
+      }
+      lastFrame = time;
       const t = reduced ? 0 : time;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, width, height);
 
-      pointer.x += (pointer.tx - pointer.x) * .018;
-      pointer.y += (pointer.ty - pointer.y) * .018;
+      pointer.x += (pointer.tx - pointer.x) * 0.018;
+      pointer.y += (pointer.ty - pointer.y) * 0.018;
 
-      for (const light of lights) {
-        const x = width * light.x
-          + Math.sin(t * light.speed + light.phase) * width * .06
-          + (pointer.x - .5) * 18;
-        const y = height * light.y
-          + Math.cos(t * light.speed * .82 + light.phase) * height * .05
-          + (pointer.y - .5) * 12;
-        const radius = Math.max(width, height) * light.radius;
-        const [r, g, b] = accent;
-        const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-        gradient.addColorStop(0, "rgba(" + r + "," + g + "," + b + ",.065)");
-        gradient.addColorStop(.43, "rgba(" + r + "," + g + "," + b + ",.018)");
-        gradient.addColorStop(1, "rgba(" + r + "," + g + "," + b + ",0)");
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.fill();
-      }
+      const cx = width * (isHero ? 0.76 : 0.72) + (pointer.x - 0.5) * 18;
+      const cy = height * (isHero ? 0.52 : 0.48) + (pointer.y - 0.5) * 12;
+      const [r, g, b] = accent;
+
+      const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(width, height) * 0.72);
+      glow.addColorStop(0, `rgba(${r},${g},${b},0.12)`);
+      glow.addColorStop(0.42, `rgba(${r},${g},${b},0.045)`);
+      glow.addColorStop(1, `rgba(${r},${g},${b},0)`);
+      ctx.fillStyle = glow;
+      ctx.fillRect(0, 0, width, height);
 
       ctx.save();
-      ctx.translate((pointer.x - .5) * 12, (pointer.y - .5) * 8);
-      const bandCount = Math.max(8, Math.min(16, Math.round(height / 88)));
-      for (let band = 0; band < bandCount; band += 1) {
-        const baseY = height * (.08 + band / Math.max(1, bandCount - 1) * .84);
-        const amplitude = Math.max(8, height * .018) + (band % 3) * 3;
-        const phase = band * .72;
+      ctx.translate(cx, cy);
+      ctx.rotate(Math.sin(t * 0.000035) * 0.035);
+      for (let i = 0; i < 10; i += 1) {
+        const scale = 0.42 + i * 0.095;
+        const rx = Math.max(width, height) * scale;
+        const ry = rx * (0.42 + Math.sin(i * 0.38) * 0.025);
+        const alpha = 0.046 - i * 0.0028;
         ctx.beginPath();
-        for (let x = -80; x <= width + 80; x += 68) {
-          const wave = Math.sin(x * .0042 + t * .00018 + phase) * amplitude
-            + Math.cos(x * .0019 - t * .00012 + phase * 1.7) * amplitude * .55;
-          const y = baseY + wave;
-          if (x === -80) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        const alpha = .011 + (band % 4) * .003;
-        ctx.strokeStyle = "rgba(138,90,56," + alpha + ")";
-        ctx.lineWidth = band % 4 === 0 ? 1.35 : .8;
+        ctx.ellipse(0, 0, rx, ry, 0, Math.PI * 0.08, Math.PI * 1.92);
+        ctx.strokeStyle = `rgba(${r},${g},${b},${Math.max(0.012, alpha)})`;
+        ctx.lineWidth = i % 3 === 0 ? 1.1 : 0.72;
         ctx.stroke();
       }
       ctx.restore();
 
-      if (!reduced) {
-        for (const speck of specks) {
-          speck.x += speck.vx;
-          speck.y += speck.vy;
-          if (speck.x < -12) speck.x = width + 12;
-          if (speck.x > width + 12) speck.x = -12;
-          if (speck.y < -12) speck.y = height + 12;
-          if (speck.y > height + 12) speck.y = -12;
-        }
-      }
-
-      for (const speck of specks) {
-        ctx.fillStyle = "rgba(138,90,56," + speck.alpha + ")";
+      const bands = 8;
+      for (let band = 0; band < bands; band += 1) {
+        const baseY = height * (0.12 + band / (bands - 1) * 0.76);
+        const amplitude = Math.max(7, height * 0.014) + (band % 3) * 2;
+        const phase = band * 0.66;
         ctx.beginPath();
-        ctx.arc(speck.x, speck.y, speck.radius, 0, Math.PI * 2);
-        ctx.fill();
+        for (let x = -60; x <= width + 60; x += 34) {
+          const nx = x / Math.max(width, 1);
+          const wave = Math.sin(nx * 5.1 + t * 0.00011 + phase)
+            * amplitude + Math.cos(nx * 2.7 - t * 0.000075 + phase * 1.4)
+            * amplitude * 0.42;
+          const y = baseY + wave + (pointer.y - 0.5) * 7;
+          if (x === -60) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = `rgba(${r},${g},${b},${0.022 + (band % 3) * 0.005})`;
+        ctx.lineWidth = band % 3 === 0 ? 1 : 0.65;
+        ctx.stroke();
       }
 
-      if (!reduced) window.requestAnimationFrame(draw);
+      if (!force && !reduced && document.visibilityState === "visible") {
+        raf = window.requestAnimationFrame(draw);
+      }
     };
 
-    window.addEventListener("resize", resize, {passive: true});
-    if (isHero && window.ResizeObserver) {
-      new ResizeObserver(resize).observe(host);
-    }
-    window.addEventListener("pointermove", (event) => {
-      const rect = isHero ? host.getBoundingClientRect() : {left: 0, top: 0};
-      pointer.tx = (event.clientX - rect.left) / Math.max(width, 1);
-      pointer.ty = (event.clientY - rect.top) / Math.max(height, 1);
-    }, {passive: true});
+    const onPointerMove = (event) => {
+      const rect = isHero ? host.getBoundingClientRect() : { left: 0, top: 0 };
+      pointer.tx = Math.min(1, Math.max(0, (event.clientX - rect.left) / Math.max(width, 1)));
+      pointer.ty = Math.min(1, Math.max(0, (event.clientY - rect.top) / Math.max(height, 1)));
+    };
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        window.cancelAnimationFrame(raf);
+      } else if (!reduced) {
+        raf = window.requestAnimationFrame(draw);
+      }
+    };
+
+    window.addEventListener("resize", resize, { passive: true });
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    if (isHero && window.ResizeObserver) new ResizeObserver(resize).observe(host);
     resize();
-    draw(0);
-    if (!reduced) window.requestAnimationFrame(draw);
+    if (!reduced) raf = window.requestAnimationFrame(draw);
   };
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init, {once: true});
+    document.addEventListener("DOMContentLoaded", init, { once: true });
   } else {
     init();
   }

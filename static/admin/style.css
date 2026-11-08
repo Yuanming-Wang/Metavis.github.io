@@ -310,3 +310,172 @@ input:focus, select:focus, textarea:focus {
     margin-top: 54px;
   }
 }
+
+
+/* Cinematic motion backdrop shared with the public site. */
+:root {
+  --paper: #101110;
+  --paper-deep: #171a19;
+  --surface: rgba(25, 28, 27, .78);
+  --ink: #f5f0e8;
+  --ink-soft: #c7c1b8;
+  --ink-faint: #8f938d;
+  --line: rgba(230, 224, 213, .16);
+  --line-strong: rgba(230, 224, 213, .30);
+  --brown: #ee9b72;
+  --brown-deep: #ffb38c;
+  --brown-pale: rgba(238, 155, 114, .14);
+  --green: #8ed3b0;
+  --danger: #ff9d8b;
+}
+@keyframes admin-scene-drift {
+  0% { transform: translate3d(-4%, -2%, 0) scale(1); }
+  50% { transform: translate3d(3%, 3%, 0) scale(1.08); }
+  100% { transform: translate3d(-2%, 6%, 0) scale(1.04); }
+}
+@keyframes admin-light-sweep {
+  0% { transform: translate3d(-5%, -2%, 0) rotate(-3deg); opacity: .18; }
+  50% { transform: translate3d(4%, 2%, 0) rotate(2deg); opacity: .28; }
+  100% { transform: translate3d(-2%, 5%, 0) rotate(-1deg); opacity: .20; }
+}
+html {
+  background: #101110;
+}
+body {
+  position: relative;
+  isolation: isolate;
+  overflow-x: hidden;
+  background: #101110;
+  color: var(--ink);
+}
+body::before {
+  position: fixed;
+  z-index: 0;
+  inset: -24%;
+  pointer-events: none;
+  content: "";
+  background:
+    radial-gradient(circle at 18% 20%, rgba(239, 130, 94, .42), transparent 24%),
+    radial-gradient(circle at 82% 24%, rgba(105, 82, 255, .34), transparent 29%),
+    radial-gradient(circle at 58% 78%, rgba(31, 186, 210, .25), transparent 31%),
+    radial-gradient(circle at 17% 90%, rgba(255, 186, 86, .15), transparent 25%);
+  filter: blur(58px) saturate(128%);
+  opacity: .86;
+  animation: admin-scene-drift 28s ease-in-out infinite alternate;
+}
+body::after {
+  position: fixed;
+  z-index: 0;
+  inset: -8%;
+  pointer-events: none;
+  content: "";
+  background:
+    linear-gradient(116deg, transparent 0 43%, rgba(255, 210, 170, .08) 49%, transparent 55%),
+    repeating-linear-gradient(90deg, rgba(255,255,255,.035) 0 1px, transparent 1px 86px),
+    radial-gradient(ellipse at 50% 48%, transparent 34%, rgba(0,0,0,.42) 100%);
+  mix-blend-mode: screen;
+  opacity: .28;
+  animation: admin-light-sweep 18s ease-in-out infinite alternate;
+}
+.admin-frame {
+  position: relative;
+  z-index: 1;
+}
+.topbar {
+  border-bottom-color: var(--line-strong);
+}
+.button {
+  border-color: var(--line-strong);
+  color: var(--ink);
+  background: rgba(22, 25, 24, .48);
+}
+.button:hover {
+  border-color: var(--brown);
+  color: var(--brown-deep);
+  background: rgba(36, 31, 27, .66);
+}
+.button-primary {
+  border-color: var(--brown);
+  color: #1c1713;
+  background: var(--brown);
+}
+.button-primary:hover {
+  color: #1c1713;
+  background: var(--brown-deep);
+}
+.panel,
+.workspace-panel,
+.login-card {
+  border-color: var(--line);
+  background: rgba(20, 23, 22, .70);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, .25);
+  backdrop-filter: blur(18px);
+}
+.login-card::before {
+  background: var(--brown);
+}
+.login-copy h1,
+.login-copy h1 em,
+.workspace-heading h1,
+.rich-editor,
+.article-preview {
+  color: var(--ink);
+}
+.login-copy h1 em,
+.eyebrow,
+.section-label,
+.column-index,
+.formula-button {
+  color: var(--brown);
+}
+.login-lead,
+.principle-card p,
+.login-card p,
+.workspace-subtitle,
+.preview-status,
+.writing-hint,
+.publish-note {
+  color: var(--ink-soft);
+}
+.principle-card,
+.writing-column,
+.preview-column,
+.toolbar,
+.article-preview,
+input,
+select,
+textarea,
+.formula-preview {
+  border-color: var(--line);
+  background: rgba(20, 23, 22, .64);
+  color: var(--ink);
+}
+.principle-card:hover,
+.tool-button:hover,
+.tool-button:focus-visible,
+.tool-button.active-format {
+  border-color: rgba(238, 155, 114, .55);
+  background: rgba(40, 34, 30, .78);
+}
+.rich-editor:empty::before,
+.preview-empty,
+.muted,
+small {
+  color: var(--ink-faint);
+}
+.rich-editor blockquote,
+.article-preview blockquote {
+  border-left-color: var(--brown);
+  background: var(--brown-pale);
+  color: var(--ink-soft);
+}
+.form-message.error,
+.auth-message {
+  color: var(--danger);
+}
+@media (prefers-reduced-motion: reduce) {
+  body::before,
+  body::after {
+    animation: none;
+  }
+}

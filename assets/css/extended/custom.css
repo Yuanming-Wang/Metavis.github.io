@@ -778,3 +778,20 @@ body#top {
   --brown-pale: #dcecee;
   --green: #3d7665;
 }
+
+
+/* Warm editorial palette retained for the final public theme. */
+:root {
+  --paper: #f4f1eb;
+  --paper-deep: #e8e5de;
+  --surface: #fcfbf8;
+  --ink: #202927;
+  --ink-soft: #5c6663;
+  --ink-faint: #8b938f;
+  --line: #d5d9d5;
+  --line-strong: #b6c0ba;
+  --brown: #b46245;
+  --brown-deep: #7f3f2e;
+  --brown-pale: #f1ded6;
+  --green: #4f7465;
+}

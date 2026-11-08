@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f2e9">
   <title>写作台 · Metavis</title>
-  <link rel="stylesheet" href="./style.css?v=20261107-5">
+  <link rel="stylesheet" href="./style.css?v=20261108-2">
   <script>
     window.MathJax = {
       tex: {
@@ -59,6 +59,7 @@
         <p>使用你的 GitHub 账号登录。只有指定账号可以发布文章。</p>
         <button id="login-button-secondary" class="button button-primary button-wide" type="button">使用 GitHub 登录 <span>→</span></button>
         <small class="login-note">OAuth 授权 · 仅 Yuanming-Wang · 不保存 GitHub 密码</small>
+        <p id="auth-message" class="auth-message" role="status" aria-live="polite" hidden></p>
       </div>
     </section>
 
@@ -89,6 +90,7 @@
         <label class="field-label" for="date">发布日期
           <input id="date" name="date" type="date" required>
         </label>
+        <input id="slug" name="slug" type="hidden">
       </div>
 
       <div class="writing-layout">

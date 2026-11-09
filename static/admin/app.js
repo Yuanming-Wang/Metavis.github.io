@@ -297,7 +297,7 @@
     insertNodeAtCaret(image);
     updatePreview();
     saveLocalDraft();
-    setMessage("图片已加入本地预览；点击发布后才会上传到 GitHub。", "success");
+    setMessage("图片已加入本地预览；点击保存草稿或发布后才会上传到 GitHub。", "success");
     return true;
   };
 
@@ -308,7 +308,7 @@
         const id = image.dataset.pendingImage;
         const item = pendingImages.get(id);
         if (!item) continue;
-        setMessage("正在上传图片并发布……");
+        setMessage("正在上传图片到 GitHub……");
         const data = await uploadAsset(item.file);
         image.dataset.remoteSrc = data.url;
         uploaded.push({id, image, path: data.path, sha: data.sha});
@@ -742,13 +742,8 @@
       setMessage("发布接口还没有配置。", "error");
       return;
     }
-    if (draft && pendingCount) {
-      setMessage("草稿不会上传图片；点击发布后才会保存图片。", "error");
-      return;
-    }
-
     let uploadedAssets = [];
-    if (!draft && pendingCount) {
+    if (pendingCount) {
       try {
         uploadedAssets = await uploadPendingImages();
       } catch (error) {

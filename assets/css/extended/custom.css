@@ -1214,3 +1214,61 @@ html,
 body {
   color-scheme: light !important;
 }
+
+
+/* Enforce the warm light palette in browsers that apply automatic darkening */
+:root,
+:root[data-theme="light"],
+:root[data-theme="dark"],
+:root[data-theme="auto"] {
+  color-scheme: only light !important;
+  --theme: var(--paper) !important;
+  --entry: var(--surface) !important;
+  --primary: var(--ink) !important;
+  --secondary: var(--ink-soft) !important;
+  --tertiary: var(--line-strong) !important;
+  --content: var(--ink-soft) !important;
+  --border: var(--line) !important;
+  --code-bg: var(--paper-deep) !important;
+  --code-block-bg: #28241f !important;
+}
+html,
+body,
+body.list,
+#top,
+.main,
+.metavis-home,
+.hero {
+  color-scheme: only light !important;
+  background-color: var(--paper) !important;
+}
+body,
+body.list,
+#top {
+  color: var(--ink) !important;
+}
+.hero h1,
+.hero-note,
+.section-heading h2,
+.research-card h3,
+.statement-copy,
+.article-header h1 {
+  color: var(--ink) !important;
+}
+.hero h1 em,
+.hero-kicker,
+.section-label,
+.statement-label,
+.research-kicker,
+.content-kicker,
+.article-kicker,
+.text-link,
+.research-card-footer a {
+  color: var(--accent-deep) !important;
+}
+.hero-lead,
+.section-heading p,
+.research-card p,
+.article-body {
+  color: var(--ink-soft) !important;
+}

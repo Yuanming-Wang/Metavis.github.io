@@ -1193,3 +1193,24 @@ body {
     text-indent: 0;
   }
 }
+
+
+/* Lock the editorial palette to light mode across OS and browser preferences */
+:root,
+:root[data-theme="dark"],
+:root[data-theme="auto"] {
+  color-scheme: light !important;
+  --theme: var(--paper);
+  --entry: var(--surface);
+  --primary: var(--ink);
+  --secondary: var(--ink-soft);
+  --tertiary: var(--line-strong);
+  --content: var(--ink-soft);
+  --border: var(--line);
+  --code-bg: var(--paper-deep);
+  --code-block-bg: #28241f;
+}
+html,
+body {
+  color-scheme: light !important;
+}

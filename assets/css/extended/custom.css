@@ -1227,3 +1227,22 @@ body.list {
 .error-page {
   color-scheme: only light !important;
 }
+
+
+/* Footer contact links */
+.footer-links {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-links .footer-github {
+  margin-left: 0;
+}
+.footer-links .footer-email {
+  color: var(--ink-soft);
+  transition: color .2s ease;
+}
+.footer-links .footer-email:hover {
+  color: var(--accent-deep);
+}

@@ -2,19 +2,18 @@
   const init = () => {
     if (document.querySelector("[data-metavis-motion-backdrop]")) return;
 
-    const host = document.querySelector(".hero") || document.body;
-    const isHero = host !== document.body;
+    const host = document.body;
     const canvas = document.createElement("canvas");
     canvas.dataset.metavisMotionBackdrop = "true";
     canvas.setAttribute("aria-hidden", "true");
     Object.assign(canvas.style, {
-      position: isHero ? "absolute" : "fixed",
+      position: "fixed",
       inset: "0",
       width: "100%",
       height: "100%",
       pointerEvents: "none",
       zIndex: "0",
-      opacity: isHero ? "0.58" : "0.22",
+      opacity: "0.22",
       mixBlendMode: "multiply"
     });
     host.insertBefore(canvas, host.firstChild);
@@ -33,14 +32,8 @@
     let lastFrame = 0;
 
     const measure = () => {
-      if (isHero) {
-        const rect = host.getBoundingClientRect();
-        width = Math.max(1, rect.width);
-        height = Math.max(1, rect.height);
-      } else {
-        width = window.innerWidth;
-        height = window.innerHeight;
-      }
+      width = window.innerWidth;
+      height = window.innerHeight;
     };
 
     const resize = () => {
@@ -64,8 +57,8 @@
       pointer.x += (pointer.tx - pointer.x) * 0.018;
       pointer.y += (pointer.ty - pointer.y) * 0.018;
 
-      const cx = width * (isHero ? 0.76 : 0.72) + (pointer.x - 0.5) * 18;
-      const cy = height * (isHero ? 0.52 : 0.48) + (pointer.y - 0.5) * 12;
+      const cx = width * 0.72 + (pointer.x - 0.5) * 18;
+      const cy = height * 0.48 + (pointer.y - 0.5) * 12;
       const [r, g, b] = accent;
 
       const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.max(width, height) * 0.72);
@@ -117,7 +110,7 @@
     };
 
     const onPointerMove = (event) => {
-      const rect = isHero ? host.getBoundingClientRect() : { left: 0, top: 0 };
+      const rect = { left: 0, top: 0 };
       pointer.tx = Math.min(1, Math.max(0, (event.clientX - rect.left) / Math.max(width, 1)));
       pointer.ty = Math.min(1, Math.max(0, (event.clientY - rect.top) / Math.max(height, 1)));
     };
@@ -133,7 +126,7 @@
     window.addEventListener("resize", resize, { passive: true });
     window.addEventListener("pointermove", onPointerMove, { passive: true });
     document.addEventListener("visibilitychange", onVisibilityChange);
-    if (isHero && window.ResizeObserver) new ResizeObserver(resize).observe(host);
+    
     resize();
     if (!reduced) raf = window.requestAnimationFrame(draw);
   };

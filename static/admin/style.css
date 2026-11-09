@@ -717,7 +717,7 @@ body::after {
   --surface: #fffdf9;
   --ink: #211d19;
   --ink-soft: #62594f;
-  --ink-faint: #91877b;
+  --ink-faint: #8c8378;
   --line: rgba(33, 29, 25, .14);
   --line-strong: rgba(33, 29, 25, .28);
   --brown: #8b5537;
@@ -814,4 +814,18 @@ body {
     grid-template-columns: 1fr;
     margin-top: 36px;
   }
+}
+
+
+/* Keep the private writing desk on the same warm light palette as the public site */
+:root {
+  color-scheme: only light !important;
+}
+html,
+body {
+  color-scheme: only light !important;
+  background-color: var(--paper) !important;
+}
+body {
+  color: var(--ink) !important;
 }

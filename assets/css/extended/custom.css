@@ -1195,30 +1195,8 @@ body {
 }
 
 
-/* Lock the editorial palette to light mode across OS and browser preferences */
+/* Enforce the warm editorial palette even when the device requests dark mode */
 :root,
-:root[data-theme="dark"],
-:root[data-theme="auto"] {
-  color-scheme: light !important;
-  --theme: var(--paper);
-  --entry: var(--surface);
-  --primary: var(--ink);
-  --secondary: var(--ink-soft);
-  --tertiary: var(--line-strong);
-  --content: var(--ink-soft);
-  --border: var(--line);
-  --code-bg: var(--paper-deep);
-  --code-block-bg: #28241f;
-}
-html,
-body {
-  color-scheme: light !important;
-}
-
-
-/* Enforce the warm light palette in browsers that apply automatic darkening */
-:root,
-:root[data-theme="light"],
 :root[data-theme="dark"],
 :root[data-theme="auto"] {
   color-scheme: only light !important;
@@ -1234,41 +1212,18 @@ body {
 }
 html,
 body,
-body.list,
-#top,
-.main,
-.metavis-home,
-.hero {
+body.list {
   color-scheme: only light !important;
   background-color: var(--paper) !important;
-}
-body,
-body.list,
-#top {
   color: var(--ink) !important;
 }
-.hero h1,
-.hero-note,
-.section-heading h2,
-.research-card h3,
-.statement-copy,
-.article-header h1 {
-  color: var(--ink) !important;
-}
-.hero h1 em,
-.hero-kicker,
-.section-label,
-.statement-label,
-.research-kicker,
-.content-kicker,
-.article-kicker,
-.text-link,
-.research-card-footer a {
-  color: var(--accent-deep) !important;
-}
-.hero-lead,
-.section-heading p,
-.research-card p,
-.article-body {
-  color: var(--ink-soft) !important;
+.hero,
+.home-section,
+.home-statement,
+.posts-page,
+.archive-page,
+.article-page,
+.section-page,
+.error-page {
+  color-scheme: only light !important;
 }

@@ -710,23 +710,32 @@ body::after {
 }
 
 
-/* Taste-inspired final system for the writing desk. */
+/* Writing desk — use the same warm paper-and-brown system as the public site. */
 :root {
+  color-scheme: only light !important;
   --paper: #f7f5ef;
   --paper-deep: #efebe2;
   --surface: #fffdf9;
   --ink: #211d19;
   --ink-soft: #62594f;
   --ink-faint: #8c8378;
-  --line: rgba(33, 29, 25, .14);
-  --line-strong: rgba(33, 29, 25, .28);
+  --line: rgba(33, 29, 25, .13);
+  --line-strong: rgba(33, 29, 25, .24);
   --brown: #8b5537;
   --brown-deep: #653c28;
   --brown-pale: #efe2d3;
+  --green: #68785d;
+  --danger: #a0473f;
+}
+html,
+body {
+  color-scheme: only light !important;
+  background-color: var(--paper) !important;
+  color: var(--ink) !important;
 }
 body {
-  background: var(--paper) !important;
-  color: var(--ink);
+  background-image:
+    radial-gradient(ellipse at 82% 8%, rgba(138, 87, 57, .035), transparent 34rem);
 }
 .admin-frame {
   width: min(calc(100% - 48px), 1280px);
@@ -740,12 +749,15 @@ body {
   min-height: 46px;
   border-radius: 999px;
   padding: 10px 20px;
+  color: var(--ink);
 }
 .button-primary {
+  color: #fffaf4;
   background: var(--brown-deep);
   border-color: var(--brown-deep);
 }
 .button-primary:hover {
+  color: #fffaf4;
   background: var(--brown);
 }
 .login-stage {
@@ -775,9 +787,7 @@ body {
   background: rgba(255, 253, 249, .88);
   box-shadow: 0 16px 40px rgba(33, 29, 25, .08);
 }
-.login-card::before {
-  display: none;
-}
+.login-card::before { display: none; }
 .workspace-panel {
   border: 0;
   background: transparent;
@@ -793,39 +803,45 @@ body {
 .preview-column {
   border: 1px solid var(--line);
   border-radius: 18px;
-  background: rgba(255, 253, 249, .82);
+  background: rgba(255, 253, 249, .88);
   box-shadow: none;
 }
 .toolbar {
   border: 0;
   border-bottom: 1px solid var(--line);
-  background: transparent;
+  background: var(--paper-deep);
 }
 .article-preview {
   border: 0;
   background: transparent;
+}
+input,
+select,
+textarea,
+.rich-editor {
+  color-scheme: only light !important;
+  color: var(--ink);
+  background: var(--surface);
+}
+input::placeholder,
+textarea::placeholder {
+  color: var(--ink-faint);
+}
+.tool-button:hover,
+.tool-button:focus-visible,
+.tool-button.active-format {
+  border-color: var(--line-strong);
+  color: var(--brown-deep);
+  background: var(--surface);
+}
+.formula-dialog {
+  color: var(--ink);
+  background: var(--surface);
 }
 @media (max-width: 900px) {
   .login-stage {
     min-height: auto;
     padding: 72px 0 48px;
   }
-  .principle-grid {
-    grid-template-columns: 1fr;
-    margin-top: 36px;
-  }
-}
-
-
-/* Keep the private writing desk on the same warm light palette as the public site */
-:root {
-  color-scheme: only light !important;
-}
-html,
-body {
-  color-scheme: only light !important;
-  background-color: var(--paper) !important;
-}
-body {
-  color: var(--ink) !important;
+  .principle-grid { grid-template-columns: 1fr; margin-top: 36px; }
 }

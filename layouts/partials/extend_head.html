@@ -13,7 +13,7 @@
 
 {{- $siteScript := resources.Get "js/site.ts" | js.Build (dict "targetPath" "js/site.js" "minify" true) -}}
 <script defer src="{{ $siteScript.RelPermalink }}"></script>
-<script defer src="{{ "motion-backdrop.js" | relURL }}?v=20261108-5"></script>
+<script defer src="{{ "motion-backdrop.js" | relURL }}?v=20261109-2"></script>
 
 <script>
   const __slash = String.fromCharCode(92);

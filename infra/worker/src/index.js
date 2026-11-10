@@ -422,9 +422,27 @@ export default {
 
     if (url.pathname === "/api/session" && request.method === "GET") {
       const session = await currentSession(request, env);
-      return session
-        ? json({login: session.login}, 200, env)
-        : json({error: "unauthorized"}, 401, env);
+      if (!session || session.login !== env.ADMIN_LOGIN) {
+        return json({error: "unauthorized"}, 401, env);
+      }
+
+      // Sliding expiration: every successful session check extends the
+      // encrypted session ticket and HttpOnly cookie by another 30 days.
+      const renewedSession = await seal(
+        JSON.stringify({
+          token: session.token,
+          login: session.login,
+          exp: Date.now() + SESSION_MAX_AGE * 1000
+        }),
+        env.SESSION_SECRET
+      );
+
+      return json(
+        {login: session.login, session: renewedSession},
+        200,
+        env,
+        {"Set-Cookie": cookie("metavis_session", renewedSession, SESSION_MAX_AGE)}
+      );
     }
 
     if (url.pathname === "/api/posts" && request.method === "POST") {

@@ -30,3 +30,10 @@
 写作台的“上传图片”会把图片写入 `static/uploads/`，文章中使用对应的 `/Metavis.github.io/uploads/...` 地址。`SITE_BASE_PATH` 必须保持为 `/Metavis.github.io`，否则 GitHub Pages 项目站点的图片地址会缺少仓库前缀。
 
 GitHub OAuth 的 client secret 和会话密钥只放在 Worker Secret 中，不能放进静态网页。部署时请使用 HTTPS。
+
+## 登录保持与自动续期
+
+- 会话有效期为 30 天，采用滑动过期策略。
+- 写作台每次打开时验证会话；使用期间每 24 小时自动续期一次，并在页面重新获得焦点且续期周期已到时补做验证。
+- Worker 返回的是由 `SESSION_SECRET` 加密的会话票据，不是 GitHub Access Token 明文。浏览器会保存该加密票据，以兼容浏览器对跨站 Cookie 的限制；Worker 同时更新 HttpOnly Cookie。
+- 用户主动退出会清除浏览器保存的会话票据并清除 Cookie。清理浏览器站点数据、撤销 GitHub OAuth 授权或超过 30 天未访问，仍需要重新登录。

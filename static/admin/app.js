@@ -31,9 +31,13 @@
   const pendingImages = new Map();
 
   const sessionKey = "metavis_session";
+  const SESSION_REFRESH_INTERVAL = 24 * 60 * 60 * 1000;
   const returnedSession = new URLSearchParams(window.location.hash.slice(1)).get("session");
   const hadReturnedSession = Boolean(returnedSession);
   let memorySession = "";
+  let sessionRefreshTimer = null;
+  let sessionRefreshInFlight = false;
+  let lastSessionRefresh = 0;
 
   const readStorage = (storage) => {
     try { return storage.getItem(sessionKey) || ""; } catch { return ""; }
@@ -107,13 +111,94 @@
 
   loginButtons.forEach((button) => button.addEventListener("click", login));
 
-  logoutButton.addEventListener("click", async () => {
-    await fetch(apiBase + "/auth/logout", {
+  const stopSessionAutoRefresh = () => {
+    if (sessionRefreshTimer) {
+      window.clearInterval(sessionRefreshTimer);
+      sessionRefreshTimer = null;
+    }
+  };
+
+  const startSessionAutoRefresh = () => {
+    stopSessionAutoRefresh();
+    sessionRefreshTimer = window.setInterval(() => {
+      if (!document.hidden) refreshSession(false);
+    }, SESSION_REFRESH_INTERVAL);
+  };
+
+  const requestSession = async () => {
+    const response = await fetch(apiBase + "/api/session?ts=" + Date.now(), {
       credentials: "include",
       mode: "cors",
+      cache: "no-store",
       headers: authHeaders()
     });
+
+    if (response.status === 401) return null;
+    if (!response.ok) {
+      const error = new Error("会话验证失败");
+      error.status = response.status;
+      throw error;
+    }
+
+    const data = await response.json();
+    if (!data || !data.login) {
+      throw new Error("Worker 没有返回登录用户");
+    }
+
+    // The Worker returns a renewed, encrypted session ticket. Keep the
+    // browser copy in sync because third-party cookies may be blocked.
+    if (data.session) persistSession(data.session);
+    lastSessionRefresh = Date.now();
+    return data;
+  };
+
+  const refreshSession = async (initial = false) => {
+    if (!apiBase || sessionRefreshInFlight) return false;
+    sessionRefreshInFlight = true;
+
+    try {
+      const data = await requestSession();
+      if (!data) {
+        lastSessionRefresh = Date.now();
+        clearSession();
+        stopSessionAutoRefresh();
+        showLoggedOut();
+        setAuthMessage(initial && !hadReturnedSession ? "" : "登录已过期，请重新使用 GitHub 登录。");
+        return false;
+      }
+
+      setAuthMessage("");
+      showLoggedIn(data.login);
+      return true;
+    } catch (error) {
+      if (initial) {
+        showLoggedOut();
+        setAuthMessage(
+          hadReturnedSession
+            ? "登录回调已返回，但暂时无法连接登录服务（" + (error.status || "网络") + "）。已保留本地登录状态，请检查网络后刷新。"
+            : "暂时无法连接登录服务。已保留本地登录状态，请检查网络后刷新。"
+        );
+      }
+      // A network error is not proof that the session expired. Keep the
+      // stored ticket and retry on the next focus/visibility event.
+      return false;
+    } finally {
+      sessionRefreshInFlight = false;
+    }
+  };
+
+  logoutButton.addEventListener("click", async () => {
+    try {
+      await fetch(apiBase + "/auth/logout", {
+        credentials: "include",
+        mode: "cors",
+        headers: authHeaders()
+      });
+    } catch {}
     clearSession();
+    stopSessionAutoRefresh();
+    lastSessionRefresh = Date.now();
+    setAuthMessage("");
     showLoggedOut();
   });
 
@@ -123,34 +208,22 @@
     setupPanel.hidden = false;
     if (loginButton) loginButton.hidden = true;
   } else {
-    fetch(apiBase + "/api/session?ts=" + Date.now(), {
-      credentials: "include",
-      mode: "cors",
-      cache: "no-store",
-      headers: authHeaders()
-    })
-      .then(async (response) => {
-        if (response.ok) return response.json();
-        const error = new Error("会话验证失败");
-        error.status = response.status;
-        throw error;
-      })
-      .then((data) => {
-        if (!data || !data.login) {
-          const error = new Error("Worker 没有返回登录用户");
-          error.status = 401;
-          throw error;
-        }
-        setAuthMessage("");
-        showLoggedIn(data.login);
-      })
-      .catch((error) => {
-        clearSession();
-        showLoggedOut();
-        if (hadReturnedSession) {
-          setAuthMessage("登录回调已返回，但写作台没有接受这个会话（" + (error.status || "网络") + "）。请再点一次登录；如果仍失败，刷新页面后重试。");
-        }
-      });
+    awaitAuthInitialization();
+    window.addEventListener("focus", () => {
+      if (!lastSessionRefresh || Date.now() - lastSessionRefresh >= SESSION_REFRESH_INTERVAL) {
+        refreshSession(false);
+      }
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && (!lastSessionRefresh || Date.now() - lastSessionRefresh >= SESSION_REFRESH_INTERVAL)) {
+        refreshSession(false);
+      }
+    });
+  }
+
+  async function awaitAuthInitialization() {
+    const valid = await refreshSession(true);
+    if (valid || sessionToken()) startSessionAutoRefresh();
   }
 
   const latinSlug = (value) => {

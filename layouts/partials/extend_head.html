@@ -19,8 +19,9 @@
   const __slash = String.fromCharCode(92);
   window.MathJax = {
     tex: {
-      inlineMath: [[__slash + "(", __slash + ")"], ["$", "$"]],
-      displayMath: [[__slash + "[", __slash + "]"], ["$$", "$$"]]
+      inlineMath: [[__slash + "(", __slash + ")"]],
+      displayMath: [[__slash + "[", __slash + "]"]],
+      packages: {"[+]": ["ams"]}
     },
     svg: { fontCache: "global" }
   };

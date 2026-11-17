@@ -6,6 +6,7 @@ description: "从 IO-aware Attention 到 inference-first SSM，沿着计算、�
 categories:
   - 高效模型架构与推理优化
 tags:
+  - efficient-inference
   - FlashAttention
   - Mamba
   - Attention

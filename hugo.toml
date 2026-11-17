@@ -41,7 +41,6 @@ buildFuture = true
   ShowRssButtonInSectionTermList = true
   ShowToc = true
   TocOpen = false
-  math = true
 
 [params.homeInfoParams]
   Title = 'Metavis · 研究笔记'

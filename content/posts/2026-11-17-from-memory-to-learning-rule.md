@@ -46,12 +46,11 @@ tags:
 在这个点附近对旧任务损失做二阶泰勒展开：
 
 \[
-\begin{aligned}
 \mathcal L_{\mathrm{old}}(\theta^*+\Delta\theta)
-\approx\;&\mathcal L_{\mathrm{old}}(\theta^*)\\
-&+\nabla\mathcal L_{\mathrm{old}}(\theta^*)^\top\Delta\theta\\
-&+\frac12\Delta\theta^\top H_{\mathrm{old}}\Delta\theta.
-\end{aligned}
+\approx
+\mathcal L_{\mathrm{old}}(\theta^*)
++\nabla\mathcal L_{\mathrm{old}}(\theta^*)^\top\Delta\theta
++\frac12\Delta\theta^\top H_{\mathrm{old}}\Delta\theta.
 \]
 
 因为一阶项接近零，所以损失的主要变化可以写成：
@@ -172,12 +171,11 @@ W_{\mathrm{old}}
 假设刚刚写入了 \((k,v)\)，现在用另一个旧键 \(q\) 查询。写入前后的输出差为：
 
 \[
-\begin{aligned}
 \Delta o(q)
-&=W_{\mathrm{new}}q-W_{\mathrm{old}}q\\
-&=(W_{\mathrm{new}}-W_{\mathrm{old}})q\\
-&=\eta(v-W_{\mathrm{old}}k)(k^\top q).
-\end{aligned}
+=
+(W_{\mathrm{new}}-W_{\mathrm{old}})q
+=
+\eta(v-W_{\mathrm{old}}k)(k^\top q).
 \]
 
 关键就在最后的 \(k^\top q\)。
@@ -255,13 +253,7 @@ B=[b_1,b_2,\ldots,b_r],
 把 \(A\) 按行写成：
 
 \[
-A=
-\begin{bmatrix}
-a_1^\top\\
-a_2^\top\\
-\vdots\\
-a_r^\top
-\end{bmatrix}.
+A=[a_1^\top;\,a_2^\top;\,\ldots;\,a_r^\top].
 \]
 
 矩阵乘法展开后就是：

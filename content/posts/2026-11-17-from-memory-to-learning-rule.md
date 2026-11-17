@@ -428,8 +428,6 @@ $$
 
 ---
 
-本文整理自 2026 年 11 月的持续学习组会准备。线性记忆部分使用一个简化模型分析写入对读出的影响，并不代表 TTT 的完整实现；Titans 的三步公式是组会中的概括性记号，不代表论文完整公式。文末提出的记忆更新策略仍是待验证的研究问题。
-
 ### 参考工作
 
 - [EWC — Overcoming catastrophic forgetting in neural networks](https://pubmed.ncbi.nlm.nih.gov/28292907/)

@@ -39,22 +39,22 @@ tags:
 
 如果 \(\theta^*\) 是旧任务损失的局部极小点，那么它附近的梯度为零或接近零：
 
-\[
+$$
 \nabla \mathcal L_{\mathrm{old}}(\theta^*)\approx 0.
-\]
+$$
 
 先看这次参数更新让旧任务损失增加了多少：
 
-\[
+$$
 \Delta\mathcal L_{\mathrm{old}}
 =
 \mathcal L_{\mathrm{old}}(\theta^*+\Delta\theta)
 -\mathcal L_{\mathrm{old}}(\theta^*).
-\]
+$$
 
 以旧任务解 \(\theta^*\) 为展开点，二阶泰勒展开为：
 
-\[
+$$
 \begin{aligned}
 \mathcal L_{\mathrm{old}}(\theta^*+\Delta\theta)
 =&\ \mathcal L_{\mathrm{old}}(\theta^*)
@@ -62,19 +62,19 @@ tags:
 &+\frac12\Delta\theta^\top H_{\mathrm{old}}\Delta\theta
 +O(\|\Delta\theta\|_2^3).
 \end{aligned}
-\]
+$$
 
 两边减去 \(\mathcal L_{\mathrm{old}}(\theta^*)\)，再利用局部极小点处梯度近似为零，得到：
 
-\[
+$$
 \Delta\mathcal L_{\mathrm{old}}
 \approx
 \frac12\Delta\theta^\top H_{\mathrm{old}}\Delta\theta.
-\]
+$$
 
 这里的二次型不是简单的“参数移动距离”。把它按坐标展开：
 
-\[
+$$
 \Delta\theta^\top H_{\mathrm{old}}\Delta\theta
 =
 \sum_i\sum_j H_{ij}\Delta\theta_i\Delta\theta_j,
@@ -82,7 +82,7 @@ tags:
 H_{ij}=
 \frac{\partial^2\mathcal L_{\mathrm{old}}}
 {\partial\theta_i\partial\theta_j}.
-\]
+$$
 
 它同时考虑了每个参数方向的曲率，以及不同参数变化之间的耦合。
 
@@ -90,24 +90,24 @@ H_{ij}=
 
 如果进一步只保留 Hessian 的对角项，相当于忽略不同参数之间的交叉项：
 
-\[
+$$
 \Delta\mathcal L_{\mathrm{old}}
 \approx
 \frac12\sum_i H_{ii}(\Delta\theta_i)^2.
-\]
+$$
 
 EWC 再用 Fisher 信息的对角项 \(F_i\) 估计参数重要性，把这个局部约束放进新任务的训练目标。这里的 Fisher 是曲率的近似刻画，不应与 Hessian 在一般情况下直接画等号。
 
 EWC 的做法，是用 Fisher 信息的对角近似来衡量参数对旧任务的重要程度。以负对数似然为损失时，在适当的正则条件下，期望 Fisher 信息可以作为损失曲率的估计；实际使用时通常还会采用对角近似或经验估计。因此，EWC 把旧任务的约束写成：
 
-\[
+$$
 \mathcal L(\theta)
 =
 \mathcal L_{\mathrm{new}}(\theta)
 +
 \frac{\lambda}{2}
 \sum_i F_i(\theta_i-\theta_i^*)^2.
-\]
+$$
 
 \(F_i\) 大，意味着这个参数对旧任务更重要，新任务训练时就应该少动它；\(F_i\) 小，参数的调整空间相对大一些。
 
@@ -137,29 +137,29 @@ TTT 把这个想法推进到了序列模型中。输入 \(x_t\) 会被映射成�
 
 先把 TTT 层的更新过程单独写出来：
 
-\[
+$$
 W_t=W_{t-1}-\eta_t\nabla_W\mathcal L_t,
 \qquad
 o_t=f(W_t,q_t).
-\]
+$$
 
 这里更新的是序列层内部的记忆参数 \(W_t\)：当前输入构造学习目标，梯度改变这组参数，再由查询 \(q_t\) 读取更新后的状态。为了看清楚梯度从哪里来，先把内部记忆网络简化成线性映射。
 
 假设记忆矩阵 \(W\) 接收一个键向量 \(k\)，输出一个值向量：
 
-\[
+$$
 \hat v=Wk.
-\]
+$$
 
 现在希望它记住的目标是 \(v\)，那么最简单的损失就是平方误差：
 
-\[
+$$
 \mathcal L(W)=\frac12\|Wk-v\|_2^2.
-\]
+$$
 
 令 \(e=Wk-v\)。对损失求微分。先用 \(d(\frac12 e^\top e)=e^\top de\)，再注意 \(k\) 在这一步更新中是固定输入，因此 \(de=d(Wk)=(dW)k\)：
 
-\[
+$$
 d\mathcal L
 =
 \frac12d(e^\top e)
@@ -167,12 +167,12 @@ d\mathcal L
 e^\top de
 =
 e^\top(dW)k.
-\]
+$$
 
 接下来把标量写成迹，再对照 Frobenius 内积的定义
 \(\langle A,B\rangle_F=\operatorname{tr}(A^\top B)\)：
 
-\[
+$$
 \begin{aligned}
 d\mathcal L
 &=\operatorname{tr}\!\left(e^\top(dW)k\right)\\
@@ -180,23 +180,23 @@ d\mathcal L
 &=\operatorname{tr}\!\left((ek^\top)^\top dW\right)\\
 &=\langle ek^\top,dW\rangle_F.
 \end{aligned}
-\]
+$$
 
 所以矩阵梯度就是：
 
-\[
+$$
 \nabla_W\mathcal L=(Wk-v)k^\top.
-\]
+$$
 
 把它代回梯度下降，并把时间下标补回来：
 
-\[
+$$
 \begin{aligned}
 W_t
 &=W_{t-1}-\eta_t(W_{t-1}k_t-v_t)k_t^\top\\
 &=W_{t-1}+\eta_t(v_t-W_{t-1}k_t)k_t^\top.
 \end{aligned}
-\]
+$$
 
 这就是一个最简单的在线写入规则。每次更新增加的是两个向量的外积，因此这次写入的矩阵增量至多是 Rank-1。
 
@@ -208,17 +208,17 @@ W_t
 
 假设刚刚写入了 \((k_t,v_t)\)，记这次写入造成的参数变化为：
 
-\[
+$$
 \Delta W_t
 =
 W_t-W_{t-1}
 =
 \eta_t(v_t-W_{t-1}k_t)k_t^\top.
-\]
+$$
 
 现在用另一个旧键 \(q\) 查询。因为读出是矩阵乘法，输出变化可以直接写成：
 
-\[
+$$
 \begin{aligned}
 \Delta o_t(q)
 &=W_tq-W_{t-1}q\\
@@ -226,7 +226,7 @@ W_t-W_{t-1}
 &=\Delta W_tq\\
 &=\eta_t(v_t-W_{t-1}k_t)(k_t^\top q).
 \end{aligned}
-\]
+$$
 
 关键就在最后的 \(k^\top q\)。
 
@@ -234,17 +234,17 @@ W_t-W_{t-1}
 
 把两个键都设成单位向量，令它们的夹角为 \(\phi\)，就有：
 
-\[
+$$
 k^\top q=\cos\phi.
-\]
+$$
 
 于是：
 
-\[
+$$
 \Delta o(q)
 =
 \eta(v-W_{\mathrm{old}}k)\cos\phi.
-\]
+$$
 
 当夹角接近 \(90^\circ\) 时，干扰很小；当两个方向逐渐接近时，干扰随之增大。
 
@@ -256,42 +256,42 @@ Titans 将问题往前推了一步：除了更新记忆，还要控制更新强�
 
 先把当前记忆对键 \(k_t\) 的读出与目标 \(v_t\) 之间的误差写成一个损失：
 
-\[
+$$
 \ell_t(M)=\|M(k_t)-v_t\|_2^2.
-\]
+$$
 
 在当前记忆 \(M_{t-1}\) 处计算梯度，得到 surprise 对应的更新方向：
 
-\[
+$$
 g_t=
 \left.\nabla_M\ell_t(M)\right|_{M=M_{t-1}}
 =
 \nabla_M\|M_{t-1}(k_t)-v_t\|_2^2.
-\]
+$$
 
 梯度给出局部损失上升最快的方向，因此后面的更新会沿负梯度方向写入。
 
 然后引入 momentum，把近期的更新趋势保留下来：
 
-\[
+$$
 S_t=\eta_t S_{t-1}-\theta_t g_t.
-\]
+$$
 
 最后，对已有记忆做衰减，再加上当前更新：
 
-\[
+$$
 M_t=(1-\alpha_t)M_{t-1}+S_t.
-\]
+$$
 
 把动量项代回去，可以看到三种作用是怎样叠在一起的：
 
-\[
+$$
 M_t
 =
 (1-\alpha_t)M_{t-1}
 +\eta_tS_{t-1}
 -\theta_tg_t.
-\]
+$$
 
 第一项保留一部分旧记忆，第二项延续之前的更新趋势，第三项根据当前误差修正记忆。这里沿用的是组会中的概括性记号，用来拆解机制，不是 Titans 论文全部门控与更新细节的逐项复写。
 
@@ -307,13 +307,13 @@ MoRAM 的一个关键思路，是把低秩更新拆成可以检索和组合的 R
 
 设 LoRA 更新为：
 
-\[
+$$
 \Delta W=BA,
-\]
+$$
 
 把低秩矩阵的两个因子按列和按行拆开。为与组会中的记号一致，记 \(B\) 的列向量为 \(v_i\)，记 \(A\) 的行向量为 \(k_i^\top\)：
 
-\[
+$$
 B=[v_1,\ldots,v_r],
 \qquad
 A=
@@ -322,11 +322,11 @@ k_1^\top\\
 \vdots\\
 k_r^\top
 \end{bmatrix}.
-\]
+$$
 
 那么矩阵乘法不是一个抽象的 \(BA\)，而是：
 
-\[
+$$
 \begin{aligned}
 \Delta W=BA
 &=
@@ -339,7 +339,7 @@ k_r^\top
 &=v_1k_1^\top+\cdots+v_rk_r^\top\\
 &=\sum_{i=1}^{r}v_i k_i^\top.
 \end{aligned}
-\]
+$$
 
 每一项都是一个外积，秩至多为 1。也就是说，LoRA 的 Rank-\(r\) 更新可以拆成 \(r\) 个小的 Rank-1 更新单元；MoRAM 进一步研究如何把这些单元组织成可检索、可增量使用的记忆。
 
@@ -355,13 +355,13 @@ Nested Learning / Hope 讨论的另一个问题是：模型内部的不同部分
 
 先看一个熟悉的例子：优化器中的动量项
 
-\[
+$$
 m_t=\beta m_{t-1}+(1-\beta)g_t.
-\]
+$$
 
 先把前一时刻的动量代回当前式：
 
-\[
+$$
 \begin{aligned}
 m_t
 &=\beta m_{t-1}+(1-\beta)g_t\\
@@ -371,17 +371,17 @@ m_t
  +(1-\beta)\beta g_{t-1}
  +(1-\beta)g_t.
 \end{aligned}
-\]
+$$
 
 继续向前展开，每往前一步，旧梯度就多乘一个 \(\beta\)。因此：
 
-\[
+$$
 m_t
 =
 \beta^t m_0
 +
 (1-\beta)\sum_{j=1}^{t}\beta^{t-j}g_j.
-\]
+$$
 
 这说明 \(m_t\) 并不是只保存上一步梯度，而是把过去的梯度按指数衰减的方式压缩在一个状态里。越近的梯度权重越大，越久远的梯度影响越小。
 
@@ -405,9 +405,9 @@ m_t
 
 如果把这些问题写成一个抽象的决策过程，可以记作：
 
-\[
+$$
 a_t=\pi(e_t,s_t,B_t),
-\]
+$$
 
 其中 \(e_t\) 是新经验，\(s_t\) 是当前记忆状态，\(B_t\) 是资源预算，\(a_t\) 则决定这条经验应该被丢弃、暂存在当前状态、写入外部记忆，还是触发更持久的参数更新。
 

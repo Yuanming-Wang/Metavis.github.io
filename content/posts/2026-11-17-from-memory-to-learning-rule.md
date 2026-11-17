@@ -266,7 +266,7 @@ A=[a_1^\top;\,a_2^\top;\,\ldots;\,a_r^\top].
 
 也就是说，一个 Rank-\(r\) 的更新可以拆成 \(r\) 个 Rank-1 外积之和。每一项都可以看作一个小的参数更新单元。MoRAM 进一步研究如何组织、检索和增量使用这些单元。
 
-SEAL 则把注意力放在模型如何参与自己的更新过程：模型生成用于自我编辑的微调数据，再通过强化学习等机制选择修改方式，并借助 LoRA 进行相对持久的参数更新。SDFT 关注的是策略自蒸馏与持续学习中的遗忘问题，和前面两类记忆组织方式并不完全相同。
+SEAL 则把注意力放在模型如何参与自己的更新过程：模型生成用于自我编辑的微调数据，再通过强化学习等机制选择修改方式，并借助 LoRA 进行相对持久的参数更新。[SDFT](https://proceedings.mlr.press/v306/shenfeld26a.html) 走的是另一条路：它把示范放进上下文，让模型先生成自己的轨迹，再用自蒸馏信号学习这些轨迹，目标是在获得新技能时尽量保留已有能力。它和前面两类记忆组织方式并不完全相同。
 
 我不打算把这些工作简单归成同一种方法。它们解决的问题有差别，但共同把讨论从「当前状态怎么更新」推向了「经验怎样进入更长期的模型状态」。
 
@@ -348,4 +348,5 @@ a_t=\pi(e_t,s_t,B_t),
 - [Titans — Learning to Memorize at Test Time](https://research.google/pubs/titans-learning-to-memorize-at-test-time-2/)
 - [MoRAM — ICML 2026](https://proceedings.mlr.press/v306/lu26au.html)
 - [SEAL — Self-Adapting LLMs](https://papers.neurips.cc/paper_files/paper/2025/hash/6b41e04c41726e2a60e456d0a2b961ab-Abstract-Conference.html)
+- [SDFT — Self-Distillation Enables Continual Learning](https://proceedings.mlr.press/v306/shenfeld26a.html)
 - [Nested Learning — Google Research](https://research.google/blog/introducing-nested-learning-a-new-ml-paradigm-for-continual-learning/)

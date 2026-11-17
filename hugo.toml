@@ -65,3 +65,9 @@ buildFuture = true
   name = '归档'
   url = '/archives/'
   weight = 30
+
+[markup.goldmark.extensions.passthrough]
+  enable = true
+  [markup.goldmark.extensions.passthrough.delimiters]
+    block = [['\[', '\]']]
+    inline = [['\(', '\)']]

@@ -4,7 +4,7 @@ date: 2026-11-17T22:50:00+08:00
 draft: false
 description: "从 IO-aware Attention 到 inference-first SSM，沿着计算、数据搬运与状态表示这条线，重新理解高效架构的设计问题。"
 categories:
-  - 高效架构
+  - 高效模型架构与推理优化
 tags:
   - FlashAttention
   - Mamba

@@ -1248,25 +1248,6 @@ body.list {
 }
 
 
-/* MathJax: keep display equations readable on narrow screens. */
-.article-body mjx-container { color: var(--ink); }
-.article-body mjx-container[display="true"] {
-  display: block;
-  max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: .35em 0;
-}
-.post-content mjx-container { color: var(--ink); }
-.post-content mjx-container[display="true"] {
-  display: block;
-  max-width: 100%;
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: .35em 0;
-}
-
-
 /* Native MathML output from Hugo's build-time KaTeX renderer. */
 .post-content math {
   font-size: 1.06em;

@@ -45,14 +45,14 @@ $$
 
 先看这次参数更新让旧任务损失增加了多少：
 
-$
+$$
 \begin{aligned}
 \Delta\mathcal L_{\mathrm{old}}
 &=
 \mathcal L_{\mathrm{old}}(\theta^*+\Delta\theta)
 -\mathcal L_{\mathrm{old}}(\theta^*).
 \end{aligned}
-$
+$$
 
 以旧任务解 \(\theta^*\) 为展开点，二阶泰勒展开为：
 
@@ -76,7 +76,7 @@ $$
 
 这里的二次型不是简单的“参数移动距离”。把它按坐标展开：
 
-$
+$$
 \begin{aligned}
 \Delta\theta^\top H_{\mathrm{old}}\Delta\theta
 &=
@@ -86,7 +86,7 @@ H_{ij}=
 \frac{\partial^2\mathcal L_{\mathrm{old}}}
 {\partial\theta_i\partial\theta_j}.
 \end{aligned}
-$
+$$
 
 它同时考虑了每个参数方向的曲率，以及不同参数变化之间的耦合。
 
@@ -104,7 +104,7 @@ EWC 再用 Fisher 信息的对角项 \(F_i\) 估计参数重要性，把这个�
 
 EWC 的做法，是用 Fisher 信息的对角近似来衡量参数对旧任务的重要程度。以负对数似然为损失时，在适当的正则条件下，期望 Fisher 信息可以作为损失曲率的估计；实际使用时通常还会采用对角近似或经验估计。因此，EWC 把旧任务的约束写成：
 
-$
+$$
 \begin{aligned}
 \mathcal L(\theta)
 &=
@@ -112,7 +112,7 @@ $
 +\frac{\lambda}{2}
 \sum_i F_i(\theta_i-\theta_i^*)^2.
 \end{aligned}
-$
+$$
 
 \(F_i\) 大，意味着这个参数对旧任务更重要，新任务训练时就应该少动它；\(F_i\) 小，参数的调整空间相对大一些。
 
@@ -164,14 +164,14 @@ $$
 
 令 \(e=Wk-v\)。对损失求微分。先用 \(d(\frac12 e^\top e)=e^\top de\)，再注意 \(k\) 在这一步更新中是固定输入，因此 \(de=d(Wk)=(dW)k\)：
 
-$
+$$
 \begin{aligned}
 d\mathcal L
 &=\frac12d(e^\top e)\\
 &=e^\top de\\
 &=e^\top(dW)k.
 \end{aligned}
-$
+$$
 
 接下来把标量写成迹，再对照 Frobenius 内积的定义
 \(\langle A,B\rangle_F=\operatorname{tr}(A^\top B)\)：
@@ -212,13 +212,13 @@ $$
 
 假设刚刚写入了 \((k_t,v_t)\)，记这次写入造成的参数变化为：
 
-$
+$$
 \begin{aligned}
 \Delta W_t
 &=W_t-W_{t-1}\\
 &=\eta_t(v_t-W_{t-1}k_t)k_t^\top.
 \end{aligned}
-$
+$$
 
 现在用另一个旧键 \(q\) 查询。因为读出是矩阵乘法，输出变化可以直接写成：
 
@@ -244,9 +244,9 @@ $$
 
 于是：
 
-$
+$$
 \Delta o(q)=\eta(v-W_{\mathrm{old}}k)\cos\phi.
-$
+$$
 
 当夹角接近 \(90^\circ\) 时，干扰很小；当两个方向逐渐接近时，干扰随之增大。
 
@@ -264,13 +264,13 @@ $$
 
 在当前记忆 \(M_{t-1}\) 处计算梯度，得到 surprise 对应的更新方向：
 
-$
+$$
 \begin{aligned}
 g_t
 &=\left.\nabla_M\ell_t(M)\right|_{M=M_{t-1}}\\
 &=\nabla_M\|M_{t-1}(k_t)-v_t\|_2^2.
 \end{aligned}
-$
+$$
 
 梯度给出局部损失上升最快的方向，因此后面的更新会沿负梯度方向写入。
 
@@ -288,13 +288,13 @@ $$
 
 把动量项代回去，可以看到三种作用是怎样叠在一起的：
 
-$
+$$
 \begin{aligned}
 M_t
 &=(1-\alpha_t)M_{t-1}\\
 &\quad+\eta_tS_{t-1}-\theta_tg_t.
 \end{aligned}
-$
+$$
 
 第一项保留一部分旧记忆，第二项延续之前的更新趋势，第三项根据当前误差修正记忆。这里沿用的是组会中的概括性记号，用来拆解机制，不是 Titans 论文全部门控与更新细节的逐项复写。
 
@@ -378,13 +378,13 @@ $$
 
 继续向前展开，每往前一步，旧梯度就多乘一个 \(\beta\)。因此：
 
-$
+$$
 \begin{aligned}
 m_t
 &=\beta^t m_0\\
 &\quad+(1-\beta)\sum_{j=1}^{t}\beta^{t-j}g_j.
 \end{aligned}
-$
+$$
 
 这说明 \(m_t\) 并不是只保存上一步梯度，而是把过去的梯度按指数衰减的方式压缩在一个状态里。越近的梯度权重越大，越久远的梯度影响越小。
 
